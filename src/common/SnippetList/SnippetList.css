@@ -1,0 +1,29 @@
+@import '../../vars.css';
+
+.SnippetList--container {
+  display: flex;
+  height: 100vh;
+  min-width: 200px;
+  background-color: #394b59;
+  -webkit-box-shadow: 1px 0 0 rgba(16,22,26,.4);
+  box-shadow: 1px 0 0 rgba(16,22,26,.4);
+  padding-top: var(--header-height);
+}
+
+.SnippetList--list {
+  width: 100%;
+}
+
+.SnippetList--divider {
+  height: 1px;
+  margin-left: -50px;
+  background-image: -webkit-gradient(linear,left top,right top,from(rgba(16,22,26,0)),color-stop(40%,rgba(16,22,26,.4)));
+  background-image: linear-gradient(90deg,rgba(16,22,26,0) 0,rgba(16,22,26,.4) 40%);
+}
+
+/* .SnippetList--handler {
+  width: 1px;
+  margin-left: auto;
+  position: relative;
+  cursor: ew-resize;
+} */

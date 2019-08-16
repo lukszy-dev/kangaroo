@@ -51,7 +51,7 @@ export default (state = initial, action) => {
       list.splice(toDeleteIndex, 1);
 
       console.log(list);
-
+      console.log(list[0]);
       return {
         ...state,
         current: list[0],

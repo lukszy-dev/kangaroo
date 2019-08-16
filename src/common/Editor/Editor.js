@@ -22,20 +22,23 @@ const Editor = () => {
   };
 
   return (
-    <div>
-      <AceEditor
-        className="Editor"
-        mode="java"
-        theme="tomorrow_night"
-        value={snippet.content}
-        onChange={handleOnChange}
-        name="editor"
-        editorProps={{ $blockScrolling: true }}
-        showGutter={false}
-        showPrintMargin={false}
-        height={height - 67}
-        width={width - 200}
-      />
+    <div className="Editor--container">
+      { snippet ?
+        <AceEditor
+          className="Editor"
+          mode="java"
+          theme="tomorrow_night"
+          value={snippet.content}
+          onChange={handleOnChange}
+          name="editor"
+          editorProps={{ $blockScrolling: true }}
+          showGutter={false}
+          showPrintMargin={false}
+          height={height - 67}
+          width={width - 200}
+        />
+        : <div>Add new snippet...</div>
+      }
       <StatusBar />
     </div>
   );

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addSnippet, updateSnippet } from '../../actions/snippets';
-import { Button, EditableText } from "@blueprintjs/core";
+import { addSnippet, deleteSnippet, updateSnippet } from '../../actions/snippets';
+import { Button, Icon, EditableText } from "@blueprintjs/core";
 
 import './Header.css';
 
@@ -14,6 +14,10 @@ const Header = () => {
     dispatch(addSnippet());
   };
 
+  const handleDeleteSnippet = id => {
+    dispatch(deleteSnippet(id));
+  };
+
   const handleTitleChange = (value) => {
     dispatch(updateSnippet({ ...current, title: value }));
   }
@@ -22,9 +26,14 @@ const Header = () => {
     <div className="Header--container">
       <div className="Header">
         <Button small="true" icon="plus" onClick={handleAddSnippet}>Add</Button>
-        <EditableText className="Header--snippet-title" onChange={handleTitleChange}
-          placeholder="Edit title..." minWidth={200} value={current.title}
-        />
+        { current &&
+          <Fragment>
+            <EditableText className="Header--snippet-title" onChange={handleTitleChange}
+              placeholder="Edit title..." minWidth={200} value={current.title}
+            />
+            <Icon className="SnippetListElement-delete" icon="trash" onClick={() => handleDeleteSnippet(current.id)} />
+          </Fragment>
+        }
       </div>
     </div>
   );
