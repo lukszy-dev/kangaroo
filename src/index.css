@@ -1,3 +1,22 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+html {
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  cursor: default;
+}
+
+input, button, textarea, :focus {
+  outline: none;
+}
+
+/*
+input, textarea, select, button, img {
+  -webkit-user-drag: none;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -11,3 +30,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.draggable {
+  -webkit-app-region: drag;
+}
+
+.selectable {
+  -webkit-user-select: auto;
+  cursor: auto;
+} */
+
+/* .mac {
+  --monaco-monospace-font: Monaco,Menlo,Inconsolata,"Courier New",monospace;
+}
+
+.mac {
+  font-family: -apple-system,BlinkMacSystemFont,sans-serif;
+} */

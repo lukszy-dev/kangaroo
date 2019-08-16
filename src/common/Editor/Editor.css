@@ -1,0 +1,8 @@
+.Editor {
+  flex: 1;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  margin-top: var(--header-height);
+  position: relative;
+}

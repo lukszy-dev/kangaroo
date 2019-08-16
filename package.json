@@ -2,16 +2,26 @@
   "name": "code-snippets",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "description": "Code snippets manager",
+  "author": "PROGGRAMIK Łukasz Szypliński",
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "@blueprintjs/core": "^3.18.0",
+    "classnames": "^2.2.6",
+    "electron-is-dev": "^1.1.0",
+    "path": "^0.12.7",
+    "prop-types": "^15.7.2",
+    "react": "^16.9.0",
+    "react-ace": "^7.0.2",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
+    "pack": "electron-builder --dir",
+    "dist": "PUBLIC_URL=./ react-scripts build && electron-builder --mac -p always"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +37,37 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "cross-env": "^5.2.0",
+    "electron": "^6.0.1",
+    "electron-builder": "^21.2.0",
+    "electron-devtools-installer": "^2.2.4",
+    "nodemon": "^1.19.1",
+    "react-scripts": "^3.1.0",
+    "version-bump-prompt": "^5.0.4",
+    "wait-on": "^3.3.0"
+  },
+  "build": {
+    "appId": "com.proggramik",
+    "compression": "normal",
+    "productName": "Example",
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "mac": {
+      "icon": "assets/icon.icns",
+      "type": "distribution",
+      "target": [
+        "pkg",
+        "dmg"
+      ],
+      "extendInfo": {
+        "NSRequiresAquaSystemAppearance": false
+      },
+      "category": "public.app-category.news"
+    }
   }
 }
