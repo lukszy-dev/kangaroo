@@ -1,0 +1,10 @@
+.SnippetListElement {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 15px 10px 15px;
+}
+
+.SnippetListElement-active {
+  background-image: var(--active-snippet);
+}

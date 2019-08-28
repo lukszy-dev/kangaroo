@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-import Header from './common/Header/Header';
-import Editor from './common/Editor/Editor';
-import SnippetList from './common/SnippetList/SnippetList';
+import Theme from './components/Theme/Theme';
+import Editor from './components/Editor/Editor';
+import SnippetList from './components/SnippetList/SnippetList';
 
-import './App.css';
+import './App.scss';
+
+const electron = window.require('electron');
+const ipcRenderer  = electron.ipcRenderer;
 
 const App = () => {
-  return (
-    <div className="bp3-dark">
-      <Header />
+  const { theme } = useSelector(state => state.ui);
 
-      <div className="App--content">
-        <SnippetList />
-        <Editor />
-      </div>
-    </div>
+  useEffect(() => {
+    ipcRenderer.on('appCommand', (event, message) => { console.log(message) });
+
+    return () => {
+      ipcRenderer.removeListener('appCommand');
+    };
+  }, []);
+
+  // console.log(electron.remote.getCurrentWindow());
+
+  return (
+    <Theme mode={theme}>
+      <SnippetList />
+      <Editor />
+    </Theme>
   );
 };
 

@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker';
 
 import rootReducer from './reducers';
 
-import './index.css';
+import './index.scss';
 
 const store = createStore(rootReducer);
 

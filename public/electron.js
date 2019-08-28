@@ -1,18 +1,19 @@
-const { app, BrowserWindow, Menu, TouchBar } = require('electron');
-const { TouchBarButton, TouchBarLabel, TouchBarSpacer } = TouchBar;
+const { app, BrowserWindow, Menu } = require('electron');
 
 const path = require('path');
 const isDev = require('electron-is-dev');
 
 let mainWindow;
 
-createWindow = () => {
+const createWindow = () => {
 	mainWindow = new BrowserWindow({
+		title: 'Snippet manager',
+		// #f5f8fa
 		backgroundColor: '#30404d',
 		show: false,
 		titleBarStyle: 'hiddenInset',
 		webPreferences: {
-			nodeIntegration: false,
+			nodeIntegration: true,
 			preload: __dirname + '/preload.js',
 		},
 		height: 600,
@@ -56,36 +57,41 @@ createWindow = () => {
 	});
 };
 
-generateMenu = () => {
+const generateMenu = () => {
 	const template = [
 		{
-			label: 'File',
+			label: 'App',
 			submenu: [{ role: 'about' }, { role: 'quit' }],
 		},
 		{
-			label: 'Edit',
+			label: 'File',
 			submenu: [
-				{ role: 'undo' },
-				{ role: 'redo' },
-				{ type: 'separator' },
-				{ role: 'cut' },
-				{ role: 'copy' },
-				{ role: 'paste' },
-				{ role: 'pasteandmatchstyle' },
-				{ role: 'delete' },
-				{ role: 'selectall' },
+				{
+					label: 'New',
+					accelerator: 'CommandOrControl+N',
+					click: () => mainWindow.webContents.send('appCommand', { action: 'addSnippet' })
+				}
+			// 	{ role: 'undo' },
+			// 	{ role: 'redo' },
+			// 	{ type: 'separator' },
+			// 	{ role: 'cut' },
+			// 	{ role: 'copy' },
+			// 	{ role: 'paste' },
+			// 	{ role: 'pasteandmatchstyle' },
+			// 	{ role: 'delete' },
+			// 	{ role: 'selectall' },
 			],
 		},
-		{
-			label: 'View',
-			submenu: [
-				{ role: 'resetzoom' },
-				{ role: 'zoomin' },
-				{ role: 'zoomout' },
-				{ type: 'separator' },
-				{ role: 'togglefullscreen' },
-			],
-		},
+		// {
+		// 	label: 'View',
+		// 	submenu: [
+		// 		{ role: 'resetzoom' },
+		// 		{ role: 'zoomin' },
+		// 		{ role: 'zoomout' },
+		// 		{ type: 'separator' },
+		// 		{ role: 'togglefullscreen' },
+		// 	],
+		// },
 		{
 			role: 'window',
 			submenu: [{ role: 'minimize' }, { role: 'close' }],
@@ -96,7 +102,7 @@ generateMenu = () => {
 };
 
 app.setAboutPanelOptions({
-	applicationName: 'Mook',
+	applicationName: 'Snippet manager',
 	version: 'App Store',
 	applicationVersion: '0.0.1',
 });

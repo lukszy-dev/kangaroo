@@ -1,0 +1,28 @@
+.SnippetList--container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--background-color-secondary);
+  -webkit-box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
+}
+
+.SnippetList--header {
+  display: flex;
+  justify-content: flex-end;
+  height: var(--header-height);
+  margin-right: 10px;
+  align-items: center;
+  -webkit-app-region: drag;
+}
+
+.SnippetList--list {
+  width: 100%;
+}
+
+.SnippetList--divider {
+  height: 1px;
+  margin-left: -50px;
+  background-image: var(--divider);
+}

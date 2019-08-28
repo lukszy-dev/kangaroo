@@ -9,14 +9,18 @@ import {
 import Snippet from '../models/Snippet';
 
 const snippets = [
-  new Snippet({ id: 1, title: 'Java', description: 'description', content: 'Java' }),
-  new Snippet({ id: 2, title: 'JavaScript', description: 'description', content: 'JavaScript' }),
-  new Snippet({ id: 3, title: 'React', description: 'description', content: 'React' })
+  new Snippet(
+    { id: 1, title: 'Java', description: 'description', language: 'java', content: 'Java' }),
+  new Snippet(
+    { id: 2, title: 'JavaScript', description: 'description', language: 'javascript', content: 'JavaScript' }),
+  new Snippet(
+    { id: 3, title: 'React', description: 'description', language: 'javascript', content: 'React' })
 ];
 
 const initial = {
-  current: snippets ? snippets[0] : '',
-  list: snippets
+  current: snippets ? snippets[0] : null,
+  list: snippets,
+  lastId: Math.max.apply(Math, snippets.map(s => s.id))
 };
 
 export default (state = initial, action) => {
@@ -24,13 +28,15 @@ export default (state = initial, action) => {
 
   switch (action.type) {
     case ADD_SNIPPET:
-      const snippet = { id: state.list.length + 1, title: 'New', content: '' };
+      const nextId = state.lastId + 1;
+      const snippet = new Snippet({ id: nextId, title: 'New', language: 'text', content: '' });
       list = [...state.list, snippet];
 
       return {
         ...state,
         current: snippet,
-        list
+        list,
+        lastId: nextId
       };
 
     case UPDATE_SNIPPET:
@@ -46,12 +52,8 @@ export default (state = initial, action) => {
       };
 
     case DELETE_SNIPPET:
-      const toDeleteIndex = state.list.findIndex(element => element.id === state.current.id);
-      list = [...state.list];
-      list.splice(toDeleteIndex, 1);
+      list = state.list.filter(element => element.id !== state.current.id);
 
-      console.log(list);
-      console.log(list[0]);
       return {
         ...state,
         current: list[0],
