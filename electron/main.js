@@ -1,9 +1,12 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow } = require('electron');
 
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-let mainWindow;
+const { registerListeners } = require('./db');
+const { generateMenu } = require('./menu');
+
+let mainWindow = {};
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({
@@ -57,50 +60,6 @@ const createWindow = () => {
 	});
 };
 
-const generateMenu = () => {
-	const template = [
-		{
-			label: 'App',
-			submenu: [{ role: 'about' }, { role: 'quit' }],
-		},
-		{
-			label: 'File',
-			submenu: [
-				{
-					label: 'New',
-					accelerator: 'CommandOrControl+N',
-					click: () => mainWindow.webContents.send('appCommand', { action: 'addSnippet' })
-				}
-			// 	{ role: 'undo' },
-			// 	{ role: 'redo' },
-			// 	{ type: 'separator' },
-			// 	{ role: 'cut' },
-			// 	{ role: 'copy' },
-			// 	{ role: 'paste' },
-			// 	{ role: 'pasteandmatchstyle' },
-			// 	{ role: 'delete' },
-			// 	{ role: 'selectall' },
-			],
-		},
-		// {
-		// 	label: 'View',
-		// 	submenu: [
-		// 		{ role: 'resetzoom' },
-		// 		{ role: 'zoomin' },
-		// 		{ role: 'zoomout' },
-		// 		{ type: 'separator' },
-		// 		{ role: 'togglefullscreen' },
-		// 	],
-		// },
-		{
-			role: 'window',
-			submenu: [{ role: 'minimize' }, { role: 'close' }],
-		}
-	];
-
-	Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-};
-
 app.setAboutPanelOptions({
 	applicationName: 'Snippet manager',
 	version: 'App Store',
@@ -109,7 +68,8 @@ app.setAboutPanelOptions({
 
 app.on('ready', () => {
 	createWindow();
-	generateMenu();
+	generateMenu(mainWindow);
+	registerListeners(mainWindow);
 });
 
 app.on('window-all-closed', () => {

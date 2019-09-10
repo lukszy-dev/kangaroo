@@ -5,6 +5,9 @@ import Theme from './components/Theme/Theme';
 import Editor from './components/Editor/Editor';
 import SnippetList from './components/SnippetList/SnippetList';
 
+import appCommand, { APP_COMMAND } from './utils/appCommand';
+import { ADD, LOAD } from './utils/dbActions';
+
 import './App.scss';
 
 const electron = window.require('electron');
@@ -13,11 +16,15 @@ const ipcRenderer  = electron.ipcRenderer;
 const App = () => {
   const { theme } = useSelector(state => state.ui);
 
+  ipcRenderer.send(LOAD);
+
   useEffect(() => {
-    ipcRenderer.on('appCommand', (event, message) => { console.log(message) });
+    ipcRenderer.on(APP_COMMAND, (event, message) => {
+      appCommand(event, message)
+    });
 
     return () => {
-      ipcRenderer.removeListener('appCommand');
+      ipcRenderer.removeListener(APP_COMMAND);
     };
   }, []);
 

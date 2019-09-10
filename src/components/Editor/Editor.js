@@ -4,7 +4,7 @@ import AceEditor from 'react-ace';
 import { Button, EditableText } from '@blueprintjs/core';
 
 import StatusBar from './StatusBar';
-import useWindowDimensions from '../../useWindowDimensions';
+import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet, deleteSnippet } from '../../actions/snippets';
 
 import { languages } from './languages';
@@ -81,8 +81,8 @@ const Editor = () => {
         showGutter={false}
         showPrintMargin={false}
         tabSize={2}
-        height={height - 67}
-        width={width - leftPanelWidth}
+        height={`${height - 67}px`}
+        width={`${width - leftPanelWidth}px`}
       />
       <StatusBar snippet={snippet} onLanguageChange={handleOnLanguageChange} />
     </div>
