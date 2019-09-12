@@ -1,7 +1,7 @@
 const { app, ipcMain } = require('electron');
 const Datastore = require('nedb');
 
-const { ADD, LOAD } = require('./constants');
+const { ADD, UPDATE, LOAD, DELETE } = require('./constants');
 const { sendCommand } = require('./utils');
 
 const dbFactory = (fileName) => {
@@ -16,8 +16,20 @@ const db = {
 };
 
 const registerListeners = (window) => {
-	ipcMain.on(ADD, (obj) => 
+	ipcMain.on(ADD, (event, obj) =>
 		db.snippets.insert(obj, err => {
+			if (err) throw new Error(err);
+		})
+	);
+
+	ipcMain.on(UPDATE, (event, obj) => 
+		db.snippets.update({ id: obj.id }, { ...obj }, {}, err => {
+			if (err) throw new Error(err);
+		})
+	);
+
+	ipcMain.on(DELETE, (event, id) =>
+		db.snippets.remove({ id }, err => {
 			if (err) throw new Error(err);
 		})
 	);

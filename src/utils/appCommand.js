@@ -1,6 +1,7 @@
 import { ADD, LOAD } from './dbActions';
 
 export const APP_COMMAND = 'APP_COMMAND';
+export const DB_COMMAND = 'DB_COMMAND';
 
 export default (event, message) => {
   const { action } = message;
