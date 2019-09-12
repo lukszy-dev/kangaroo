@@ -23,6 +23,10 @@ const Editor = () => {
 
   const { height, width } = useWindowDimensions();
 
+  const handleOnLoad = (editor) => {
+    editor.resize();
+  };
+
   const handleOnChange = (value) => {
     dispatch(updateSnippet({ ...snippet, content: value }));
   };
@@ -70,20 +74,24 @@ const Editor = () => {
         />
       </div>
 
-      <AceEditor
-        className="Editor--editor"
-        theme="tomorrow_night"
-        readOnly={!snippet}
-        mode={snippet ? snippet.language : languages[0]}
-        value={snippet ? snippet.content : ''}
-        onChange={handleOnChange}
-        editorProps={{ $blockScrolling: true }}
-        showGutter={false}
-        showPrintMargin={false}
-        tabSize={2}
-        height={`${height - 67}px`}
-        width={`${width - leftPanelWidth}px`}
-      />
+      <div className="Editor--editor">
+        <AceEditor
+          className="Editor--editor"
+          theme="tomorrow_night"
+          onLoad={handleOnLoad}
+          readOnly={!snippet}
+          mode={snippet ? snippet.language : languages[0]}
+          value={snippet ? snippet.content : ''}
+          onChange={handleOnChange}
+          editorProps={{ $blockScrolling: true }}
+          showGutter={false}
+          showPrintMargin={false}
+          tabSize={2}
+          height={`${height - 67}px`}
+          width={`${width - leftPanelWidth}px`}
+        />
+      </div>
+      
       <StatusBar snippet={snippet} onLanguageChange={handleOnLanguageChange} />
     </div>
   );

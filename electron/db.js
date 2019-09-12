@@ -16,6 +16,8 @@ const db = {
 };
 
 const registerListeners = (window) => {
+	db.snippets.ensureIndex({ fieldName: 'id', unique: true });
+
 	ipcMain.on(ADD, (event, obj) =>
 		db.snippets.insert(obj, err => {
 			if (err) throw new Error(err);
