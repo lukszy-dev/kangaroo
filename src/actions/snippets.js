@@ -44,13 +44,15 @@ export const setCurrentSnippet = (id) => ({
 export const initSnippets = () => {
   return () => {
     ipcRenderer.send('DB_LOAD');
-    // dispatch(loadSnippetsAction([]));
   };
 };
 
+// TODO move to separate utils file
+const sortById = (a, b) => a.id < b.id ? 1 : -1;
+
 export const loadSnippets = (data) => {
   return (dispatch) => {
-    const snippets = data.map(entry => new Snippet(entry));
+    const snippets = data.sort(sortById).map(entry => new Snippet(entry));
     const lastId = Math.max.apply(Math, snippets.map(entry => entry.id));
 
     dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
@@ -63,7 +65,7 @@ export const addSnippet = () => {
 
     const nextId = lastId + 1;
     const updatedSnippet = new Snippet({ id: nextId, title: 'New', language: 'text', content: '' });
-    const updatedList = [...list, updatedSnippet];
+    const updatedList = [...list, updatedSnippet].sort(sortById);
 
     ipcRenderer.send('DB_ADD', updatedSnippet);
     dispatch(addSnippetAction(updatedSnippet, updatedList));
@@ -91,6 +93,6 @@ export const deleteSnippet = () => {
     const updatedList = list.filter(element => element.id !== current.id);
 
     ipcRenderer.send('DB_DELETE', current.id);
-    dispatch(deleteSnippetAction(updatedList[updatedList.length - 1], updatedList));
+    dispatch(deleteSnippetAction(updatedList[0], updatedList));
   };
 }

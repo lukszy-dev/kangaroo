@@ -8,7 +8,7 @@ import {
 
 const initial = {
   current: null,
-  list: [],
+  list: null,
   lastId: 0
 };
 

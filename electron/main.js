@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 const path = require('path');
 const isDev = require('electron-is-dev');
@@ -82,4 +82,8 @@ app.on('activate', () => {
 	if (mainWindow === null) {
 		createWindow();
 	}
+});
+
+ipcMain.on('SWITCH_THEME', (event, obj) => {
+	console.log('SWITCH_THEME');
 });

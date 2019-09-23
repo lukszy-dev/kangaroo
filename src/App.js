@@ -6,9 +6,9 @@ import Editor from './components/Editor/Editor';
 import SnippetList from './components/SnippetList/SnippetList';
 
 import appCommand, { APP_COMMAND } from './utils/appCommand';
+import { initSnippets } from './actions/snippets';
 
 import './App.scss';
-import { loadSnippets, initSnippets } from './actions/snippets';
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
@@ -21,8 +21,7 @@ const App = () => {
     dispatch(initSnippets());
 
     ipcRenderer.on(APP_COMMAND, (event, message) => {
-      // appCommand(event, message);
-      dispatch(loadSnippets(message.data));
+      appCommand(dispatch, message);
     });
 
     return () => {
@@ -31,9 +30,13 @@ const App = () => {
   }, [dispatch]);
 
   // console.log(electron.remote.getCurrentWindow());
+  // console.log(electron.remote.getCurrentWindow())
+  // electron.remote.getCurrentWindow().setBackgroundColor('#FF0000');
+  // electron.remote.getCurrentWindow().blur();
+  // electron.remote.getCurrentWindow().focus();
 
   return (
-    <Theme mode={theme}>
+    <Theme mode={theme} classNames="App--content">
       <SnippetList />
       <Editor />
     </Theme>

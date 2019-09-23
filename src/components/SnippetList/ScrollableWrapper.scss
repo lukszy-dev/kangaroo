@@ -1,0 +1,33 @@
+.ScrollableWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.ScrollableWrapper--content {
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.ScrollableWrapper--shadow {
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+
+  &.active {
+    opacity: 1;
+  }
+
+  &.top {
+    top: 0;
+    box-shadow: #000000 0 6px 3px -6px inset;
+  }
+
+  &.bottom {
+    bottom: 0;
+    box-shadow: #000000 0px -6px 3px -6px inset;
+  }
+}

@@ -1,18 +1,19 @@
-import { ADD, LOAD } from './dbActions';
+import { loadSnippets } from '../actions/snippets';
 
 export const APP_COMMAND = 'APP_COMMAND';
-export const DB_COMMAND = 'DB_COMMAND';
 
-export default (event, message) => {
-  const { action } = message;
+export default (dispatch, message) => {
+  const { action, data } = message;
+
+  console.log(action);
 
   switch (action) {
-    case ADD:
-      console.log(message);
+    case 'DB_LOAD':
+      dispatch(loadSnippets(data));
       break;
 
-    case LOAD:
-      console.log(message.data);
+    case 'SWITCH_THEME':
+      // dispatch(switchTheme());
       break;
 
     default:

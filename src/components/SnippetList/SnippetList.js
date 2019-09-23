@@ -5,6 +5,7 @@ import { Button } from '@blueprintjs/core';
 import { setCurrentSnippet, addSnippet } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
 import SnippetListElement from './SnippetListElement';
+import ScrollableWrapper from './ScrollableWrapper';
 import Resizer from './Resizer';
 
 import './SnippetList.scss';
@@ -42,7 +43,7 @@ const SnippetList = () => {
       }
   
       const newPosition = panelWidth.current + event.clientX - resizerXPosition.current;
-      // TODO Remove hardcoded values.
+      // TODO Remove hardcoded values
       if (newPosition <= 600) {
         dispatch(resizeLeftPanel(Math.max(200, newPosition)));
       }
@@ -75,16 +76,26 @@ const SnippetList = () => {
       <div className="SnippetList--header">
         <Button
           small="true"
-          icon="plus"
+          icon="search"
+          minimal="true"
+          onClick={() => alert('Not yet implemented!')}
+          style={{ marginRight: "5px" }}
+        />
+
+        <Button
+          small="true"
+          icon="add-to-artifact"
           minimal="true"
           onClick={handleAddSnippet}
         />
       </div>
 
-      <div className="SnippetList--list">
-        <div className="SnippetList--divider" />
-        { list && renderElements() }
-      </div>
+      { list &&
+        <ScrollableWrapper bottomShadow="false">
+          <div className="SnippetList--divider" />
+          { renderElements() }
+        </ScrollableWrapper>
+      }
       
       <Resizer onMouseDown={handleOnMouseDown} />
     </div>

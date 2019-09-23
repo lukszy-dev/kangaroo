@@ -8,8 +8,8 @@ import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet, deleteSnippet } from '../../actions/snippets';
 
 import { languages } from './languages';
-import 'brace/theme/tomorrow_night';
 
+import 'brace/theme/tomorrow_night';
 import './Editor.scss';
 
 languages.forEach(lang => {
@@ -18,7 +18,7 @@ languages.forEach(lang => {
 
 const Editor = () => {
   const dispatch = useDispatch();
-  const { leftPanelWidth } = useSelector(state => state.ui);
+  const { theme, leftPanelWidth } = useSelector(state => state.ui);
   const { current: snippet } = useSelector(state => state.snippets);
 
   const { height, width } = useWindowDimensions();
@@ -77,7 +77,7 @@ const Editor = () => {
       <div className="Editor--editor">
         <AceEditor
           className="Editor--editor"
-          theme="tomorrow_night"
+          theme={theme === 'dark' ? 'tomorrow_night' : ''}
           onLoad={handleOnLoad}
           readOnly={!snippet}
           mode={snippet ? snippet.language : languages[0]}

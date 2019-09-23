@@ -4,8 +4,7 @@
   flex-direction: column;
   height: 100vh;
   background-color: var(--background-color-secondary);
-  -webkit-box-shadow: var(--box-shadow);
-  box-shadow: var(--box-shadow);
+  border-right: var(--list-container-border);
 }
 
 .SnippetList--header {
@@ -15,10 +14,6 @@
   margin-right: 10px;
   align-items: center;
   -webkit-app-region: drag;
-}
-
-.SnippetList--list {
-  width: 100%;
 }
 
 .SnippetList--divider {

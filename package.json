@@ -23,6 +23,7 @@
   "scripts": {
     "build": "react-scripts build",
     "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
+    "start-web": "react-scripts start",
     "pack": "electron-builder --dir",
     "dist": "PUBLIC_URL=./ react-scripts build && electron-builder --mac -p always"
   },

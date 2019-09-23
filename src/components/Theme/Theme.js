@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import { Light, Dark } from "./themes";
 
-const Theme = ({ mode, children }) => {
+const Theme = ({ mode, children, classNames }) => {
   const variables = mode === 'dark' ? Dark : Light;
 
   const node = createRef();
@@ -22,15 +22,16 @@ const Theme = ({ mode, children }) => {
   }, [node, variables])
 
   return (
-    <div className={cn({ 'bp3-dark': mode === 'dark' }, 'App--content')} ref={node}>
-      {children}
+    <div className={cn({ 'bp3-dark': mode === 'dark' }, classNames)} ref={node}>
+      { children }
     </div>
   );
 }
 
 Theme.propTypes = {
   mode: PropTypes.string.isRequired,
-  children: PropTypes.any
+  children: PropTypes.any,
+  classNames: PropTypes.string
 };
 
 Theme.Light = Light;
