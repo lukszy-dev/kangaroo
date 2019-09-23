@@ -2,7 +2,7 @@
   "name": "code-snippets",
   "version": "0.1.0",
   "private": true,
-  "main": "electron/main.js",
+  "main": "public/electron.js",
   "description": "Code snippets manager",
   "author": "PROGGRAMIK Łukasz Szypliński",
   "dependencies": {

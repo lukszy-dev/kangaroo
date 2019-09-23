@@ -6,7 +6,7 @@ const { sendCommand } = require('./utils');
 
 const dbFactory = (fileName) => {
 	return new Datastore({
-		filename: `${process.env.NODE_ENV === 'dev' ? '.' : app.getAppPath('userData')}/data/${fileName}`,
+		filename: `${process.env.NODE_ENV === 'dev' ? '.' : app.getPath('userData')}/data/${fileName}`,
 		autoload: true
 	});
 };

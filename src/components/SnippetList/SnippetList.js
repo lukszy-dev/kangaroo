@@ -91,7 +91,7 @@ const SnippetList = () => {
       </div>
 
       { list &&
-        <ScrollableWrapper bottomShadow="false">
+        <ScrollableWrapper bottomShadow={false}>
           <div className="SnippetList--divider" />
           { renderElements() }
         </ScrollableWrapper>

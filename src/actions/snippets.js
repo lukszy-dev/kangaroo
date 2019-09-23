@@ -53,7 +53,7 @@ const sortById = (a, b) => a.id < b.id ? 1 : -1;
 export const loadSnippets = (data) => {
   return (dispatch) => {
     const snippets = data.sort(sortById).map(entry => new Snippet(entry));
-    const lastId = Math.max.apply(Math, snippets.map(entry => entry.id));
+    const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
 
     dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
   };
@@ -64,11 +64,11 @@ export const addSnippet = () => {
     const { snippets: { lastId, list } } = getState();
 
     const nextId = lastId + 1;
-    const updatedSnippet = new Snippet({ id: nextId, title: 'New', language: 'text', content: '' });
-    const updatedList = [...list, updatedSnippet].sort(sortById);
+    const newSnippet = new Snippet({ id: nextId, title: 'New', language: 'text', content: '' });
+    const updatedList = [...list, newSnippet].sort(sortById);
 
-    ipcRenderer.send('DB_ADD', updatedSnippet);
-    dispatch(addSnippetAction(updatedSnippet, updatedList));
+    ipcRenderer.send('DB_ADD', newSnippet);
+    dispatch(addSnippetAction(newSnippet, updatedList));
   };
 };
 

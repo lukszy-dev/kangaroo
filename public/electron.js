@@ -3,8 +3,8 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-const { registerListeners } = require('./db');
-const { generateMenu } = require('./menu');
+const { registerListeners } = require('./electron/db');
+const { generateMenu } = require('./electron/menu');
 
 let mainWindow = {};
 
