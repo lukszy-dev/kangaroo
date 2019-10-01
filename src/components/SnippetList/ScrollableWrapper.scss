@@ -12,10 +12,10 @@
 
 .ScrollableWrapper--shadow {
   position: absolute;
-  height: 3px;
+  height: 4px;
   width: 100%;
   opacity: 0;
-  transition: opacity 0.3s ease-out;
+  transition: opacity 0.2s ease-out;
 
   &.active {
     opacity: 1;
@@ -23,11 +23,11 @@
 
   &.top {
     top: 0;
-    box-shadow: #000000 0 6px 3px -6px inset;
+    box-shadow: rgba(16, 22, 26, 0.8) 0 6px 4px -6px inset;
   }
 
   &.bottom {
     bottom: 0;
-    box-shadow: #000000 0px -6px 3px -6px inset;
+    box-shadow: rgba(16, 22, 26, 0.8) 0px -6px 4px -6px inset;
   }
 }

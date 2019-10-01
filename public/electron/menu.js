@@ -5,7 +5,14 @@ const generateMenu = (window) => {
 	const template = [
 		{
 			label: 'App',
-			submenu: [{ role: 'about' }, { role: 'quit' }],
+			submenu: [
+				{ role: 'about' },
+				{
+					label: 'Switch Theme',
+					click: () => sendCommand(window, { action: 'SWITCH_THEME' })
+				},
+				{ role: 'quit' }
+			],
 		},
 		{
 			label: 'File',

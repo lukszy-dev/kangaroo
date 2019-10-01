@@ -7,6 +7,10 @@ html {
   cursor: default;
 }
 
+body {
+  overflow: hidden;
+}
+
 input, button, textarea, :focus {
   outline: none;
 }

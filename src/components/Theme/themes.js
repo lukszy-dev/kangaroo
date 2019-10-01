@@ -1,5 +1,6 @@
 const root = {
-  "--header-height": "37px"
+  "--header-height": "37px",
+  "--editor-header-height": "37px"
 }
 
 const light = {
@@ -24,4 +25,4 @@ const dark = {
   "--active-snippet": "linear-gradient(90deg, rgba(48, 64, 77, 0) 0, #30404d 40%)"
 };
 
-export { light as Light, dark as Dark };
+export { root, light as Light, dark as Dark };

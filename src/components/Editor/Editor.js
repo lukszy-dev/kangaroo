@@ -9,6 +9,7 @@ import { updateSnippet, deleteSnippet } from '../../actions/snippets';
 
 import { languages } from './languages';
 
+import 'brace/theme/github';
 import 'brace/theme/tomorrow_night';
 import './Editor.scss';
 
@@ -77,7 +78,7 @@ const Editor = () => {
       <div className="Editor--editor">
         <AceEditor
           className="Editor--editor"
-          theme={theme === 'dark' ? 'tomorrow_night' : ''}
+          theme={theme === 'dark' ? 'tomorrow_night' : 'github'}
           onLoad={handleOnLoad}
           readOnly={!snippet}
           mode={snippet ? snippet.language : languages[0]}

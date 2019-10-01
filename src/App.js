@@ -29,12 +29,6 @@ const App = () => {
     };
   }, [dispatch]);
 
-  // console.log(electron.remote.getCurrentWindow());
-  // console.log(electron.remote.getCurrentWindow())
-  // electron.remote.getCurrentWindow().setBackgroundColor('#FF0000');
-  // electron.remote.getCurrentWindow().blur();
-  // electron.remote.getCurrentWindow().focus();
-
   return (
     <Theme mode={theme} classNames="App--content">
       <SnippetList />

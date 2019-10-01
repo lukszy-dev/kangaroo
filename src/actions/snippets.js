@@ -8,9 +8,6 @@ export const DELETE_SNIPPET = namespace('DELETE_SNIPPET');
 export const SET_CURRENT_SNIPPET = namespace('SET_CURRENT_SNIPPET');
 export const LOAD_SNIPPETS = namespace('LOAD_SNIPPETS');
 
-const electron = window.require('electron');
-const ipcRenderer  = electron.ipcRenderer;
-
 const loadSnippetsAction = (list, current, lastId) => ({
   type: LOAD_SNIPPETS,
   list,
@@ -42,7 +39,7 @@ export const setCurrentSnippet = (id) => ({
 });
 
 export const initSnippets = () => {
-  return () => {
+  return (dispatch, getState, ipcRenderer) => {
     ipcRenderer.send('DB_LOAD');
   };
 };
@@ -60,7 +57,7 @@ export const loadSnippets = (data) => {
 };
 
 export const addSnippet = () => {
-  return (dispatch, getState) => {
+  return (dispatch, getState, ipcRenderer) => {
     const { snippets: { lastId, list } } = getState();
 
     const nextId = lastId + 1;
@@ -73,7 +70,7 @@ export const addSnippet = () => {
 };
 
 export const updateSnippet = (snippet) => {
-  return (dispatch, getState) => {
+  return (dispatch, getState, ipcRenderer) => {
     const { snippets: { current, list }} = getState();
 
     const toUpdateIndex = list.findIndex(element => element.id === current.id);
@@ -87,7 +84,7 @@ export const updateSnippet = (snippet) => {
 }
 
 export const deleteSnippet = () => {
-  return (dispatch, getState) => {
+  return (dispatch, getState, ipcRenderer) => {
     const { snippets: { current, list }} = getState();
 
     const updatedList = list.filter(element => element.id !== current.id);

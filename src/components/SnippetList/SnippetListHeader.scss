@@ -1,0 +1,8 @@
+.SnippetListHeader {
+  display: flex;
+  justify-content: flex-end;
+  height: var(--header-height);
+  margin-right: 10px;
+  align-items: center;
+  -webkit-app-region: drag;
+}

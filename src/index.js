@@ -11,7 +11,13 @@ import rootReducer from './reducers';
 
 import './index.scss';
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+const electron = window.require('electron');
+const ipcRenderer  = electron.ipcRenderer;
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(ReduxThunk.withExtraArgument(ipcRenderer))
+);
 
 ReactDOM.render(
   <Provider store={store}>

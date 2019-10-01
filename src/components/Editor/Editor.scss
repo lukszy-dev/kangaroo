@@ -8,10 +8,10 @@
 
 .Editor--header {
   display: flex;
-  height: var(--header-height);
+  height: var(--editor-header-height);
   align-items: center;
   -webkit-app-region: drag;
-  margin: 0 10px;
+  padding: 0 10px;
 }
 
 .Editor--editor {

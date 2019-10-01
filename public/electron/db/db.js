@@ -1,8 +1,10 @@
 const { app, ipcMain } = require('electron');
 const Datastore = require('nedb');
 
-const { ADD, UPDATE, LOAD, DELETE } = require('./constants');
-const { sendCommand } = require('./utils');
+const { ADD, UPDATE, LOAD, DELETE } = require('./snippetsActions');
+// const { SWITCH_THEME } = require('./uiActions');
+
+const { sendCommand } = require('../utils');
 
 const dbFactory = (fileName) => {
 	return new Datastore({
@@ -40,6 +42,17 @@ const registerListeners = (window) => {
 		db.snippets.find({}, (err, items) =>
 			sendCommand(window, { action: 'DB_LOAD', data: items }))
 	);
+
+	// ipcMain.on(SWITCH_THEME, () =>
+	// 	db.ui.update({}, () => {
+	// 		window.setBackgroundColor('#FF0000');
+	// 		window.reload();
+
+	// 		db.ui.update({ id: 1 }, { ...obj }, {}, err => {
+	// 			if (err) throw new Error(err);
+	// 		})
+	// 	})
+	// );
 }
 
 module.exports = { db, registerListeners };

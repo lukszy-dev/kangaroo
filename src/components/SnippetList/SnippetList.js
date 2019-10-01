@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@blueprintjs/core';
 
-import { setCurrentSnippet, addSnippet } from '../../actions/snippets';
-import { resizeLeftPanel } from '../../actions/ui';
+import SnippetListHeader from './SnippetListHeader';
 import SnippetListElement from './SnippetListElement';
 import ScrollableWrapper from './ScrollableWrapper';
 import Resizer from './Resizer';
+
+import { setCurrentSnippet, addSnippet } from '../../actions/snippets';
+import { resizeLeftPanel } from '../../actions/ui';
+import { initLogin } from '../../actions/auth';
 
 import './SnippetList.scss';
 
@@ -30,6 +32,10 @@ const SnippetList = () => {
 
   const handleAddSnippet = () => {
     dispatch(addSnippet());
+  };
+
+  const handleLogin = () => {
+    dispatch(initLogin());
   };
 
   useEffect(() => {
@@ -73,30 +79,14 @@ const SnippetList = () => {
 
   return (
     <div style={{width: leftPanelWidth, minWidth: 200}} className="SnippetList--container">
-      <div className="SnippetList--header">
-        <Button
-          small="true"
-          icon="search"
-          minimal="true"
-          onClick={() => alert('Not yet implemented!')}
-          style={{ marginRight: "5px" }}
-        />
-
-        <Button
-          small="true"
-          icon="add-to-artifact"
-          minimal="true"
-          onClick={handleAddSnippet}
-        />
-      </div>
+      <SnippetListHeader onAddSnippet={handleAddSnippet} onLogin={handleLogin} />
 
       { list &&
         <ScrollableWrapper bottomShadow={false}>
-          <div className="SnippetList--divider" />
           { renderElements() }
         </ScrollableWrapper>
       }
-      
+
       <Resizer onMouseDown={handleOnMouseDown} />
     </div>
   );
