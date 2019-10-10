@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const { setup: setupPushReceiver } = require('electron-push-receiver');
 const Store = require('electron-store');
 const { google } = require('googleapis');
 
@@ -7,7 +8,7 @@ const isDev = require('electron-is-dev');
 
 const { registerListeners } = require('./electron/db/db');
 const { generateMenu } = require('./electron/menu');
-const { ElectronGoogleOAuth2 } = require('./electron/googleOAuth');
+const { ElectronGoogleOAuth2 } = require('./electron/auth');
 
 let mainWindow = {};
 let authClient = {};
@@ -59,7 +60,11 @@ const createWindow = () => {
       });
 
     mainWindow.webContents.openDevTools();
-  }
+	}
+	
+	setupPushReceiver(mainWindow.webContents);
+	generateMenu(mainWindow);
+  registerListeners(mainWindow);
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
@@ -74,8 +79,6 @@ app.setAboutPanelOptions({
 
 app.on('ready', () => {
   createWindow();
-  generateMenu(mainWindow);
-  registerListeners(mainWindow);
 
   authClient = new ElectronGoogleOAuth2(
     '25976822649-itstpvr0i60jsmr14oprhej6dsapd9sg.apps.googleusercontent.com',

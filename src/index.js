@@ -11,8 +11,7 @@ import rootReducer from './reducers';
 
 import './index.scss';
 
-const electron = window.require('electron');
-const ipcRenderer  = electron.ipcRenderer;
+const { ipcRenderer } = window.require('electron');
 
 const store = createStore(
   rootReducer,
