@@ -6,24 +6,23 @@ const { google } = require('googleapis');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-const { registerListeners } = require('./electron/db/db');
-const { generateMenu } = require('./electron/menu');
-const { ElectronGoogleOAuth2 } = require('./electron/auth');
+const { getMainWindow, setMainWindow } = require('./window');
+const { registerListeners, removeListeners } = require('./src/db/db');
+const { generateMenu } = require('./src/menu');
+const { ElectronGoogleOAuth2 } = require('./src/auth');
 
-let mainWindow = {};
-let authClient = {};
+let authClient;
 const store = new Store();
 
 const createWindow = () => {
-  mainWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     title: 'Snippet manager',
     // #f5f8fa
     backgroundColor: '#30404d',
     show: false,
     titleBarStyle: 'hiddenInset',
     webPreferences: {
-      nodeIntegration: true,
-      preload: __dirname + '/preload.js',
+      nodeIntegration: true
     },
     height: 600,
     width: 880,
@@ -33,7 +32,7 @@ const createWindow = () => {
   mainWindow.loadURL(
     isDev
       ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`,
+      : `file://${path.join(__dirname, '../index.html')}`,
   );
 
   if (isDev) {
@@ -60,15 +59,30 @@ const createWindow = () => {
       });
 
     mainWindow.webContents.openDevTools();
-	}
+  }
 	
 	setupPushReceiver(mainWindow.webContents);
-	generateMenu(mainWindow);
+  generateMenu(mainWindow);
   registerListeners(mainWindow);
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
+
+  mainWindow.on('closed', () => {
+    setMainWindow(null);
+    removeListeners();
+  });
+
+  setMainWindow(mainWindow);
+};
+
+const createAuthClient = () => {
+  authClient = new ElectronGoogleOAuth2(
+    '25976822649-itstpvr0i60jsmr14oprhej6dsapd9sg.apps.googleusercontent.com',
+    '0wD7YYcOwqDTyI5snIF3-_yV',
+    ['https://www.googleapis.com/auth/drive.metadata.readonly']
+  );
 };
 
 app.setAboutPanelOptions({
@@ -79,12 +93,7 @@ app.setAboutPanelOptions({
 
 app.on('ready', () => {
   createWindow();
-
-  authClient = new ElectronGoogleOAuth2(
-    '25976822649-itstpvr0i60jsmr14oprhej6dsapd9sg.apps.googleusercontent.com',
-    '0wD7YYcOwqDTyI5snIF3-_yV',
-    ['https://www.googleapis.com/auth/drive.metadata.readonly']
-  );
+  createAuthClient();
 });
 
 app.on('window-all-closed', () => {
@@ -94,7 +103,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  if (mainWindow === null) {
+  if (getMainWindow() === null) {
     createWindow();
   }
 });

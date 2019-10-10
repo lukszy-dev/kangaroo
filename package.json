@@ -2,7 +2,7 @@
   "name": "code-snippets",
   "version": "0.1.0",
   "private": true,
-  "main": "public/electron.js",
+  "main": "electron/main.js",
   "description": "Code snippets manager",
   "author": {
     "name": "PROGGRAMIK Łukasz Szypliński",
@@ -10,11 +10,13 @@
     "url": "https://proggramik.com"
   },
   "scripts": {
-    "build": "react-scripts build",
-    "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
-    "start-web": "react-scripts start",
-    "pack": "electron-builder --dir",
-    "dist": "PUBLIC_URL=./ react-scripts build && electron-builder --mac -p always"
+    "start": "react-scripts start",
+    "start-electron": "concurrently \"cross-env BROWSER=none react-scripts start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
+    "build": "npm run build-web && npm run build-electron",
+    "build-web": "react-scripts build",
+    "build-electron": "mkdir build/src && cp -r electron/. build/electron",
+    "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js --publish never",
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.18.1",

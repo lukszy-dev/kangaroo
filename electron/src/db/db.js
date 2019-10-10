@@ -53,6 +53,10 @@ const registerListeners = (window) => {
 	// 		})
 	// 	})
 	// );
-}
+};
 
-module.exports = { db, registerListeners };
+const removeListeners = () => {
+	ipcMain.removeAllListeners();
+};
+
+module.exports = { db, registerListeners, removeListeners };
