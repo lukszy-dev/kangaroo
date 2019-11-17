@@ -1,9 +1,9 @@
 {
-  "name": "code-snippets",
+  "name": "snippet-manager",
   "version": "0.1.0",
   "private": true,
   "main": "electron/main.js",
-  "description": "Code snippets manager",
+  "description": "Snippet manager",
   "author": {
     "name": "PROGGRAMIK Łukasz Szypliński",
     "email": "proggramik@gmail.com",

@@ -87,6 +87,8 @@ const Editor = () => {
           editorProps={{ $blockScrolling: true }}
           showGutter={false}
           showPrintMargin={false}
+          wrapEnabled={true}
+          scrollMargin={[2, 2]}
           tabSize={2}
           height={`${height - 67}px`}
           width={`${width - leftPanelWidth}px`}

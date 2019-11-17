@@ -1,1 +1,3 @@
+- Uzyskanie auth token'a, dostosowanie GUI
 - Google Drive API integration / Firebase
+- Przenieść klucze na Firebase

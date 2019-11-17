@@ -7,7 +7,7 @@ let _driveApiClient;
 
 const getDriveApiClient = (authClient) => {
   if (_driveApiClient == null) {
-    google.drive({ version: 'v3', auth: authClient.oauth2Client });
+    _driveApiClient = google.drive({ version: 'v3', auth: authClient.oauth2Client });
   }
   return _driveApiClient;
 };
@@ -40,9 +40,9 @@ const createFile = async (fileMetadata) => {
     });
 };
 
-// const getFile = (name, files) => {
-//   return files.find(file => file.name === name);
-// };
+const getFile = (name, files) => {
+  return files.find(file => file.name === name);
+};
 
 const watchForChanges = async (fileId) => {
   if (!_driveApiClient) {
@@ -57,8 +57,9 @@ const watchForChanges = async (fileId) => {
 
   _driveApiClient.files.watch({ fileId, requestBody })
     .then((response) => {
+      console.log('Watch file id: ' + fileId + ' for changes!');
       return response;
     });
 };
 
-module.exports = { getDriveApiClient, createFile, listFiles, watchForChanges };
+module.exports = { driveApiWrapper: { getDriveApiClient, getFile, createFile, listFiles, watchForChanges }};

@@ -1,16 +1,16 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { setup: setupPushReceiver } = require('electron-push-receiver');
-const Store = require('electron-store');
-const { google } = require('googleapis');
 
+const Store = require('electron-store');
 const path = require('path');
 const isDev = require('electron-is-dev');
-const uuidv4 = require('uuid/v4');
 
 const { getMainWindow, setMainWindow } = require('./window');
 const { registerListeners, removeListeners } = require('./src/db/db');
 const { generateMenu } = require('./src/menu');
 const { ElectronGoogleOAuth2 } = require('./src/auth');
+const { driveApiWrapper } = require('./src/drive');
+const { AUTH_TOKEN, FILE_NAME, FILE_METADATA, QUERY } = require('./src/constants');
 
 let authClient;
 const store = new Store();
@@ -113,7 +113,9 @@ app.on('activate', () => {
 });
 
 ipcMain.on('AUTH_LOGIN', () => {
-  const currentToken = store.get('auth_token');
+  const currentToken = store.get(AUTH_TOKEN);
+
+  console.log(currentToken);
 
   if (currentToken) {
     authClient.setTokens(currentToken);
@@ -124,42 +126,25 @@ ipcMain.on('AUTH_LOGIN', () => {
       });
     }
 
-    const drive = google.drive({ version: 'v3', auth: authClient.oauth2Client });
+    driveApiWrapper.getDriveApiClient(authClient);
 
-    const FILE_NAME = 'sm_data';
-    const query = "name='" + FILE_NAME + "'";
-
-    drive.files.list({ q: query })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.files[0] && response.data.files[0].name === FILE_NAME) {
+    driveApiWrapper.listFiles(
+      QUERY,
+      (files) => {
+        const file = driveApiWrapper.getFile(FILE_NAME, files);
+        if (file) {
           console.log('Load data!');
+          driveApiWrapper.watchForChanges(file.id);
         } else {
-          const fileMetadata = {
-            name: FILE_NAME,
-            mimeType: 'text/plain'
-          };
-          drive.files.create({ resource: fileMetadata }).then((response) => {
-            console.log(response);
-          });
+          driveApiWrapper.createFile(FILE_METADATA);
         }
-      })
-      .catch((error) => {
-        console.log(error);
+      },
+      (error) => {
+        console.error(error);
       });
-
-    const payload = {
-      type: 'web_hook',
-      id: uuidv4(),
-      address: 'https://proggramik.com/functions/sendNotification'
-    };
-
-    drive.files.watch({ fileId: '18m8tITd-aSTCn6ipj2irrA5O5H0ZwmV-', requestBody: payload }).then((response) => {
-      console.log(response);
-    });
   } else {
     authClient.openAuthWindowAndGetTokens().then(token => {
-      store.set('auth_token', token);
+      store.set(AUTH_TOKEN, token);
     });
   }
 });

@@ -4,11 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Theme from './components/Theme/Theme';
 import Editor from './components/Editor/Editor';
 import SnippetList from './components/SnippetList/SnippetList';
-
 import appCommand, { APP_COMMAND } from './utils/appCommand';
 import { initSnippets } from './actions/snippets';
-
-import './App.scss';
 
 import {
   START_NOTIFICATION_SERVICE,
@@ -17,6 +14,8 @@ import {
   NOTIFICATION_RECEIVED as ON_NOTIFICATION_RECEIVED,
   TOKEN_UPDATED,
 } from 'electron-push-receiver/src/constants';
+
+import './App.scss';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -27,9 +26,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initSnippets());
 
-    ipcRenderer.on(APP_COMMAND, (event, message) => {
-      appCommand(dispatch, message);
-    });
+    ipcRenderer.on(APP_COMMAND, (_, message) => appCommand(dispatch, message));
 
     // Listen for service successfully started
     ipcRenderer.on(NOTIFICATION_SERVICE_STARTED, (_, token) => console.log(token));
@@ -43,7 +40,7 @@ const App = () => {
     ipcRenderer.send(START_NOTIFICATION_SERVICE, 25976822649);
 
     return () => {
-      ipcRenderer.removeListener(APP_COMMAND);
+      ipcRenderer.removeAllListeners();
     };
   }, [dispatch]);
 
