@@ -9,12 +9,12 @@ import { updateSnippet, deleteSnippet } from '../../actions/snippets';
 
 import { languages } from './languages';
 
-import 'brace/theme/github';
-import 'brace/theme/tomorrow_night';
+import 'ace-builds/src-noconflict/theme-github';
+import 'ace-builds/src-noconflict/theme-tomorrow_night';
 import './Editor.scss';
 
 languages.forEach(lang => {
-  require(`brace/mode/${lang}`);
+  require(`ace-builds/src-noconflict/mode-${lang}`);
 });
 
 const Editor = () => {
