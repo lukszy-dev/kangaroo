@@ -6,14 +6,14 @@ import { Button, EditableText } from '@blueprintjs/core';
 import StatusBar from './StatusBar';
 import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet, deleteSnippet } from '../../actions/snippets';
-
 import { languages } from './languages';
+
+import './Editor.scss';
 
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-tomorrow_night';
-import './Editor.scss';
 
-languages.forEach(lang => {
+Object.keys(languages).forEach(lang => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
 });
 

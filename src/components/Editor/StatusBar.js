@@ -8,6 +8,9 @@ import { languages } from './languages';
 import './StatusBar.scss';
 
 const StatusBar = ({ snippet, onLanguageChange }) => {
+  const languageItems = Object.entries(languages).map(([key, value]) =>
+    ({label: value, value: key})
+  );
   return (
     <div className="StatusBar--container">
       { snippet ?
@@ -17,7 +20,7 @@ const StatusBar = ({ snippet, onLanguageChange }) => {
           iconProps={{icon: 'caret-down'}}
           style={{textTransform: 'capitalize'}}
           onChange={onLanguageChange}
-          options={languages.map(l => ({label: l, value: l}))}
+          options={languageItems}
         /> :
         <HTMLSelect
           minimal="true"
