@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AceEditor from 'react-ace';
-import { Button, EditableText } from '@blueprintjs/core';
 
 import StatusBar from './StatusBar';
 import useWindowDimensions from '../../utils/useWindowDimensions';
@@ -12,6 +11,7 @@ import './Editor.scss';
 
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-tomorrow_night';
+import EditorHeader from './EditorHeader';
 
 Object.keys(languages).forEach(lang => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
@@ -56,24 +56,11 @@ const Editor = () => {
 
   return (
     <div className="Editor--container">
-      <div className="Editor--header">
-        <EditableText
-          className="Editor--snippet-title"
-          placeholder="Edit title..."
-          minWidth={200}
-          value={snippet ? snippet.title : ''}
-          disabled={!snippet}
-          onChange={handleTitleChange}
-        />
-        <Button
-          className="Editor--snippet-delete"
-          small="true"
-          icon="trash"
-          minimal="true"
-          disabled={!snippet}
-          onClick={handleDeleteSnippet}
-        />
-      </div>
+      <EditorHeader
+        snippet={snippet}
+        onTitleChange={handleTitleChange}
+        onDeleteSnippet={handleDeleteSnippet}
+      />
 
       <div className="Editor--editor">
         <AceEditor

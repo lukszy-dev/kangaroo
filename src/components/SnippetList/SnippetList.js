@@ -6,7 +6,7 @@ import SnippetListElement from './SnippetListElement';
 import ScrollableWrapper from './ScrollableWrapper';
 import Resizer from './Resizer';
 
-import { setCurrentSnippet, addSnippet } from '../../actions/snippets';
+import { setCurrentSnippet, addSnippet, deleteSnippet } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
 import { initLogin } from '../../actions/auth';
 
@@ -32,6 +32,10 @@ const SnippetList = () => {
 
   const handleAddSnippet = () => {
     dispatch(addSnippet());
+  };
+
+  const handleDeleteSnippet = () => {
+    dispatch(deleteSnippet());
   };
 
   const handleLogin = () => {
@@ -79,7 +83,12 @@ const SnippetList = () => {
 
   return (
     <div style={{width: leftPanelWidth, minWidth: 200}} className="SnippetList--container">
-      <SnippetListHeader onAddSnippet={handleAddSnippet} onLogin={handleLogin} />
+      <SnippetListHeader
+        snippet={current}
+        onAddSnippet={handleAddSnippet}
+        onDeleteSnippet={handleDeleteSnippet}
+        onLogin={handleLogin}
+      />
 
       { list &&
         <ScrollableWrapper bottomShadow={false}>

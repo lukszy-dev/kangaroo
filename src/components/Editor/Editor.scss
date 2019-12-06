@@ -6,23 +6,6 @@
   background-color: var(--background-color-primary)
 }
 
-.Editor--header {
-  display: flex;
-  height: var(--editor-header-height);
-  align-items: center;
-  -webkit-app-region: drag;
-  padding: 0 10px;
-}
-
 .Editor--editor {
   flex: 1;
-}
-
-.Editor--snippet-title {
-  width: 100%;
-  margin: 0 10px 0 0;
-}
-
-.Editor--snippet-delete {
-  margin-left: auto;
 }

@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Button } from '@blueprintjs/core';
+
+import Snippet from '../../models/Snippet';
 
 import './SnippetListHeader.scss';
 
-const SnippetListHeader = ({ onAddSnippet, onLogin }) => {
+const SnippetListHeader = ({
+  snippet,
+  onAddSnippet,
+  onDeleteSnippet,
+  onLogin
+}) => {
   // const handleOpenSearch = () => {
   //   dispatch(showModal(true));
   // };
@@ -18,7 +24,7 @@ const SnippetListHeader = ({ onAddSnippet, onLogin }) => {
         minimal="true"
         style={{ marginRight: "5px" }}
         onClick={handleOpenSearch}
-      /> */}
+      />
 
       <Button
         small="true"
@@ -27,6 +33,15 @@ const SnippetListHeader = ({ onAddSnippet, onLogin }) => {
         style={{ marginRight: "5px" }}
         onClick={onLogin}
       />
+
+      <Button
+        className="Editor--snippet-delete"
+        small="true"
+        icon="trash"
+        minimal="true"
+        disabled={!snippet}
+        onClick={onDeleteSnippet}
+      /> */}
 
       <Button
         small="true"
@@ -39,7 +54,9 @@ const SnippetListHeader = ({ onAddSnippet, onLogin }) => {
 };
 
 SnippetListHeader.propTypes = {
+  snippet: PropTypes.instanceOf(Snippet),
   onAddSnippet: PropTypes.func.isRequired,
+  onDeleteSnippet: PropTypes.func.isRequired,
   onLogin: PropTypes.func.isRequired
 };
 
