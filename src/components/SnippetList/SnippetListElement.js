@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -7,16 +7,44 @@ import Snippet from '../../models/Snippet';
 import './SnippetList.scss';
 import './SnippetListElement.scss';
 
-const SnippetListElement = ({ element, currentlySelectdId, handleChangeSnippet }) => {
+const { remote } = window.require('electron');
+
+const SnippetListElement = ({
+  element,
+  currentlySelectedId,
+  handleChangeSnippet
+}) => {
+  const elementRef = useRef(null);
+  const menu = new remote.Menu();
+  const menuItem = new remote.MenuItem({
+    label: 'Inspect Element ' + element.id
+  });
+  menu.append(menuItem)
+
+  useEffect(() => {
+    elementRef.current.addEventListener(
+      'contextmenu',
+      e => {
+        e.preventDefault();
+        console.log(e);
+        menu.popup(remote.getCurrentWindow());
+      },
+      false
+    );
+  }, [menu]);
+  
   const handleClick = () => {
-    handleChangeSnippet(element.id);
+    if (currentlySelectedId !== element.id) {
+      handleChangeSnippet(element.id);
+    }
   };
 
   return (
     <div key={element.id}>
       <div
-        className={cn('SnippetListElement', { 'SnippetListElement-active': currentlySelectdId === element.id })}
+        className={cn('SnippetListElement', { 'SnippetListElement-active': currentlySelectedId === element.id })}
         onClick={handleClick}
+        ref={elementRef}
       >
         {element.title}
       </div>
@@ -27,7 +55,7 @@ const SnippetListElement = ({ element, currentlySelectdId, handleChangeSnippet }
 
 SnippetListElement.propTypes = {
   element: PropTypes.instanceOf(Snippet),
-  currentlySelectdId: PropTypes.number.isRequired,
+  currentlySelectedId: PropTypes.number.isRequired,
   handleChangeSnippet: PropTypes.func.isRequired
 };
 

@@ -74,7 +74,7 @@ const SnippetList = () => {
         <SnippetListElement
           key={element.id}
           element={element}
-          currentlySelectdId={current.id}
+          currentlySelectedId={current.id}
           handleChangeSnippet={handleChangeSnippet}
         />
       );

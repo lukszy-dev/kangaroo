@@ -3,15 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import AceEditor from 'react-ace';
 
 import StatusBar from './StatusBar';
+import EditorHeader from './EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet, deleteSnippet } from '../../actions/snippets';
 import { languages } from './languages';
 
 import './Editor.scss';
 
+// https://github.com/securingsincity/react-ace/issues/725
+import 'ace-builds/webpack-resolver';
+
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-tomorrow_night';
-import EditorHeader from './EditorHeader';
 
 Object.keys(languages).forEach(lang => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
