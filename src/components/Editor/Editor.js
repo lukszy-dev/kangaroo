@@ -25,7 +25,7 @@ const Editor = () => {
   const { theme, leftPanelWidth } = useSelector(state => state.ui);
   const { current: snippet } = useSelector(state => state.snippets);
 
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const handleOnLoad = (editor) => {
     editor.resize();
@@ -65,7 +65,7 @@ const Editor = () => {
           wrapEnabled={true}
           scrollMargin={[2, 2]}
           tabSize={2}
-          height={`${height - 67}px`}
+          height={`100%`}
           width={`${width - leftPanelWidth}px`}
         />
       </div>

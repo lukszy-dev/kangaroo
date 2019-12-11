@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { EditableText, Tag } from '@blueprintjs/core';
+import { EditableText } from '@blueprintjs/core';
 
 import Snippet from '../../models/Snippet';
 

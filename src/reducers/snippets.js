@@ -9,6 +9,8 @@ import {
 const initial = {
   current: null,
   list: null,
+  result: null,
+  query: '',
   lastId: 0
 };
 
