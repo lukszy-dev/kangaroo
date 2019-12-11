@@ -6,6 +6,7 @@ import StatusBar from './StatusBar';
 import EditorHeader from './EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet } from '../../actions/snippets';
+import { showGutter } from '../../actions/editor';
 import { languages } from './languages';
 
 import './Editor.scss';
@@ -23,9 +24,10 @@ Object.keys(languages).forEach(lang => {
 const Editor = () => {
   const dispatch = useDispatch();
   const { theme, leftPanelWidth } = useSelector(state => state.ui);
+  const { gutter } = useSelector(state => state.editor);
   const { current: snippet } = useSelector(state => state.snippets);
 
-  const { width } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
 
   const handleOnLoad = (editor) => {
     editor.resize();
@@ -41,6 +43,10 @@ const Editor = () => {
 
   const handleTitleChange = (value) => {
     dispatch(updateSnippet({ ...snippet, title: value }));
+  };
+
+  const handleShowGutter = () => {
+    dispatch(showGutter());
   };
 
   return (
@@ -60,17 +66,22 @@ const Editor = () => {
           value={snippet ? snippet.content : ''}
           onChange={handleOnChange}
           editorProps={{ $blockScrolling: true }}
-          showGutter={false}
+          showGutter={gutter}
           showPrintMargin={false}
           wrapEnabled={true}
           scrollMargin={[2, 2]}
           tabSize={2}
-          height={`100%`}
+          height={`${height - 67}px`}
           width={`${width - leftPanelWidth}px`}
+          setOptions={{ useWorker: false }}
         />
       </div>
       
-      <StatusBar snippet={snippet} onLanguageChange={handleOnLanguageChange} />
+      <StatusBar
+        snippet={snippet}
+        onShowGutter={handleShowGutter}
+        onLanguageChange={handleOnLanguageChange}
+      />
     </div>
   );
 };

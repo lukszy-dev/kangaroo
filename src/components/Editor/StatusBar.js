@@ -1,18 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HTMLSelect } from '@blueprintjs/core';
+import { Tooltip, Button, HTMLSelect, Position } from '@blueprintjs/core';
 
 import Snippet from '../../models/Snippet';
 import { languages } from './languages';
 
 import './StatusBar.scss';
 
-const StatusBar = ({ snippet, onLanguageChange }) => {
+const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
   const languageItems = Object.entries(languages).map(([key, value]) =>
     ({label: value, value: key})
   );
+
   return (
     <div className="StatusBar--container">
+      <Tooltip content="Show gutter" position={Position.TOP}>
+        <Button
+          small="true"
+          icon="list-detail-view"
+          minimal="true"
+          style={{ marginLeft: "3px" }}
+          onClick={onShowGutter}
+        />
+      </Tooltip>
+
       { snippet ?
         <HTMLSelect
           value={snippet.language}
@@ -34,6 +45,7 @@ const StatusBar = ({ snippet, onLanguageChange }) => {
 
 StatusBar.propTypes = {
   snippet: PropTypes.instanceOf(Snippet),
+  onShowGutter: PropTypes.func.isRequired,
   onLanguageChange: PropTypes.func
 };
 

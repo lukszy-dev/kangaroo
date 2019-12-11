@@ -27,6 +27,7 @@ const EditorHeader = ({ snippet, onTitleChange }) => {
         value={snippet ? snippet.title : ''}
         disabled={!snippet}
         onChange={onTitleChange}
+        alwaysRenderInput={true}
       />
 
       {/*

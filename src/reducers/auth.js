@@ -16,6 +16,6 @@ export default (state = initial, action) => {
       };
 
     default:
-      break;
+      state;
   }
 }
