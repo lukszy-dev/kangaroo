@@ -12,6 +12,8 @@ import { initLogin } from '../../actions/auth';
 
 import './SnippetList.scss';
 
+const { remote } = window.require('electron');
+
 const SnippetList = () => {
   const dispatch = useDispatch();
 
@@ -21,9 +23,20 @@ const SnippetList = () => {
   const resizerXPosition = React.useRef(null);
   const panelWidth = React.useRef(null);
 
+  const menu = new remote.Menu();
+  const menuItem = new remote.MenuItem({
+    label: 'Delete',
+    click: () => handleDeleteSnippet()
+  });
+  menu.append(menuItem)
+
   const handleOnMouseDown = event => {
     resizerXPosition.current = event.clientX;
     panelWidth.current = event.clientX;
+  };
+
+  const handleElementContextMenu = () => {
+    menu.popup(remote.getCurrentWindow());
   };
 
   const handleChangeSnippet = id => {
@@ -75,7 +88,8 @@ const SnippetList = () => {
           key={element.id}
           element={element}
           currentlySelectedId={current.id}
-          handleChangeSnippet={handleChangeSnippet}
+          onChangeSnippet={handleChangeSnippet}
+          onContextMenu={handleElementContextMenu}
         />
       );
     });
@@ -86,7 +100,6 @@ const SnippetList = () => {
       <SnippetListHeader
         snippet={current}
         onAddSnippet={handleAddSnippet}
-        onDeleteSnippet={handleDeleteSnippet}
         onLogin={handleLogin}
       />
 

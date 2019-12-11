@@ -5,7 +5,7 @@ import AceEditor from 'react-ace';
 import StatusBar from './StatusBar';
 import EditorHeader from './EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
-import { updateSnippet, deleteSnippet } from '../../actions/snippets';
+import { updateSnippet } from '../../actions/snippets';
 import { languages } from './languages';
 
 import './Editor.scss';
@@ -43,26 +43,11 @@ const Editor = () => {
     dispatch(updateSnippet({ ...snippet, title: value }));
   };
 
-  const handleDeleteSnippet = () => {
-    dispatch(deleteSnippet(snippet.id));
-  };
-
-  // const tags = ['Java', 'JavaScript', 'XML', 'SQL', 'HTML'];
-
-  // const visibleItemRenderer = (item, index) => {
-  //   return <Tag key={index} style={{marginRight: '3px'}}>{item}</Tag>;
-  // };
-
-  // const overflowRenderer = (overflowItems) => {
-  //   return <Tag icon="more" style={{marginRight: '3px'}} />
-  // }
-
   return (
     <div className="Editor--container">
       <EditorHeader
         snippet={snippet}
         onTitleChange={handleTitleChange}
-        onDeleteSnippet={handleDeleteSnippet}
       />
 
       <div className="Editor--editor">
