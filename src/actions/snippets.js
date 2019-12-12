@@ -7,6 +7,7 @@ export const UPDATE_SNIPPET = namespace('UPDATE_SNIPPET');
 export const DELETE_SNIPPET = namespace('DELETE_SNIPPET');
 export const SET_CURRENT_SNIPPET = namespace('SET_CURRENT_SNIPPET');
 export const LOAD_SNIPPETS = namespace('LOAD_SNIPPETS');
+export const SET_SEARCH_SNIPPETS = namespace('SET_SEARCH_SNIPPETS');
 
 const loadSnippetsAction = (list, current, lastId) => ({
   type: LOAD_SNIPPETS,
@@ -31,6 +32,11 @@ const deleteSnippetAction = (current, list) => ({
   type: DELETE_SNIPPET,
   current,
   list
+});
+
+const setSearchSnippetsAction = (query) => ({
+  type: SET_SEARCH_SNIPPETS,
+  query
 });
 
 export const setCurrentSnippet = (id) => ({
@@ -81,7 +87,7 @@ export const updateSnippet = (snippet) => {
     ipcRenderer.send('DB_UPDATE', updatedSnippet);
     dispatch(updateSnippetAction(updatedSnippet, updatedList));
   };
-}
+};
 
 export const deleteSnippet = () => {
   return (dispatch, getState, ipcRenderer) => {
@@ -92,4 +98,10 @@ export const deleteSnippet = () => {
     ipcRenderer.send('DB_DELETE', current.id);
     dispatch(deleteSnippetAction(updatedList[0], updatedList));
   };
-}
+};
+
+export const setSearchSnippets = (query) => {
+  return (dispatch) => {
+    dispatch(setSearchSnippetsAction(query));
+  };
+};

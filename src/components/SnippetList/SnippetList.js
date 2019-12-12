@@ -6,7 +6,12 @@ import SnippetListElement from './SnippetListElement';
 import ScrollableWrapper from './ScrollableWrapper';
 import Resizer from './Resizer';
 
-import { setCurrentSnippet, addSnippet, deleteSnippet } from '../../actions/snippets';
+import {
+  setCurrentSnippet,
+  addSnippet,
+  deleteSnippet,
+  setSearchSnippets
+} from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
 import { initLogin } from '../../actions/auth';
 
@@ -18,7 +23,7 @@ const SnippetList = () => {
   const dispatch = useDispatch();
 
   const { leftPanelWidth } = useSelector(state => state.ui);
-  const { current, list } = useSelector(state => state.snippets);
+  const { current, list, query } = useSelector(state => state.snippets);
 
   const resizerXPosition = React.useRef(null);
   const panelWidth = React.useRef(null);
@@ -49,6 +54,10 @@ const SnippetList = () => {
 
   const handleDeleteSnippet = () => {
     dispatch(deleteSnippet());
+  };
+
+  const handleSearchChange = (value) => {
+    dispatch(setSearchSnippets(value));
   };
 
   const handleLogin = () => {
@@ -82,7 +91,9 @@ const SnippetList = () => {
   }, [dispatch]);
 
   const renderElements = () => {
-    return list.map((element) => {
+    const filterd = list.filter((element) => element.title.includes(query));
+
+    return filterd.map((element) => {
       return (
         <SnippetListElement
           key={element.id}
@@ -96,18 +107,22 @@ const SnippetList = () => {
   };
 
   return (
-    <div style={{width: leftPanelWidth, minWidth: 200}} className="SnippetList--container">
+    <div
+      style={{ width: leftPanelWidth, minWidth: 200 }}
+      className="SnippetList--container"
+    >
       <SnippetListHeader
-        snippet={current}
+        query={query}
         onAddSnippet={handleAddSnippet}
+        onSearchChange={handleSearchChange}
         onLogin={handleLogin}
       />
 
-      { list &&
-        <ScrollableWrapper bottomShadow={false}>
+      { list && (
+        <ScrollableWrapper bottomShadow={false} alwaysOn={true}>
           { renderElements() }
         </ScrollableWrapper>
-      }
+      )}
 
       <Resizer onMouseDown={handleOnMouseDown} />
     </div>

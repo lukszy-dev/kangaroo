@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import './ScrollableWrapper.scss';
 
-const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true }) => {
-  const [top, setActiveTop] = useState(false);
-  const [bottom, setActiveBottom] = useState(false);
+const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true, alwaysOn = false }) => {
+  const [top, setActiveTop] = useState(alwaysOn);
+  const [bottom, setActiveBottom] = useState(alwaysOn);
 
   const contentRef = useRef(null);
 
@@ -20,6 +20,10 @@ const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true }) 
   }, [bottomShadow]);
 
   const handleScroll = event => {
+    if (alwaysOn) {
+      return;
+    }
+
     const { scrollHeight, clientHeight, scrollTop } = event.target;
 
     if (scrollHeight - scrollTop === clientHeight) {
@@ -56,7 +60,8 @@ const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true }) 
 ScrollableWrapper.propTypes = {
   children: PropTypes.any.isRequired,
   topShadow: PropTypes.bool,
-  bottomShadow: PropTypes.bool
+  bottomShadow: PropTypes.bool,
+  alwaysOn: PropTypes.bool
 };
 
 export default ScrollableWrapper;

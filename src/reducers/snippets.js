@@ -3,13 +3,13 @@ import {
   UPDATE_SNIPPET,
   DELETE_SNIPPET,
   SET_CURRENT_SNIPPET,
-  LOAD_SNIPPETS
+  LOAD_SNIPPETS,
+  SET_SEARCH_SNIPPETS
 } from '../actions/snippets';
 
 const initial = {
   current: null,
   list: null,
-  result: null,
   query: '',
   lastId: 0
 };
@@ -50,6 +50,12 @@ export default (state = initial, action) => {
         list: action.list,
         current: action.current,
         lastId: action.lastId
+      };
+
+    case SET_SEARCH_SNIPPETS:
+      return {
+        ...state,
+        query: action.query
       };
 
     default:

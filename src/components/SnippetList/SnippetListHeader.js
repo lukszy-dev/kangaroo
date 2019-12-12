@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, InputGroup } from '@blueprintjs/core';
 
 import './SnippetListHeader.scss';
 
-const SnippetListHeader = ({ onAddSnippet, onLogin }) => {
-  const [search, setSearch] = useState('');
-  
+const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => {  
   const handleSearchOnChange = (event) => {
     const value = event.target.value;
-    setSearch(value);
+    onSearchChange(value);
   };
   
   // const handleOpenSearch = () => {
@@ -47,7 +45,7 @@ const SnippetListHeader = ({ onAddSnippet, onLogin }) => {
         <InputGroup
           leftIcon="search"
           fill={true}
-          value={search}
+          value={query}
           onChange={handleSearchOnChange}
         />
       </div>
@@ -56,7 +54,9 @@ const SnippetListHeader = ({ onAddSnippet, onLogin }) => {
 };
 
 SnippetListHeader.propTypes = {
+  query: PropTypes.string.isRequired,
   onAddSnippet: PropTypes.func.isRequired,
+  onSearchChange: PropTypes.func.isRequired,
   onLogin: PropTypes.func.isRequired
 };
 
