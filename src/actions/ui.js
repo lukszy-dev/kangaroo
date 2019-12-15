@@ -9,20 +9,20 @@ export const resizeLeftPanel = leftPanelWidth => {
   return {
     type: RESIZE_LEFT_PANEL,
     leftPanelWidth
-  }
+  };
 };
 
 export const setResizerPosition = resizerPosition => {
   return {
     type: SET_RESIZER_POSITION,
     resizerPosition
-  }
+  };
 };
 
 const switchThemeAction = () => {
   return {
     type: SWITCH_THEME
-  }
+  };
 };
 
 export const showModal = (modalVisible = false, modalType = '') => {
@@ -30,7 +30,7 @@ export const showModal = (modalVisible = false, modalType = '') => {
     type: SHOW_MODAL,
     modalVisible,
     modalType
-  }
+  };
 };
 
 export const switchTheme = () => {
@@ -38,4 +38,4 @@ export const switchTheme = () => {
     ipcRenderer.send('SWITCH_THEME');
     dispatch(switchThemeAction());
   };
-}
+};

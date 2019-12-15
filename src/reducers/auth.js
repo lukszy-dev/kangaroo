@@ -18,4 +18,4 @@ export default (state = initial, action) => {
     default:
       state;
   }
-}
+};

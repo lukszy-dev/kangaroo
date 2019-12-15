@@ -14,6 +14,22 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => 
   //   dispatch(showModal(true));
   // };
 
+  const handleClearSearch = () => {
+    onSearchChange('');
+  };
+
+  const renderClearSearchButton = () => {
+    if (query) {
+      return (
+        <Button
+          icon="cross"
+          minimal="true"
+          onClick={handleClearSearch}
+        />
+      );
+    }
+  };
+
   return (
     <div className="SnippetListHeader">
       <div className="SnippetListHeader--container">
@@ -31,6 +47,7 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => 
           minimal="true"
           style={{ marginRight: "5px" }}
           onClick={onLogin}
+          disabled={true}
         />
 
         <Button
@@ -41,9 +58,11 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => 
         />
       </div>
 
-      <div className="SnippetListHeader--container bottom">
+      <div className="SnippetListHeader--search-container">
         <InputGroup
           leftIcon="search"
+          placeholder="Search"
+          rightElement={renderClearSearchButton()}
           fill={true}
           value={query}
           onChange={handleSearchOnChange}

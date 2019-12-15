@@ -12,7 +12,7 @@ export default (state = initial, action) => {
         gutter: !state.gutter
       };
 
-      default:
-        return state;
+    default:
+      return state;
   }
-}
+};
