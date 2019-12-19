@@ -10,8 +10,8 @@
     "url": "https://proggramik.com"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-electron": "concurrently \"cross-env BROWSER=none react-scripts start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
+    "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
+    "start-web": "react-scripts start",
     "build": "npm run build-web && npm run build-electron",
     "build-web": "react-scripts build",
     "build-electron": "mkdir build/src && cp -r electron/. build/electron",
