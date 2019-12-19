@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, InputGroup } from '@blueprintjs/core';
 
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
+
 import './SnippetListHeader.scss';
 
-const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => {  
+const SnippetListHeader = ({ query, onAddSnippet, onSearchChange }) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const handleSearchOnChange = (event) => {
     const value = event.target.value;
     onSearchChange(value);
   };
-  
-  // const handleOpenSearch = () => {
-  //   dispatch(showModal(true));
-  // };
 
   const handleClearSearch = () => {
     onSearchChange('');
+  };
+
+  const handleAccountModalOpen = () => {
+    setModalOpen(!isModalOpen);
   };
 
   const renderClearSearchButton = () => {
@@ -46,7 +50,7 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => 
           icon="person"
           minimal="true"
           style={{ marginRight: "5px" }}
-          onClick={onLogin}
+          onClick={handleAccountModalOpen}
         />
 
         <Button
@@ -56,6 +60,23 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => 
           onClick={onAddSnippet}
         />
       </div>
+
+      <ModalOverlay
+        title="Account"
+        isOpen={isModalOpen}
+        onClose={handleAccountModalOpen}
+        footer={
+          <Fragment>
+            <Button onClick={handleAccountModalOpen}>Close</Button>
+            <Button onClick={() => alert('NOT YET IMPLEMENTED!')}>Import</Button>
+          </Fragment>
+        }
+      >
+        <p>GitHub personal access token:</p>
+        <InputGroup
+          placeholder="Token"
+        />
+      </ModalOverlay>
 
       <div className="SnippetListHeader--search-container">
         <InputGroup
@@ -74,8 +95,7 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => 
 SnippetListHeader.propTypes = {
   query: PropTypes.string.isRequired,
   onAddSnippet: PropTypes.func.isRequired,
-  onSearchChange: PropTypes.func.isRequired,
-  onLogin: PropTypes.func.isRequired
+  onSearchChange: PropTypes.func.isRequired
 };
 
 export default SnippetListHeader;

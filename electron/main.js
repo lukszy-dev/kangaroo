@@ -98,7 +98,7 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('AUTH_LOGIN', () => {
+ipcMain.on('AUTH_LOGIN', (event, token) => {
   console.log('AUTH_LOGIN');
 
   octokit = new Octokit({ auth: ''});
