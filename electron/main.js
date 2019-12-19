@@ -1,19 +1,18 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { setup: setupPushReceiver } = require('electron-push-receiver');
 
-const Store = require('electron-store');
 const path = require('path');
+const Store = require('electron-store');
 const isDev = require('electron-is-dev');
+const Octokit = require('@octokit/rest');
 
 const { getMainWindow, setMainWindow } = require('./window');
 const { registerListeners, removeListeners } = require('./src/db/db');
 const { generateMenu } = require('./src/menu');
-const { ElectronGoogleOAuth2 } = require('./src/auth');
-const { driveApiWrapper } = require('./src/drive');
-const { AUTH_TOKEN, FILE_NAME, FILE_METADATA, QUERY } = require('./src/constants');
+const { AUTH_TOKEN } = require('./src/constants');
 
-let authClient;
 const store = new Store();
+
+let octokit = {};
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -62,7 +61,6 @@ const createWindow = () => {
     mainWindow.webContents.openDevTools();
   }
 	
-	setupPushReceiver(mainWindow.webContents);
   generateMenu(mainWindow);
   registerListeners(mainWindow);
 
@@ -78,17 +76,6 @@ const createWindow = () => {
   setMainWindow(mainWindow);
 };
 
-const createAuthClient = () => {
-  authClient = new ElectronGoogleOAuth2(
-    '25976822649-itstpvr0i60jsmr14oprhej6dsapd9sg.apps.googleusercontent.com',
-    '0wD7YYcOwqDTyI5snIF3-_yV',
-    [
-      'https://www.googleapis.com/auth/drive.metadata.readonly',
-      'https://www.googleapis.com/auth/drive.file'
-    ]
-  );
-};
-
 app.setAboutPanelOptions({
   applicationName: 'Snippet manager',
   version: 'App Store',
@@ -97,7 +84,6 @@ app.setAboutPanelOptions({
 
 app.on('ready', () => {
   createWindow();
-  createAuthClient();
 });
 
 app.on('window-all-closed', () => {
@@ -113,38 +99,15 @@ app.on('activate', () => {
 });
 
 ipcMain.on('AUTH_LOGIN', () => {
-  const currentToken = store.get(AUTH_TOKEN);
+  console.log('AUTH_LOGIN');
 
-  console.log(currentToken);
+  octokit = new Octokit({ auth: ''});
 
-  if (currentToken) {
-    authClient.setTokens(currentToken);
-
-    if (authClient.isTokenExpiring()) {
-      authClient.refreshToken(currentToken.refresh_token).then((response) => {
-        authClient.setTokens(response.tokens);
-      });
-    }
-
-    driveApiWrapper.getDriveApiClient(authClient);
-
-    driveApiWrapper.listFiles(
-      QUERY,
-      (files) => {
-        const file = driveApiWrapper.getFile(FILE_NAME, files);
-        if (file) {
-          console.log('Load data!');
-          driveApiWrapper.watchForChanges(file.id);
-        } else {
-          driveApiWrapper.createFile(FILE_METADATA);
-        }
-      },
-      (error) => {
-        console.error(error);
-      });
-  } else {
-    authClient.openAuthWindowAndGetTokens().then(token => {
-      store.set(AUTH_TOKEN, token);
+  octokit.gists
+    .list()
+    .then(({ data }) => {
+      console.log(data);
     });
-  }
+
+  // const currentToken = store.get(AUTH_TOKEN);
 });

@@ -66,8 +66,13 @@ export const addSnippet = () => {
   return (dispatch, getState, ipcRenderer) => {
     const { snippets: { lastId, list } } = getState();
 
-    const nextId = lastId + 1;
-    const newSnippet = new Snippet({ id: nextId, title: 'New', language: 'text', content: '' });
+    const newSnippet = new Snippet({
+      id: lastId + 1,
+      title: 'New',
+      language: 'text',
+      content: '',
+      lastUpdated: new Date()
+    });
     const updatedList = [...list, newSnippet].sort(sortById);
 
     ipcRenderer.send('DB_ADD', newSnippet);
@@ -80,7 +85,7 @@ export const updateSnippet = (snippet) => {
     const { snippets: { current, list }} = getState();
 
     const toUpdateIndex = list.findIndex(element => element.id === current.id);
-    const updatedSnippet = new Snippet({ ...snippet });
+    const updatedSnippet = new Snippet({ ...snippet, lastUpdated: new Date() });
     const updatedList = [...list];
     updatedList[toUpdateIndex] = updatedSnippet;
 

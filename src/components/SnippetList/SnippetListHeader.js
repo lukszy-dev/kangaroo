@@ -47,7 +47,6 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onLogin }) => 
           minimal="true"
           style={{ marginRight: "5px" }}
           onClick={onLogin}
-          disabled={true}
         />
 
         <Button
