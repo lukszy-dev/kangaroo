@@ -6,8 +6,9 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
 import './SnippetListHeader.scss';
 
-const SnippetListHeader = ({ query, onAddSnippet, onSearchChange }) => {
+const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [userToken, setUserToken] = useState('');
 
   const handleSearchOnChange = (event) => {
     const value = event.target.value;
@@ -20,6 +21,14 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange }) => {
 
   const handleAccountModalOpen = () => {
     setModalOpen(!isModalOpen);
+  };
+
+  const handleOnUserTokenChange = (event) => {
+    setUserToken(event.target.value);
+  };
+
+  const handleUserToken = () => {
+    onUserToken(userToken);
   };
 
   const renderClearSearchButton = () => {
@@ -68,13 +77,15 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange }) => {
         footer={
           <Fragment>
             <Button onClick={handleAccountModalOpen}>Close</Button>
-            <Button onClick={() => alert('NOT YET IMPLEMENTED!')}>Import</Button>
+            <Button onClick={handleUserToken}>Set</Button>
           </Fragment>
         }
       >
         <p>GitHub personal access token:</p>
         <InputGroup
           placeholder="Token"
+          value={userToken}
+          onChange={handleOnUserTokenChange}
         />
       </ModalOverlay>
 
@@ -95,7 +106,8 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange }) => {
 SnippetListHeader.propTypes = {
   query: PropTypes.string.isRequired,
   onAddSnippet: PropTypes.func.isRequired,
-  onSearchChange: PropTypes.func.isRequired
+  onSearchChange: PropTypes.func.isRequired,
+  onUserToken: PropTypes.func.isRequired
 };
 
 export default SnippetListHeader;

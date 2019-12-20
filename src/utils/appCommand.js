@@ -15,6 +15,9 @@ export default (dispatch, message) => {
       dispatch(switchTheme());
       break;
 
+    case 'ERROR':
+      break;
+
     default:
       break;
   }

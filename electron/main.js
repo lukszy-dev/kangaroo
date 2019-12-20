@@ -8,7 +8,7 @@ const Octokit = require('@octokit/rest');
 const { getMainWindow, setMainWindow } = require('./window');
 const { registerListeners, removeListeners } = require('./src/db/db');
 const { generateMenu } = require('./src/menu');
-const { AUTH_TOKEN } = require('./src/constants');
+const { USER_TOKEN } = require('./src/constants');
 
 const store = new Store();
 
@@ -98,16 +98,17 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('AUTH_LOGIN', (event, token) => {
-  console.log('AUTH_LOGIN');
+ipcMain.on('USER_TOKEN', (event, token) => {
+  store.set(USER_TOKEN, token);
 
-  octokit = new Octokit({ auth: ''});
+  octokit = new Octokit({ auth: token });
 
   octokit.gists
     .list()
-    .then(({ data }) => {
-      console.log(data);
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
     });
-
-  // const currentToken = store.get(AUTH_TOKEN);
 });

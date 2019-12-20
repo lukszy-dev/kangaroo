@@ -1,3 +1,3 @@
-const AUTH_TOKEN = 'auth_token';
+const USER_TOKEN = 'user_token';
 
-module.exports = { AUTH_TOKEN };
+module.exports = { USER_TOKEN };
