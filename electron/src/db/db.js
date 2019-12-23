@@ -4,8 +4,6 @@ const Datastore = require('nedb');
 const { ADD, UPDATE, LOAD, DELETE } = require('./snippetsActions');
 // const { SWITCH_THEME } = require('./uiActions');
 
-const { sendCommand } = require('../utils');
-
 const dbFactory = (fileName) => {
 	return new Datastore({
 		filename: `${process.env.NODE_ENV === 'dev' ? '.' : app.getPath('userData')}/data/${fileName}`,
@@ -17,7 +15,7 @@ const db = {
 	snippets: dbFactory('snippets.db')
 };
 
-const registerListeners = (window) => {
+const registerListeners = () => {
 	db.snippets.ensureIndex({ fieldName: 'id', unique: true });
 
 	ipcMain.on(ADD, (event, obj) =>
@@ -38,9 +36,9 @@ const registerListeners = (window) => {
 		})
 	);
 
-	ipcMain.on(LOAD, () =>
+	ipcMain.on(LOAD, (event) =>
 		db.snippets.find({}, (err, items) =>
-			sendCommand(window, { action: 'DB_LOAD', data: items }))
+			event.sender.send('DB_LOAD_REPLY', items))
 	);
 
 	// ipcMain.on(SWITCH_THEME, () =>

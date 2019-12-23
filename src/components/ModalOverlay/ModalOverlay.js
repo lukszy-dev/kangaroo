@@ -5,7 +5,7 @@ import { Dialog, Classes } from '@blueprintjs/core';
 const ModalOverlay = ({ isOpen, onClose, title, children, footer }) => {
   return (
     <Dialog
-      className={'bp3-dark'}
+      className={'bp3-dark'} // TODO get from state
       title={title}
       isOpen={isOpen}
       onClose={onClose}

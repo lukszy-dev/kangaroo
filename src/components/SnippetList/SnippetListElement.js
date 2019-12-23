@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Button } from '@blueprintjs/core';
 
-import Snippet from '../../models/Snippet';
+import Snippet, { sourceType } from '../../models/Snippet';
 
 import './SnippetList.scss';
 import './SnippetListElement.scss';
@@ -37,6 +38,9 @@ const SnippetListElement = ({
         onContextMenu={handleContextMenu}
       >
         {element.title}
+        {element.source === sourceType.GIST && (
+          <Button icon="cloud" minimal={true} />
+        )}
       </div>
       <div className="SnippetList--divider" />
     </div>

@@ -1,4 +1,6 @@
-import Snippet from '../models/Snippet';
+import Snippet, { sourceType } from '../models/Snippet';
+import uuidv4 from 'uuid/v4';
+import { sortById } from '../utils/utils';
 
 const namespace = name => `SNIPPETS_${name}`;
 
@@ -47,11 +49,11 @@ export const setCurrentSnippet = (id) => ({
 export const initSnippets = () => {
   return (dispatch, getState, ipcRenderer) => {
     ipcRenderer.send('DB_LOAD');
+    ipcRenderer.once('DB_LOAD_REPLY', (_, data) => {
+      dispatch(loadSnippets(data));
+    });
   };
 };
-
-// TODO move to separate utils file
-const sortById = (a, b) => a.id < b.id ? 1 : -1;
 
 export const loadSnippets = (data) => {
   return (dispatch) => {
@@ -68,6 +70,8 @@ export const addSnippet = () => {
 
     const newSnippet = new Snippet({
       id: lastId + 1,
+      source: sourceType.LOCAL,
+      uuid: uuidv4(),
       title: 'New',
       language: 'text',
       content: '',

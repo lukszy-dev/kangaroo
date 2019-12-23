@@ -1,14 +1,21 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, InputGroup } from '@blueprintjs/core';
+import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
 import './SnippetListHeader.scss';
 
 const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken }) => {
+  const auth = useSelector(state => state.auth);
+
   const [isModalOpen, setModalOpen] = useState(false);
-  const [userToken, setUserToken] = useState('');
+  const [userToken, setUserToken] = useState(auth.token);
+
+  useEffect(() => {
+    setUserToken(auth.token);
+  }, [auth.token]);
 
   const handleSearchOnChange = (event) => {
     const value = event.target.value;
@@ -43,33 +50,8 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
     }
   };
 
-  return (
-    <div className="SnippetListHeader">
-      <div className="SnippetListHeader--container">
-        {/* <Button
-          small="true"
-          icon="search"
-          minimal="true"
-          style={{ marginRight: "5px" }}
-          onClick={handleOpenSearch}
-        /> */}
-
-        <Button
-          small="true"
-          icon="person"
-          minimal="true"
-          style={{ marginRight: "5px" }}
-          onClick={handleAccountModalOpen}
-        />
-
-        <Button
-          small="true"
-          icon="add-to-artifact"
-          minimal="true"
-          onClick={onAddSnippet}
-        />
-      </div>
-
+  const renderAccountModal = () => {
+    return (
       <ModalOverlay
         title="Account"
         isOpen={isModalOpen}
@@ -77,7 +59,7 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
         footer={
           <Fragment>
             <Button onClick={handleAccountModalOpen}>Close</Button>
-            <Button onClick={handleUserToken}>Set</Button>
+            <Button onClick={handleUserToken} loading={auth.loading}>Set</Button>
           </Fragment>
         }
       >
@@ -88,6 +70,26 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
           onChange={handleOnUserTokenChange}
         />
       </ModalOverlay>
+    );
+  };
+
+  return (
+    <div className="SnippetListHeader">
+      <div className="SnippetListHeader--container">
+        <ButtonGroup minimal={true}>
+          <Button
+            icon="person"
+            onClick={handleAccountModalOpen}
+          />
+
+          <Button
+            icon="add-to-artifact"
+            onClick={onAddSnippet}
+          />
+        </ButtonGroup>
+      </div>
+
+      {renderAccountModal()}
 
       <div className="SnippetListHeader--search-container">
         <InputGroup

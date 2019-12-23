@@ -98,17 +98,23 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('USER_TOKEN', (event, token) => {
-  store.set(USER_TOKEN, token);
+ipcMain.on('LOAD_USER_TOKEN', (event) => {
+  const token = store.get(USER_TOKEN);
+  if (token) {
+    event.sender.send('LOAD_USER_TOKEN_REPLY', token);
+  }
+});
 
+ipcMain.on('USER_TOKEN', (event, token) => {
   octokit = new Octokit({ auth: token });
 
   octokit.gists
     .list()
     .then(response => {
-      console.log(response);
+      store.set(USER_TOKEN, token);
+      event.sender.send('USER_TOKEN_REPLY', response);
     })
     .catch(error => {
-      console.log(error);
+      event.sender.send('USER_TOKEN_REPLY', error);
     });
 });

@@ -1,4 +1,4 @@
-import { SHOW_GUTTER } from "../actions/editor";
+import { SHOW_GUTTER } from '../actions/editor';
 
 const initial = {
   gutter: true

@@ -1,21 +1,42 @@
-import { INIT_LOGIN, SET_USER } from "../actions/auth";
+import { LOADING, SET_USER_TOKEN, SET_GISTS, SET_ERROR } from '../actions/auth';
 
 const initial = {
-  user: {}
+  loading: false,
+  token: '',
+  gists: [],
+  error: null
 };
 
 export default (state = initial, action) => {
   switch (action.type) {
-    case INIT_LOGIN:
-      break;
-
-    case SET_USER:
+    case LOADING:
       return {
         ...state,
-        user: action.user
+        loading: action.loading
+      };
+    
+    case SET_USER_TOKEN:
+      return {
+        ...state,
+        token: action.token,
+        loading: false
+      };
+
+    case SET_GISTS:
+      return {
+        ...state,
+        gists: action.gists,
+        loading: false
+      };
+
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.error,
+        loading: false
       };
 
     default:
-      state;
+      return state;
   }
 };
