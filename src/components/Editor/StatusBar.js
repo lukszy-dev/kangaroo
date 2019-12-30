@@ -9,7 +9,7 @@ import './StatusBar.scss';
 
 const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
   const languageItems = Object.entries(languages).map(([key, value]) =>
-    ({label: value, value: key})
+    ({ label: value, value: key })
   );
 
   return (

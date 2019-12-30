@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import AccountModal from './AccountModal/AccountModal';
 
 import './SnippetListHeader.scss';
 
@@ -11,11 +11,6 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
   const auth = useSelector(state => state.auth);
 
   const [isModalOpen, setModalOpen] = useState(false);
-  const [userToken, setUserToken] = useState(auth.token);
-
-  useEffect(() => {
-    setUserToken(auth.token);
-  }, [auth.token]);
 
   const handleSearchOnChange = (event) => {
     const value = event.target.value;
@@ -30,12 +25,8 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
     setModalOpen(!isModalOpen);
   };
 
-  const handleOnUserTokenChange = (event) => {
-    setUserToken(event.target.value);
-  };
-
-  const handleUserToken = () => {
-    onUserToken(userToken);
+  const handleUserToken = (token) => {
+    onUserToken(token);
   };
 
   const renderClearSearchButton = () => {
@@ -48,29 +39,6 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
         />
       );
     }
-  };
-
-  const renderAccountModal = () => {
-    return (
-      <ModalOverlay
-        title="Account"
-        isOpen={isModalOpen}
-        onClose={handleAccountModalOpen}
-        footer={
-          <Fragment>
-            <Button onClick={handleAccountModalOpen}>Close</Button>
-            <Button onClick={handleUserToken} loading={auth.loading}>Set</Button>
-          </Fragment>
-        }
-      >
-        <p>GitHub personal access token:</p>
-        <InputGroup
-          placeholder="Token"
-          value={userToken}
-          onChange={handleOnUserTokenChange}
-        />
-      </ModalOverlay>
-    );
   };
 
   return (
@@ -89,7 +57,12 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
         </ButtonGroup>
       </div>
 
-      {renderAccountModal()}
+      <AccountModal
+        authState={auth}
+        isOpen={isModalOpen}
+        onOpen={handleAccountModalOpen}
+        onUserToken={handleUserToken}
+      />
 
       <div className="SnippetListHeader--search-container">
         <InputGroup

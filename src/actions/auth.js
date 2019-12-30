@@ -1,4 +1,5 @@
 import { STATUS_CODES } from 'http';
+import Gist from '../models/Gist';
 import httpCodeResolver from '../utils/httpCodeResolver';
 
 const namespace = name => `AUTH_${name}`;
@@ -46,8 +47,8 @@ export const setUserToken = (token) => {
       httpCodeResolver(
         code,
         () => {
-          console.log(response);
-          dispatch(setGistsAction(response.data));
+          const gists = response.data.map(gist => new Gist(gist));
+          dispatch(setGistsAction(gists));
         },
         () => dispatch(setErrorAction(STATUS_CODES[code]))
       );

@@ -2,7 +2,7 @@
 export default class Gist {
   /**
    * Create a gist.
-   * @param {object} args 
+   * @param {object} args
    */
   constructor(args) {
     const {
@@ -18,10 +18,7 @@ export default class Gist {
     this.url = url;
   }
 
-  title() {
-    if (this.files && this.files[0]) {
-      return this.files[0].filename;
-    }
-    return this.id;
+  get title() {
+    return Object.keys(this.files)[0];
   }
 }
