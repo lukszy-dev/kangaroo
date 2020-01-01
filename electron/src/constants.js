@@ -1,3 +1,4 @@
-const USER_TOKEN = 'user_token';
+const GH_AUTH_TOKEN = 'gh_auth_token';
+const BACKUP_GIST_ID = 'backup_gist_id';
 
-module.exports = { USER_TOKEN };
+module.exports = { GH_AUTH_TOKEN, BACKUP_GIST_ID };

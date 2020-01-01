@@ -1,6 +1,7 @@
 * GitHub gists integration:
   * Store personal access token √
   * Snippet source (local/cloud) √
-  * Fetch snippets
+  * Fetch snippets √
   * Synchronize
+  * Error handling
 * Replace snippet's integer id to uuid? ...Add uuid as separate attribute √

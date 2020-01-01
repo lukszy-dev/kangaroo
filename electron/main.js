@@ -8,7 +8,7 @@ const Octokit = require('@octokit/rest');
 const { getMainWindow, setMainWindow } = require('./window');
 const { registerListeners, removeListeners } = require('./src/db/db');
 const { generateMenu } = require('./src/menu');
-const { USER_TOKEN } = require('./src/constants');
+const { GH_AUTH_TOKEN, BACKUP_GIST_ID } = require('./src/constants');
 
 const store = new Store();
 
@@ -42,25 +42,15 @@ const createWindow = () => {
       REDUX_DEVTOOLS,
     } = require('electron-devtools-installer');
 
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => {
-        console.log(`Added Extension: ${name}`);
-      })
-      .catch(err => {
-        console.log('An error occurred: ', err);
-      });
-
-    installExtension(REDUX_DEVTOOLS)
-      .then(name => {
-        console.log(`Added Extension: ${name}`);
-      })
-      .catch(err => {
-        console.log('An error occurred: ', err);
-      });
+    [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS].forEach(extension => {
+      installExtension(extension)
+      .then(name => console.log(`Added Extension: ${name}`))
+      .catch(err => console.log('An error occurred: ', err));
+    });
 
     mainWindow.webContents.openDevTools();
   }
-	
+
   generateMenu(mainWindow);
   registerListeners(mainWindow);
 
@@ -98,23 +88,27 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('LOAD_USER_TOKEN', (event) => {
-  const token = store.get(USER_TOKEN);
+ipcMain.on('LOAD_GH_AUTH_TOKEN', (event) => {
+  const token = store.get(GH_AUTH_TOKEN);
   if (token) {
-    event.sender.send('LOAD_USER_TOKEN_REPLY', token);
+    event.sender.send('LOAD_GH_AUTH_TOKEN_REPLY', token);
   }
 });
 
-ipcMain.on('USER_TOKEN', (event, token) => {
+ipcMain.on('SET_GH_AUTH_TOKEN', (event, token) => {
   octokit = new Octokit({ auth: token });
 
   octokit.gists
     .list()
     .then(response => {
-      store.set(USER_TOKEN, token);
-      event.sender.send('USER_TOKEN_REPLY', response);
+      store.set(GH_AUTH_TOKEN, token);
+      event.sender.send('SET_GH_AUTH_TOKEN_REPLY', response);
     })
     .catch(error => {
-      event.sender.send('USER_TOKEN_REPLY', error);
+      event.sender.send('SET_GH_AUTH_TOKEN_REPLY', error);
     });
+});
+
+ipcMain.on('SET_BACKUP_GIST_ID', (event, id) => {
+  store.set(BACKUP_GIST_ID, id);
 });

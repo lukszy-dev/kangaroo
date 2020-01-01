@@ -7,7 +7,7 @@ import AccountModal from './AccountModal/AccountModal';
 
 import './SnippetListHeader.scss';
 
-const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken }) => {
+const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onSetAuthToken }) => {
   const auth = useSelector(state => state.auth);
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -25,8 +25,8 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
     setModalOpen(!isModalOpen);
   };
 
-  const handleUserToken = (token) => {
-    onUserToken(token);
+  const handleSetAuthToken = (token) => {
+    return onSetAuthToken(token);
   };
 
   const renderClearSearchButton = () => {
@@ -61,7 +61,7 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onUserToken })
         authState={auth}
         isOpen={isModalOpen}
         onOpen={handleAccountModalOpen}
-        onUserToken={handleUserToken}
+        onSetAuthToken={handleSetAuthToken}
       />
 
       <div className="SnippetListHeader--search-container">
@@ -82,7 +82,7 @@ SnippetListHeader.propTypes = {
   query: PropTypes.string.isRequired,
   onAddSnippet: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
-  onUserToken: PropTypes.func.isRequired
+  onSetAuthToken: PropTypes.func.isRequired
 };
 
 export default SnippetListHeader;

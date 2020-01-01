@@ -6,7 +6,7 @@ import Editor from './components/Editor/Editor';
 import SnippetList from './components/SnippetList/SnippetList';
 import appCommand, { APP_COMMAND } from './utils/appCommand';
 import { initSnippets } from './actions/snippets';
-import { loadUserToken } from './actions/auth';
+import { loadAuthToken } from './actions/auth';
 
 import './App.scss';
 
@@ -17,7 +17,7 @@ const App = () => {
   const { theme } = useSelector(state => state.ui);
 
   useEffect(() => {
-    dispatch(loadUserToken());
+    dispatch(loadAuthToken());
     dispatch(initSnippets());
 
     ipcRenderer.on(APP_COMMAND, (_, message) => appCommand(dispatch, message));

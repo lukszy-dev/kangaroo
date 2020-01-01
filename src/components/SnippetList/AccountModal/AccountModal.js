@@ -1,42 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@blueprintjs/core';
 
 import ModalOverlay from '../../ModalOverlay/ModalOverlay';
-import TokenPanel from './TokenPanel';
+import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
+import MethodPanel from './MethodPanel';
 
-const panels = [TokenPanel, GistSelectorPanel];
-
-const AccountModal = ({ authState, isOpen, onOpen, onUserToken }) => {
-  const [userToken, setUserToken] = useState(authState.token);
+const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSetBackupGist }) => {
+  const [gistId, setGistId] = useState(authState.backupGistId);
+  const [authToken, setAuthToken] = useState(authState.token);
   const [step, setStep] = useState(0);
 
-  const handleOnUserTokenChange = (event) => {
-    setUserToken(event.target.value);
+  useEffect(() => {
+    setAuthToken(authState.token);
+  }, [authState.token]);
+
+  const handleAuthToken = (authToken) => {
+    onSetAuthToken(authToken).then(() => {
+      nextStep();
+    });
   };
 
-  const handleUserToken = () => {
-    onUserToken(userToken);
+  const handleSelectGist = () => {
+    // setGistId()
+    console.log('test');
   };
 
-  const handleNextStep = () => {
+  const nextStep = () => {
     if (step < panels.length - 1) {
       setStep(step + 1);
     }
   };
 
   const renderPanel = () => {
-    return panels[step];
+    const panel = panels[step];
+    if (panel) {
+      return panel.component(panel.props);
+    }
+    return null;
   };
+
+  const handleClose = () => {
+    setStep(0);
+    onOpen();
+  };
+
+  const panels = [{
+    component: AuthTokenPanel,
+    props: {
+      authToken: authToken,
+      onAccept: handleAuthToken,
+      loading: authState.loading
+    }
+  },{
+    component: MethodPanel,
+    props: {}
+  }, {
+    component: GistSelectorPanel,
+    props: {
+      gists: authState.gists
+    }
+  }];
 
   return (
     <ModalOverlay
-      title="Account"
+      title="Connect to GitHub Gist"
       isOpen={isOpen}
-      onClose={onOpen}
-      okButton={<Button onClick={handleNextStep} loading={authState.loading}>Set</Button>}
-      cancelButton={<Button onClick={onOpen}>Close</Button>}
+      onClose={handleClose}
     >
       {renderPanel()}
     </ModalOverlay>
@@ -47,7 +77,8 @@ AccountModal.propTypes = {
   authState: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
-  onUserToken: PropTypes.func.isRequired
+  onSetAuthToken: PropTypes.func.isRequired,
+  onSetBackupGist: PropTypes.func
 };
 
 export default AccountModal;

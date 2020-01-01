@@ -13,7 +13,7 @@ import {
   setSearchSnippets
 } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
-import { setUserToken } from '../../actions/auth';
+import { setAuthToken } from '../../actions/auth';
 
 import './SnippetList.scss';
 
@@ -60,8 +60,8 @@ const SnippetList = () => {
     dispatch(setSearchSnippets(value));
   };
 
-  const handleUserToken = (token) => {
-    dispatch(setUserToken(token));
+  const handleSetAuthToken = (token) => {
+    return dispatch(setAuthToken(token));
   };
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const SnippetList = () => {
         query={query}
         onAddSnippet={handleAddSnippet}
         onSearchChange={handleSearchChange}
-        onUserToken={handleUserToken}
+        onSetAuthToken={handleSetAuthToken}
       />
 
       { list && (

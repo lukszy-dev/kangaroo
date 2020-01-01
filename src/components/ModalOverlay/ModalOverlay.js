@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dialog, Classes } from '@blueprintjs/core';
+import { Dialog } from '@blueprintjs/core';
 
 const ModalOverlay = ({
   isOpen,
   onClose,
   title,
-  children,
-  okButton,
-  cancelButton
+  children
 }) => {
   return (
     <Dialog
@@ -17,16 +15,7 @@ const ModalOverlay = ({
       isOpen={isOpen}
       onClose={onClose}
     >
-      <div className={Classes.DIALOG_BODY}>
-        {children}
-      </div>
-
-      <div className={Classes.DIALOG_FOOTER}>
-        <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          {cancelButton}
-          {okButton}
-        </div>
-      </div>
+      {children}
     </Dialog>
   );
 };
@@ -35,9 +24,7 @@ ModalOverlay.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
-  children: PropTypes.node,
-  okButton: PropTypes.node,
-  cancelButton: PropTypes.node
+  children: PropTypes.node
 };
 
 export default ModalOverlay;

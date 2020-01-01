@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 
@@ -13,9 +13,12 @@ import './index.scss';
 
 const { ipcRenderer } = window.require('electron');
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
-  applyMiddleware(ReduxThunk.withExtraArgument(ipcRenderer))
+  composeEnhancers(
+    applyMiddleware(ReduxThunk.withExtraArgument(ipcRenderer))
+  )
 );
 
 ReactDOM.render(

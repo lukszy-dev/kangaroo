@@ -5,8 +5,9 @@ import httpCodeResolver from '../utils/httpCodeResolver';
 const namespace = name => `AUTH_${name}`;
 
 export const LOADING = namespace('LOADING');
-export const SET_USER_TOKEN = namespace('SET_USER_TOKEN');
+export const SET_GH_AUTH_TOKEN = namespace('SET_GH_AUTH_TOKEN');
 export const SET_GISTS = namespace('SET_GISTS');
+export const SET_BACKUP_GIST_ID = namespace('SET_BACKUP_GIST_ID');
 export const SET_ERROR = namespace('SET_ERROR');
 
 const loadingAction = (loading) => ({
@@ -14,8 +15,8 @@ const loadingAction = (loading) => ({
   loading
 });
 
-const setUserTokenAction = (token) => ({
-  type: SET_USER_TOKEN,
+const setAuthTokenAction = (token) => ({
+  type: SET_GH_AUTH_TOKEN,
   token
 });
 
@@ -24,34 +25,52 @@ const setGistsAction = (gists) => ({
   gists
 });
 
+const setBackupGistIdAction = (id) => ({
+  type: SET_BACKUP_GIST_ID,
+  backupGistId: id
+});
+
 const setErrorAction = (error) => ({
   type: SET_ERROR,
   error
 });
 
-export const loadUserToken = () => {
+export const loadAuthToken = () => {
   return (dispatch, _, ipcRenderer) => {
-    ipcRenderer.send('LOAD_USER_TOKEN');
-    ipcRenderer.once('LOAD_USER_TOKEN_REPLY', (_, token) => {
-      dispatch(setUserTokenAction(token));
+    ipcRenderer.send('LOAD_GH_AUTH_TOKEN');
+    ipcRenderer.once('LOAD_GH_AUTH_TOKEN_REPLY', (_, token) => {
+      dispatch(setAuthTokenAction(token));
     });
   };
 };
 
-export const setUserToken = (token) => {
-  return (dispatch, _, ipcRenderer) => {
+export const setBackupGistId = (id) => {
+  return (dispatch) => {
     dispatch(loadingAction(true));
-    ipcRenderer.send('USER_TOKEN', token);
-    ipcRenderer.once('USER_TOKEN_REPLY', (_, response) => {
-      const code = response.status;
-      httpCodeResolver(
-        code,
-        () => {
-          const gists = response.data.map(gist => new Gist(gist));
-          dispatch(setGistsAction(gists));
-        },
-        () => dispatch(setErrorAction(STATUS_CODES[code]))
-      );
+    dispatch(setBackupGistIdAction(id));
+  };
+};
+
+export const setAuthToken = (token) => {
+  return (dispatch, _, ipcRenderer) => {
+    return new Promise((resolve, reject) => {
+      dispatch(loadingAction(true));
+      ipcRenderer.send('SET_GH_AUTH_TOKEN', token);
+      ipcRenderer.once('SET_GH_AUTH_TOKEN_REPLY', (_, response) => {
+        const code = response.status;
+        httpCodeResolver(
+          code,
+          () => {
+            const gists = response.data.map(gist => new Gist(gist));
+            dispatch(setGistsAction(gists));
+            resolve();
+          },
+          () => {
+            dispatch(setErrorAction(STATUS_CODES[code]));
+            reject();
+          }
+        );
+      });
     });
   };
 };

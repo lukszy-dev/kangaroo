@@ -1,9 +1,10 @@
-import { LOADING, SET_USER_TOKEN, SET_GISTS, SET_ERROR } from '../actions/auth';
+import { LOADING, SET_GH_AUTH_TOKEN, SET_GISTS, SET_BACKUP_GIST_ID, SET_ERROR } from '../actions/auth';
 
 const initial = {
   loading: false,
   token: '',
   gists: [],
+  backupGistId: '',
   error: null
 };
 
@@ -15,7 +16,7 @@ export default (state = initial, action) => {
         loading: action.loading
       };
     
-    case SET_USER_TOKEN:
+    case SET_GH_AUTH_TOKEN:
       return {
         ...state,
         token: action.token,
@@ -26,6 +27,13 @@ export default (state = initial, action) => {
       return {
         ...state,
         gists: action.gists,
+        loading: false
+      };
+
+    case SET_BACKUP_GIST_ID:
+      return {
+        ...state,
+        backupGistId: action.backupGistId,
         loading: false
       };
 

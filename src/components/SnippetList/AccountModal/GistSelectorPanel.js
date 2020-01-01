@@ -11,9 +11,11 @@ const GistSelectorPanel = ({ gists }) => {
 
   return (
     <Fragment>
+      <p>Select gist:</p>
       {gists.length > 1 && (
         <HTMLSelect
           options={gistItems}
+          fill={true}
         />
       )}
     </Fragment>
