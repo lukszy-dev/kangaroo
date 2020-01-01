@@ -15,6 +15,10 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSetBackupGi
     setAuthToken(authState.token);
   }, [authState.token]);
 
+  const handleAuthTokenChange = (event) => {
+    setAuthToken(event.target.value)
+  };
+
   const handleAuthToken = (authToken) => {
     onSetAuthToken(authToken).then(() => {
       nextStep();
@@ -49,12 +53,10 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSetBackupGi
     component: AuthTokenPanel,
     props: {
       authToken: authToken,
+      onAuthTokenChange: handleAuthTokenChange,
       onAccept: handleAuthToken,
       loading: authState.loading
     }
-  },{
-    component: MethodPanel,
-    props: {}
   }, {
     component: GistSelectorPanel,
     props: {

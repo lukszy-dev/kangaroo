@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Classes } from '@blueprintjs/core';
+import { Button, ButtonGroup, Classes } from '@blueprintjs/core';
 
 const MethodPanel = () => {
   return (
     <Fragment>
-      <div className={Classes.DIALOG_BODY} styles={{ display: 'flex' }}>
-        <Button onClick={() => alert('Create')}>Create</Button>
-        <Button onClick={() => alert('Import')}>Import</Button>
+      <div className={Classes.DIALOG_FOOTER} style={{ margin: '20px auto 0 auto' }}>
+        <ButtonGroup>
+          <Button large={true} onClick={() => alert('Create')}>Create</Button>
+          <Button large={true} onClick={() => alert('Import')}>Import</Button>
+        </ButtonGroup>
       </div>
     </Fragment>
   );

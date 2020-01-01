@@ -1,13 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button, InputGroup, Classes } from '@blueprintjs/core';
 
-const AuthTokenPanel = ({ authToken, onAccept, loading }) => {
-
-  const handleOnAuthTokenChange = (event) => {
-    // setToken(event.target.value);
-  };
-
+const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => {
   const handleSetAuthToken = () => {
     onAccept(authToken);
   };
@@ -17,14 +12,14 @@ const AuthTokenPanel = ({ authToken, onAccept, loading }) => {
       <div className={Classes.DIALOG_BODY}>
         <p>GitHub personal access token:</p>
         <InputGroup
-          placeholder="Token"
+          placeholder='Token'
           value={authToken}
-          onChange={handleOnAuthTokenChange}
+          onChange={onAuthTokenChange}
         />
       </div>
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button disabled={!authToken} onClick={handleSetAuthToken} loading={loading}>Set</Button>
+          <Button disabled={!authToken} onClick={handleSetAuthToken} loading={loading}>Connect</Button>
         </div>
       </div>
     </Fragment>
@@ -33,6 +28,7 @@ const AuthTokenPanel = ({ authToken, onAccept, loading }) => {
 
 AuthTokenPanel.propTypes = {
   authToken: PropTypes.string.isRequired,
+  onAuthTokenChange: PropTypes.func.isRequired,
   onAccept: PropTypes.func.isRequired,
   loading: PropTypes.func.isRequired
 };
