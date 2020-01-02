@@ -13,7 +13,7 @@ import {
   setSearchSnippets
 } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
-import { setAuthToken } from '../../actions/auth';
+import { setAuthToken, createBackupGist } from '../../actions/auth';
 
 import './SnippetList.scss';
 
@@ -62,6 +62,10 @@ const SnippetList = () => {
 
   const handleSetAuthToken = (token) => {
     return dispatch(setAuthToken(token));
+  };
+
+  const handleCreateBackupGist = () => {
+    return dispatch(createBackupGist());
   };
 
   useEffect(() => {
@@ -116,6 +120,7 @@ const SnippetList = () => {
         onAddSnippet={handleAddSnippet}
         onSearchChange={handleSearchChange}
         onSetAuthToken={handleSetAuthToken}
+        onCreateBackupGist={handleCreateBackupGist}
       />
 
       { list && (

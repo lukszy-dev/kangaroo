@@ -5,7 +5,7 @@ import ModalOverlay from '../../ModalOverlay/ModalOverlay';
 import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
 
-const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronizeGist, onCreateGist }) => {
+const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronizeGist, onCreateBackupGist }) => {
   const [authToken, setAuthToken] = useState(authState.token);
   const [gistId, setGistId] = useState('');
   const [gistName, setGistName] = useState('');
@@ -34,7 +34,7 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronize
   };
 
   const handleCreateGist = () => {
-
+    onCreateBackupGist();
   };
 
   const handleSynchronizeGist = () => {
@@ -98,7 +98,7 @@ AccountModal.propTypes = {
   onOpen: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func,
-  onCreateGist: PropTypes.func
+  onCreateBackupGist: PropTypes.func
 };
 
 export default AccountModal;

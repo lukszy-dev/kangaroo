@@ -44,6 +44,28 @@ export const loadAuthToken = () => {
   };
 };
 
+export const createBackupGist = () => {
+  return (dispatch, _, ipcRenderer) => {
+    return new Promise((resolve, reject) => {
+      ipcRenderer.send('CREATE_GH_GIST', { name: 'Test' });
+      ipcRenderer.once('CREATE_GH_GIST_REPLY', (_, response) => {
+        const code = response.status;
+        httpCodeResolver(
+          code,
+          () => {
+            console.log(response.data);
+            resolve();
+          },
+          () => {
+            dispatch(setErrorAction(STATUS_CODES[code]));
+            reject();
+          }
+        );
+      });
+    });
+  };
+};
+
 export const setBackupGistId = (id) => {
   return (dispatch) => {
     dispatch(loadingAction(true));

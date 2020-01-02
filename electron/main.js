@@ -112,3 +112,22 @@ ipcMain.on('SET_GH_AUTH_TOKEN', (event, token) => {
 ipcMain.on('SET_BACKUP_GIST_ID', (event, id) => {
   store.set(BACKUP_GIST_ID, id);
 });
+
+ipcMain.on('CREATE_GH_GIST', (event, gist) => {
+  octokit.gists
+    .create({
+      files: {
+        'TestSM': {
+          content: 'TestSM'
+        }
+      },
+      public: false
+    })
+    .then(response => {
+      event.sender.send('CREATE_GH_GIST_REPLY', response);
+    })
+    .catch(error => {
+      console.log(error);
+      event.sender.send('CREATE_GH_GIST_REPLY', error);
+    });
+});
