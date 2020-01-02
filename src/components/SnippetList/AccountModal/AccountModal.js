@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import ModalOverlay from '../../ModalOverlay/ModalOverlay';
 import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
-import MethodPanel from './MethodPanel';
 
-const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSetBackupGist }) => {
-  const [gistId, setGistId] = useState(authState.backupGistId);
+const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronizeGist, onCreateGist }) => {
   const [authToken, setAuthToken] = useState(authState.token);
+  const [gistId, setGistId] = useState('');
+  const [gistName, setGistName] = useState('');
   const [step, setStep] = useState(0);
 
   useEffect(() => {
@@ -16,16 +16,28 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSetBackupGi
   }, [authState.token]);
 
   const handleAuthTokenChange = (event) => {
-    setAuthToken(event.target.value)
+    setAuthToken(event.target.value);
   };
 
-  const handleAuthToken = (authToken) => {
+  const handleGistNameChange = (event) => {
+    setGistName(event.target.value);
+  };
+
+  const handleGistSelect = (event) => {
+    setGistId(event.currentTarget.value);
+  };
+
+  const handleAuthToken = () => {
     onSetAuthToken(authToken).then(() => {
       nextStep();
     });
   };
 
-  const handleSelectGist = () => {
+  const handleCreateGist = () => {
+
+  };
+
+  const handleSynchronizeGist = () => {
     // setGistId()
     console.log('test');
   };
@@ -60,7 +72,12 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSetBackupGi
   }, {
     component: GistSelectorPanel,
     props: {
-      gists: authState.gists
+      remoteGists: authState.gists,
+      gistName: gistName,
+      onGistSelect: handleGistSelect,
+      onGistNameChange: handleGistNameChange,
+      onSynchronizeGist: handleSynchronizeGist,
+      onCreateGist: handleCreateGist
     }
   }];
 
@@ -80,7 +97,8 @@ AccountModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
-  onSetBackupGist: PropTypes.func
+  onSynchronizeGist: PropTypes.func,
+  onCreateGist: PropTypes.func
 };
 
 export default AccountModal;

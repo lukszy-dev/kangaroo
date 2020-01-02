@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, InputGroup, Classes } from '@blueprintjs/core';
 
 const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => {
-  const handleSetAuthToken = () => {
-    onAccept(authToken);
-  };
-
   return (
     <Fragment>
       <div className={Classes.DIALOG_BODY}>
@@ -19,7 +15,7 @@ const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => 
       </div>
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button disabled={!authToken} onClick={handleSetAuthToken} loading={loading}>Connect</Button>
+          <Button disabled={!authToken} onClick={onAccept} loading={loading}>Connect</Button>
         </div>
       </div>
     </Fragment>

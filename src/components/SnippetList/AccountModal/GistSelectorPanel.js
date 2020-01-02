@@ -1,39 +1,76 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { InputGroup, Button, HTMLSelect, Divider, Classes } from '@blueprintjs/core';
+import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes } from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
 
-const GistSelectorPanel = ({ gists }) => {
-  const gistItems = gists.map(gist => {
+const GistSelectorPanel = ({
+  remoteGists,
+  gistName,
+  onGistSelect,
+  onGistNameChange,
+  onSynchronizeGist,
+  onCreateGist
+}) => {
+  const gistItems = remoteGists.map(gist => {
     return ({ label: gist.title, value: gist.id })
   });
 
-  return (
-    <Fragment>
-      <div className={Classes.DIALOG_BODY}>
-        <InputGroup
-          placeholder='Name'
-        />
-        <Button>Create</Button>
-        <Divider style={{ margin: '10px 0' }} />
-        <p>Select gist:</p>
-        {gists.length > 1 && (
+  const renderGistSelector = () => {
+    if (remoteGists.length < 1) {
+      return;
+    }
+
+    return (
+      <Fragment>
+        <FormGroup>
+          <Divider />
+        </FormGroup>
+
+        <FormGroup label='Select existing Gist'>
           <HTMLSelect
             options={gistItems}
+            onSelect={onGistSelect}
             fill={true}
           />
-        )}
-      </div>
-      <div className={Classes.DIALOG_FOOTER}>
-        <Button>Import</Button>
+        </FormGroup>
+
+        <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+          <Button onClick={onSynchronizeGist}>Import</Button>
+        </div>
+      </Fragment>
+    );
+  };
+
+  return (
+    <Fragment>
+      <div className={Classes.DIALOG_BODY} style={{ marginBottom: 0 }}>
+        <FormGroup label='New Gist name'>
+          <InputGroup
+            placeholder='Gist name'
+            onChange={onGistNameChange}
+            value={gistName}
+          />
+        </FormGroup>
+        <FormGroup>
+          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+            <Button onClick={onCreateGist}>Create</Button>
+          </div>
+        </FormGroup>
+
+        {renderGistSelector()}
       </div>
     </Fragment>
   );
 };
 
 GistSelectorPanel.propTypes = {
-  gists: PropTypes.arrayOf(Gist)
+  remoteGists: PropTypes.arrayOf(Gist),
+  gistName: PropTypes.string,
+  onGistSelect: PropTypes.func.isRequired,
+  onGistNameChange: PropTypes.func.isRequired,
+  onSynchronizeGist: PropTypes.func.isRequired,
+  onCreateGist: PropTypes.func.isRequired
 };
 
 export default GistSelectorPanel;
