@@ -34,11 +34,13 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronize
   };
 
   const handleCreateGist = () => {
-    onCreateBackupGist();
+    onCreateBackupGist(gistName).then(() => {
+      handleClose(); // TODO
+    });
   };
 
   const handleSynchronizeGist = () => {
-    // setGistId()
+    onSynchronizeGist(gistId);
     console.log('test');
   };
 

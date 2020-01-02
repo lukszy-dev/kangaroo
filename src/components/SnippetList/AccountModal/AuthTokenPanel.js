@@ -1,19 +1,27 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Button, InputGroup, Classes } from '@blueprintjs/core';
+import classNames from 'classnames';
+import { Button, InputGroup, FormGroup, Classes } from '@blueprintjs/core';
+
+import './Panel.scss';
 
 const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => {
+  const dialogBodyClass = classNames({
+    [Classes.DIALOG_BODY]: true,
+    'Panel--dialog-body': true
+  }); 
+
   return (
     <Fragment>
-      <div className={Classes.DIALOG_BODY}>
-        <p>GitHub personal access token:</p>
-        <InputGroup
-          placeholder='Token'
-          value={authToken}
-          onChange={onAuthTokenChange}
-        />
-      </div>
-      <div className={Classes.DIALOG_FOOTER}>
+      <div className={dialogBodyClass}>
+        <FormGroup label='GitHub personal access token'>
+          <InputGroup
+            placeholder='Token'
+            value={authToken}
+            onChange={onAuthTokenChange}
+          />
+        </FormGroup>
+
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
           <Button disabled={!authToken} onClick={onAccept} loading={loading}>Connect</Button>
         </div>

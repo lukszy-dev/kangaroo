@@ -1,8 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes } from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
+
+import './Panel.scss';
 
 const GistSelectorPanel = ({
   remoteGists,
@@ -42,9 +45,14 @@ const GistSelectorPanel = ({
     );
   };
 
+  const dialogBodyClass = classNames({
+    [Classes.DIALOG_BODY]: true,
+    'Panel--dialog-body': true
+  }); 
+
   return (
     <Fragment>
-      <div className={Classes.DIALOG_BODY} style={{ marginBottom: 0 }}>
+      <div className={dialogBodyClass}>
         <FormGroup label='New Gist name'>
           <InputGroup
             placeholder='Gist name'
