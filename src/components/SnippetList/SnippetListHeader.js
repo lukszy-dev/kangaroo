@@ -7,7 +7,14 @@ import AccountModal from './AccountModal/AccountModal';
 
 import './SnippetListHeader.scss';
 
-const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onSetAuthToken, onCreateBackupGist }) => {
+const SnippetListHeader = ({
+  query,
+  onAddSnippet,
+  onSearchChange,
+  onSetAuthToken,
+  onCreateBackupGist,
+  onSynchronizeGist
+}) => {
   const auth = useSelector(state => state.auth);
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -31,6 +38,10 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onSetAuthToken
 
   const handleCreateBackupGist = () => {
     return onCreateBackupGist();
+  };
+
+  const handleSynchronizeGist = (id) => {
+    return onSynchronizeGist(id);
   };
 
   const renderClearSearchButton = () => {
@@ -66,6 +77,7 @@ const SnippetListHeader = ({ query, onAddSnippet, onSearchChange, onSetAuthToken
         isOpen={isModalOpen}
         onOpen={handleAccountModalOpen}
         onSetAuthToken={handleSetAuthToken}
+        onSynchronizeGist={handleSynchronizeGist}
         onCreateBackupGist={handleCreateBackupGist}
       />
 
@@ -88,6 +100,7 @@ SnippetListHeader.propTypes = {
   onAddSnippet: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
+  onSynchronizeGist: PropTypes.func.isRequired,
   onCreateBackupGist: PropTypes.func.isRequired
 };
 

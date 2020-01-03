@@ -13,7 +13,7 @@ import {
   setSearchSnippets
 } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
-import { setAuthToken, createBackupGist } from '../../actions/auth';
+import { setAuthToken, createBackupGist, synchronizeGist } from '../../actions/auth';
 
 import './SnippetList.scss';
 
@@ -66,6 +66,10 @@ const SnippetList = () => {
 
   const handleCreateBackupGist = () => {
     return dispatch(createBackupGist());
+  };
+
+  const handleSynchronizeGist = (id) => {
+    return dispatch(synchronizeGist(id));
   };
 
   useEffect(() => {
@@ -121,6 +125,7 @@ const SnippetList = () => {
         onSearchChange={handleSearchChange}
         onSetAuthToken={handleSetAuthToken}
         onCreateBackupGist={handleCreateBackupGist}
+        onSynchronizeGist={handleSynchronizeGist}
       />
 
       { list && (

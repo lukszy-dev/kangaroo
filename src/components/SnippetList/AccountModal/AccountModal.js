@@ -5,7 +5,14 @@ import ModalOverlay from '../../ModalOverlay/ModalOverlay';
 import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
 
-const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronizeGist, onCreateBackupGist }) => {
+const AccountModal = ({
+  authState,
+  isOpen,
+  onOpen,
+  onSetAuthToken,
+  onSynchronizeGist,
+  onCreateBackupGist
+}) => {
   const [authToken, setAuthToken] = useState(authState.token);
   const [gistId, setGistId] = useState('');
   const [gistName, setGistName] = useState('');
@@ -13,7 +20,10 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronize
 
   useEffect(() => {
     setAuthToken(authState.token);
-  }, [authState.token]);
+    if (authState.gists && authState.gists.length > 0) {
+      setGistId(authState.gists[0].id);
+    }
+  }, [authState.token, authState.gists]);
 
   const handleAuthTokenChange = (event) => {
     setAuthToken(event.target.value);
@@ -35,13 +45,14 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronize
 
   const handleCreateGist = () => {
     onCreateBackupGist(gistName).then(() => {
-      handleClose(); // TODO
+      handleClose();
     });
   };
 
   const handleSynchronizeGist = () => {
-    onSynchronizeGist(gistId);
-    console.log('test');
+    onSynchronizeGist(gistId).then(() => {
+      handleClose();
+    });
   };
 
   const nextStep = () => {
@@ -76,6 +87,7 @@ const AccountModal = ({ authState, isOpen, onOpen, onSetAuthToken, onSynchronize
     props: {
       remoteGists: authState.gists,
       gistName: gistName,
+      gistId: gistId,
       onGistSelect: handleGistSelect,
       onGistNameChange: handleGistNameChange,
       onSynchronizeGist: handleSynchronizeGist,
@@ -99,8 +111,8 @@ AccountModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
-  onSynchronizeGist: PropTypes.func,
-  onCreateBackupGist: PropTypes.func
+  onSynchronizeGist: PropTypes.func.isRequired,
+  onCreateBackupGist: PropTypes.func.isRequired
 };
 
 export default AccountModal;

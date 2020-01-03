@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes } from '@blueprintjs/core';
+import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes, H5 } from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
 
@@ -10,6 +10,7 @@ import './Panel.scss';
 const GistSelectorPanel = ({
   remoteGists,
   gistName,
+  gistId,
   onGistSelect,
   onGistNameChange,
   onSynchronizeGist,
@@ -30,16 +31,19 @@ const GistSelectorPanel = ({
           <Divider />
         </FormGroup>
 
-        <FormGroup label='Select existing Gist'>
+        <H5>Synchronize with existing </H5>
+
+        <FormGroup>
           <HTMLSelect
+            value={gistId}
             options={gistItems}
-            onSelect={onGistSelect}
+            onChange={onGistSelect}
             fill={true}
           />
         </FormGroup>
 
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button onClick={onSynchronizeGist}>Import</Button>
+          <Button disabled={!gistId} onClick={onSynchronizeGist}>Import</Button>
         </div>
       </Fragment>
     );
@@ -53,16 +57,25 @@ const GistSelectorPanel = ({
   return (
     <Fragment>
       <div className={dialogBodyClass}>
-        <FormGroup label='New Gist name'>
+        <H5>Create new gist</H5>
+
+        <FormGroup label='Name'>
           <InputGroup
-            placeholder='Gist name'
+            placeholder='Name'
             onChange={onGistNameChange}
             value={gistName}
           />
         </FormGroup>
+
+        <FormGroup label='Description'>
+          <InputGroup
+            placeholder='Description'
+          />
+        </FormGroup>
+
         <FormGroup>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-            <Button onClick={onCreateGist}>Create</Button>
+            <Button disabled={!gistName} onClick={onCreateGist}>Create</Button>
           </div>
         </FormGroup>
 
@@ -75,6 +88,7 @@ const GistSelectorPanel = ({
 GistSelectorPanel.propTypes = {
   remoteGists: PropTypes.arrayOf(Gist),
   gistName: PropTypes.string,
+  gistId: PropTypes.string,
   onGistSelect: PropTypes.func.isRequired,
   onGistNameChange: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,

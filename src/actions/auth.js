@@ -47,6 +47,7 @@ export const loadAuthToken = () => {
 export const createBackupGist = () => {
   return (dispatch, _, ipcRenderer) => {
     return new Promise((resolve, reject) => {
+      dispatch(loadingAction(true));
       ipcRenderer.send('CREATE_GH_GIST', { name: 'Test' });
       ipcRenderer.once('CREATE_GH_GIST_REPLY', (_, response) => {
         const code = response.status;
@@ -66,10 +67,27 @@ export const createBackupGist = () => {
   };
 };
 
-export const setBackupGistId = (id) => {
-  return (dispatch) => {
-    dispatch(loadingAction(true));
-    dispatch(setBackupGistIdAction(id));
+export const synchronizeGist = (id) => {
+  return (dispatch, _, ipcRenderer) => {
+    return new Promise((resolve, reject) => {
+      dispatch(loadingAction(true));
+      ipcRenderer.send('SYNCHRONIZE_GH_GIST', id);
+      ipcRenderer.once('SYNCHRONIZE_GH_GIST_REPLY', (_, response) => {
+        const code = response.status;
+        httpCodeResolver(
+          code,
+          () => {
+            console.log(response);
+            resolve();
+          },
+          () => {
+            dispatch(setErrorAction(STATUS_CODES[code]));
+            reject();
+          }
+        );
+      });
+      dispatch(setBackupGistIdAction(id));
+    });
   };
 };
 

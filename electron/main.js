@@ -6,9 +6,10 @@ const isDev = require('electron-is-dev');
 const Octokit = require('@octokit/rest');
 
 const { getMainWindow, setMainWindow } = require('./window');
-const { registerListeners, removeListeners } = require('./src/db/db');
 const { generateMenu } = require('./src/menu');
 const { GH_AUTH_TOKEN, BACKUP_GIST_ID } = require('./src/constants');
+const { dbActions, registerListeners, removeListeners } = require('./src/db/db');
+const { DB_SNIPPETS } = require('./src/db/constants');
 
 const store = new Store();
 
@@ -104,30 +105,51 @@ ipcMain.on('SET_GH_AUTH_TOKEN', (event, token) => {
       store.set(GH_AUTH_TOKEN, token);
       event.sender.send('SET_GH_AUTH_TOKEN_REPLY', response);
     })
-    .catch(error => {
-      event.sender.send('SET_GH_AUTH_TOKEN_REPLY', error);
-    });
+    .catch(error => event.sender.send('SET_GH_AUTH_TOKEN_REPLY', error));
 });
 
-ipcMain.on('SET_BACKUP_GIST_ID', (event, id) => {
-  store.set(BACKUP_GIST_ID, id);
+ipcMain.on('SYNCHRONIZE_GH_GIST', (event, id) => {
+  dbActions.findAll(DB_SNIPPETS, items => {
+    const request = {
+      gist_id: id,
+      description: '',
+      public: false,
+      files: {}
+    };
+
+    items.forEach(item => {
+      request.files[item.title] = {
+        content: item.content
+      };
+    });
+
+    octokit.gists.update(request)
+      .then(response => {
+        store.set(BACKUP_GIST_ID, id);
+        dbActions.updateAll(DB_SNIPPETS, { source: 'gist' })
+        event.sender.send('SYNCHRONIZE_GH_GIST_REPLY', response);
+      })
+      .catch(error => {
+        event.sender.send('SYNCHRONIZE_GH_GIST_REPLY', error);
+      });
+  });
 });
 
 ipcMain.on('CREATE_GH_GIST', (event, gist) => {
-  octokit.gists
-    .create({
-      files: {
-        'TestSM': {
-          content: 'TestSM'
-        }
-      },
-      public: false
-    })
+  const request = {
+    files: {
+      'TestSM': {
+        content: 'TestSM'
+      }
+    },
+    public: false
+  };
+
+  octokit.gists.create(request)
     .then(response => {
+      const gistId = response.data[0].id;
+      store.set(BACKUP_GIST_ID, gistId);
       event.sender.send('CREATE_GH_GIST_REPLY', response);
     })
-    .catch(error => {
-      console.log(error);
-      event.sender.send('CREATE_GH_GIST_REPLY', error);
-    });
+    .catch(error => event.sender.send('CREATE_GH_GIST_REPLY', error));
 });

@@ -1,60 +1,78 @@
 const { app, ipcMain } = require('electron');
 const Datastore = require('nedb');
 
-const { ADD, UPDATE, LOAD, DELETE } = require('./snippetsActions');
-// const { SWITCH_THEME } = require('./uiActions');
+const { DB_SNIPPETS, ADD, UPDATE, LOAD, DELETE } = require('./constants');
 
 const dbFactory = (fileName) => {
 	return new Datastore({
-		filename: `${process.env.NODE_ENV === 'dev' ? '.' : app.getPath('userData')}/data/${fileName}`,
+		filename: `${process.env.NODE_ENV === 'dev' ?
+			'.' :
+			app.getPath('userData')}/data/${fileName}`,
 		autoload: true
 	});
 };
 
 const db = {
-	snippets: dbFactory('snippets.db')
+	[DB_SNIPPETS]: dbFactory([DB_SNIPPETS] + '.db')
+};
+
+const add = (schema, obj) => {
+	db[schema].insert(obj, err => {
+		if (err) throw new Error(err);
+	});
+};
+
+const update = (schema, obj) => {
+	db[schema].update({ id: obj.id }, { ...obj }, {}, err => {
+		if (err) throw new Error(err);
+	});
+};
+
+const updateAll = (schema, changes) => {
+	db[schema].update({}, { $set: changes}, {}, err => {
+		if (err) throw new Error(err);
+	});
+};
+
+const remove = (schema, id) => {
+	db[schema].remove({ id }, err => {
+		if (err) throw new Error(err);
+	});
+};
+
+const findAll = (schema, callback) => {
+	db[schema].find({}, (err, items) => {
+		callback(items);
+	});
 };
 
 const registerListeners = () => {
 	db.snippets.ensureIndex({ fieldName: 'id', unique: true });
 
 	ipcMain.on(ADD, (event, obj) =>
-		db.snippets.insert(obj, err => {
-			if (err) throw new Error(err);
-		})
+		add(DB_SNIPPETS, obj)
 	);
 
 	ipcMain.on(UPDATE, (event, obj) => 
-		db.snippets.update({ id: obj.id }, { ...obj }, {}, err => {
-			if (err) throw new Error(err);
-		})
+		update(DB_SNIPPETS, obj)
 	);
 
 	ipcMain.on(DELETE, (event, id) =>
-		db.snippets.remove({ id }, err => {
-			if (err) throw new Error(err);
-		})
+		remove(DB_SNIPPETS, id)
 	);
 
 	ipcMain.on(LOAD, (event) =>
-		db.snippets.find({}, (err, items) =>
+		findAll(DB_SNIPPETS, (items) =>
 			event.sender.send('DB_LOAD_REPLY', items))
 	);
-
-	// ipcMain.on(SWITCH_THEME, () =>
-	// 	db.ui.update({}, () => {
-	// 		window.setBackgroundColor('#FF0000');
-	// 		window.reload();
-
-	// 		db.ui.update({ id: 1 }, { ...obj }, {}, err => {
-	// 			if (err) throw new Error(err);
-	// 		})
-	// 	})
-	// );
 };
 
 const removeListeners = () => {
 	ipcMain.removeAllListeners();
 };
 
-module.exports = { db, registerListeners, removeListeners };
+module.exports = {
+	dbActions: { add, update, remove, findAll, updateAll },
+	registerListeners,
+	removeListeners
+};
