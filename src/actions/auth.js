@@ -5,7 +5,7 @@ import httpCodeResolver from '../utils/httpCodeResolver';
 const namespace = name => `AUTH_${name}`;
 
 export const LOADING = namespace('LOADING');
-export const SET_GH_AUTH_TOKEN = namespace('SET_GH_AUTH_TOKEN');
+export const SET_GH_AUTH_DATA = namespace('SET_GH_AUTH_DATA');
 export const SET_GISTS = namespace('SET_GISTS');
 export const SET_BACKUP_GIST_ID = namespace('SET_BACKUP_GIST_ID');
 export const SET_ERROR = namespace('SET_ERROR');
@@ -15,9 +15,10 @@ const loadingAction = (loading) => ({
   loading
 });
 
-const setAuthTokenAction = (token) => ({
-  type: SET_GH_AUTH_TOKEN,
-  token
+const setAuthDataAction = (data) => ({
+  type: SET_GH_AUTH_DATA,
+  token: data.token,
+  backupGistId: data.backupGistId
 });
 
 const setGistsAction = (gists) => ({
@@ -35,11 +36,11 @@ const setErrorAction = (error) => ({
   error
 });
 
-export const loadAuthToken = () => {
+export const loadAuthData = () => {
   return (dispatch, _, ipcRenderer) => {
-    ipcRenderer.send('LOAD_GH_AUTH_TOKEN');
-    ipcRenderer.once('LOAD_GH_AUTH_TOKEN_REPLY', (_, token) => {
-      dispatch(setAuthTokenAction(token));
+    ipcRenderer.send('LOAD_GH_AUTH_DATA');
+    ipcRenderer.once('LOAD_GH_AUTH_DATA_REPLY', (_, data) => {
+      dispatch(setAuthDataAction(data));
     });
   };
 };

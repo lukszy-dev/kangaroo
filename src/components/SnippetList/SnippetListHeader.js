@@ -56,14 +56,24 @@ const SnippetListHeader = ({
     }
   };
 
+  const renderAccountButton = () => {
+    const { backupGistId } = auth;
+
+    const accountButtonProps = {
+      icon: backupGistId ? 'user' : 'person',
+      onClick: handleAccountModalOpen
+    };
+
+    return (
+      <Button { ...accountButtonProps } />
+    );
+  };
+
   return (
     <div className="SnippetListHeader">
       <div className="SnippetListHeader--container">
         <ButtonGroup minimal={true}>
-          <Button
-            icon="person"
-            onClick={handleAccountModalOpen}
-          />
+          {renderAccountButton()}
 
           <Button
             icon="add-to-artifact"

@@ -89,10 +89,14 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('LOAD_GH_AUTH_TOKEN', (event) => {
+ipcMain.on('LOAD_GH_AUTH_DATA', (event) => {
   const token = store.get(GH_AUTH_TOKEN);
+  const backupGistId = store.get(BACKUP_GIST_ID);
   if (token) {
-    event.sender.send('LOAD_GH_AUTH_TOKEN_REPLY', token);
+    event.sender.send('LOAD_GH_AUTH_DATA_REPLY', {
+      token,
+      backupGistId
+    });
   }
 });
 

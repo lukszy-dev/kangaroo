@@ -47,20 +47,14 @@ export const setCurrentSnippet = (id) => ({
 });
 
 export const initSnippets = () => {
-  return (dispatch, getState, ipcRenderer) => {
+  return (dispatch, _, ipcRenderer) => {
     ipcRenderer.send('DB_LOAD');
     ipcRenderer.once('DB_LOAD_REPLY', (_, data) => {
-      dispatch(loadSnippets(data));
+      const snippets = data.sort(sortById).map(entry => new Snippet(entry));
+      const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
+
+      dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
     });
-  };
-};
-
-export const loadSnippets = (data) => {
-  return (dispatch) => {
-    const snippets = data.sort(sortById).map(entry => new Snippet(entry));
-    const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
-
-    dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
   };
 };
 
