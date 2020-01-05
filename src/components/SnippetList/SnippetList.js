@@ -64,8 +64,8 @@ const SnippetList = () => {
     return dispatch(setAuthToken(token));
   };
 
-  const handleCreateBackupGist = () => {
-    return dispatch(createBackupGist());
+  const handleCreateBackupGist = (name) => {
+    return dispatch(createBackupGist(name));
   };
 
   const handleSynchronizeGist = (id) => {

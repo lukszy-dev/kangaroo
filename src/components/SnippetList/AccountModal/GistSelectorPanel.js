@@ -9,12 +9,13 @@ import './Panel.scss';
 
 const GistSelectorPanel = ({
   remoteGists,
-  gistName,
+  gistDescription,
   gistId,
   onGistSelect,
-  onGistNameChange,
+  onGistDescriptionChange,
   onSynchronizeGist,
-  onCreateGist
+  onCreateGist,
+  loading
 }) => {
   const gistItems = remoteGists.map(gist => {
     return ({ label: gist.title, value: gist.id })
@@ -43,7 +44,7 @@ const GistSelectorPanel = ({
         </FormGroup>
 
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button disabled={!gistId} onClick={onSynchronizeGist}>Import</Button>
+          <Button disabled={!gistId} onClick={onSynchronizeGist} loading={loading}>Import</Button>
         </div>
       </Fragment>
     );
@@ -59,23 +60,17 @@ const GistSelectorPanel = ({
       <div className={dialogBodyClass}>
         <H5>Create new gist</H5>
 
-        <FormGroup label='Name'>
-          <InputGroup
-            placeholder='Name'
-            onChange={onGistNameChange}
-            value={gistName}
-          />
-        </FormGroup>
-
         <FormGroup label='Description'>
           <InputGroup
             placeholder='Description'
+            onChange={onGistDescriptionChange}
+            value={gistDescription}
           />
         </FormGroup>
 
         <FormGroup>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-            <Button disabled={!gistName} onClick={onCreateGist}>Create</Button>
+            <Button disabled={!gistDescription} onClick={onCreateGist} loading={loading}>Create</Button>
           </div>
         </FormGroup>
 
@@ -87,12 +82,13 @@ const GistSelectorPanel = ({
 
 GistSelectorPanel.propTypes = {
   remoteGists: PropTypes.arrayOf(Gist),
-  gistName: PropTypes.string,
+  gistDescription: PropTypes.string,
   gistId: PropTypes.string,
   onGistSelect: PropTypes.func.isRequired,
-  onGistNameChange: PropTypes.func.isRequired,
+  onGistDescriptionChange: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
-  onCreateGist: PropTypes.func.isRequired
+  onCreateGist: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default GistSelectorPanel;

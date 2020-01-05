@@ -122,38 +122,54 @@ ipcMain.on('SYNCHRONIZE_GH_GIST', (event, id) => {
     };
 
     items.forEach(item => {
-      request.files[item.title] = {
-        content: item.content
-      };
+      if (item.content) {
+        const filename = item.title + '.' + item.extension;
+        request.files[filename] = {
+          content: item.content
+        };
+      }
     });
 
     octokit.gists.update(request)
       .then(response => {
         store.set(BACKUP_GIST_ID, id);
-        dbActions.updateAll(DB_SNIPPETS, { source: 'gist' })
+        // TODO
+        // dbActions.updateAll(DB_SNIPPETS, { source: 'gist' })
         event.sender.send('SYNCHRONIZE_GH_GIST_REPLY', response);
       })
       .catch(error => {
+        console.error(error);
         event.sender.send('SYNCHRONIZE_GH_GIST_REPLY', error);
       });
   });
 });
 
 ipcMain.on('CREATE_GH_GIST', (event, gist) => {
-  const request = {
-    files: {
-      'TestSM': {
-        content: 'TestSM'
-      }
-    },
-    public: false
-  };
+  dbActions.findAll(DB_SNIPPETS, items => {
+    const request = {
+      description: gist.description,
+      public: false,
+      files: {}
+    };
 
-  octokit.gists.create(request)
+    items.forEach(item => {
+      if (item.content) {
+        const filename = item.title + '.' + item.extension;
+        request.files[filename] = {
+          content: item.content
+        };
+      }
+    });
+
+    octokit.gists.create(request)
     .then(response => {
-      const gistId = response.data[0].id;
+      const gistId = response.data.id;
       store.set(BACKUP_GIST_ID, gistId);
       event.sender.send('CREATE_GH_GIST_REPLY', response);
     })
-    .catch(error => event.sender.send('CREATE_GH_GIST_REPLY', error));
+    .catch(error => {
+      console.error(error);
+      event.sender.send('CREATE_GH_GIST_REPLY', error);
+    }); 
+  });
 });

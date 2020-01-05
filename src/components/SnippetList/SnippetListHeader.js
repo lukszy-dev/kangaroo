@@ -15,7 +15,7 @@ const SnippetListHeader = ({
   onCreateBackupGist,
   onSynchronizeGist
 }) => {
-  const auth = useSelector(state => state.auth);
+  const { token, gists, backupGistId, loading } = useSelector(state => state.auth);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -36,8 +36,8 @@ const SnippetListHeader = ({
     return onSetAuthToken(token);
   };
 
-  const handleCreateBackupGist = () => {
-    return onCreateBackupGist();
+  const handleCreateBackupGist = (description) => {
+    return onCreateBackupGist(description);
   };
 
   const handleSynchronizeGist = (id) => {
@@ -57,10 +57,8 @@ const SnippetListHeader = ({
   };
 
   const renderAccountButton = () => {
-    const { backupGistId } = auth;
-
     const accountButtonProps = {
-      icon: backupGistId ? 'user' : 'person',
+      icon: backupGistId ? 'user' : 'person', // TODO
       onClick: handleAccountModalOpen
     };
 
@@ -83,7 +81,9 @@ const SnippetListHeader = ({
       </div>
 
       <AccountModal
-        authState={auth}
+        token={token}
+        gists={gists}
+        loading={loading}
         isOpen={isModalOpen}
         onOpen={handleAccountModalOpen}
         onSetAuthToken={handleSetAuthToken}

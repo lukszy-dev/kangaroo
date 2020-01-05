@@ -1,3 +1,5 @@
+import { languages } from './languages';
+
 export const sourceType = {
   LOCAL: 'local',
   GIST: 'gist'
@@ -27,6 +29,7 @@ export default class Snippet {
     this.title = title;
     this.description = description;
     this.language = language;
+    this.extension = languages[language] ? languages[language].extension : '';
     this.content = content;
     this.lastUpdated = lastUpdated;
   }

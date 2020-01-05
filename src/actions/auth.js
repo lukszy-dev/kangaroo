@@ -45,21 +45,21 @@ export const loadAuthData = () => {
   };
 };
 
-export const createBackupGist = () => {
+export const createBackupGist = (description) => {
   return (dispatch, _, ipcRenderer) => {
     return new Promise((resolve, reject) => {
       dispatch(loadingAction(true));
-      ipcRenderer.send('CREATE_GH_GIST', { name: 'Test' });
+      ipcRenderer.send('CREATE_GH_GIST', { description });
       ipcRenderer.once('CREATE_GH_GIST_REPLY', (_, response) => {
-        const code = response.status;
         httpCodeResolver(
-          code,
+          response.status,
           () => {
             console.log(response.data);
             resolve();
           },
           () => {
-            dispatch(setErrorAction(STATUS_CODES[code]));
+            dispatch(setErrorAction(STATUS_CODES[response.status]));
+            console.error(response);
             reject();
           }
         );
@@ -74,15 +74,15 @@ export const synchronizeGist = (id) => {
       dispatch(loadingAction(true));
       ipcRenderer.send('SYNCHRONIZE_GH_GIST', id);
       ipcRenderer.once('SYNCHRONIZE_GH_GIST_REPLY', (_, response) => {
-        const code = response.status;
         httpCodeResolver(
-          code,
+          response.status,
           () => {
             console.log(response);
             resolve();
           },
           () => {
-            dispatch(setErrorAction(STATUS_CODES[code]));
+            dispatch(setErrorAction(STATUS_CODES[response.status]));
+            console.error(response);
             reject();
           }
         );
@@ -98,16 +98,16 @@ export const setAuthToken = (token) => {
       dispatch(loadingAction(true));
       ipcRenderer.send('SET_GH_AUTH_TOKEN', token);
       ipcRenderer.once('SET_GH_AUTH_TOKEN_REPLY', (_, response) => {
-        const code = response.status;
         httpCodeResolver(
-          code,
+          response.status,
           () => {
             const gists = response.data.map(gist => new Gist(gist));
             dispatch(setGistsAction(gists));
             resolve();
           },
           () => {
-            dispatch(setErrorAction(STATUS_CODES[code]));
+            dispatch(setErrorAction(STATUS_CODES[response.status]));
+            console.error(response);
             reject();
           }
         );

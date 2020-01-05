@@ -6,31 +6,33 @@ import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
 
 const AccountModal = ({
-  authState,
+  token,
+  gists,
+  loading,
   isOpen,
   onOpen,
   onSetAuthToken,
   onSynchronizeGist,
   onCreateBackupGist
 }) => {
-  const [authToken, setAuthToken] = useState(authState.token);
+  const [authToken, setAuthToken] = useState(token);
   const [gistId, setGistId] = useState('');
-  const [gistName, setGistName] = useState('');
+  const [gistDescription, setGistDescription] = useState('');
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    setAuthToken(authState.token);
-    if (authState.gists && authState.gists.length > 0) {
-      setGistId(authState.gists[0].id);
+    setAuthToken(token);
+    if (gists && gists.length > 0) {
+      setGistId(gists[0].id);
     }
-  }, [authState.token, authState.gists]);
+  }, [token, gists]);
 
   const handleAuthTokenChange = (event) => {
     setAuthToken(event.target.value);
   };
 
-  const handleGistNameChange = (event) => {
-    setGistName(event.target.value);
+  const handleGistDescriptionChange = (event) => {
+    setGistDescription(event.target.value);
   };
 
   const handleGistSelect = (event) => {
@@ -44,13 +46,16 @@ const AccountModal = ({
   };
 
   const handleCreateGist = () => {
-    onCreateBackupGist(gistName).then(() => {
+    onCreateBackupGist(gistDescription).then(() => {
       handleClose();
     });
   };
 
   const handleSynchronizeGist = () => {
     onSynchronizeGist(gistId).then(() => {
+      handleClose();
+    })
+    .catch(() => {
       handleClose();
     });
   };
@@ -80,24 +85,25 @@ const AccountModal = ({
       authToken: authToken,
       onAuthTokenChange: handleAuthTokenChange,
       onAccept: handleAuthToken,
-      loading: authState.loading
+      loading: loading
     }
   }, {
     component: GistSelectorPanel,
     props: {
-      remoteGists: authState.gists,
-      gistName: gistName,
+      remoteGists: gists,
+      gistDescription: gistDescription,
       gistId: gistId,
       onGistSelect: handleGistSelect,
-      onGistNameChange: handleGistNameChange,
+      onGistDescriptionChange: handleGistDescriptionChange,
       onSynchronizeGist: handleSynchronizeGist,
-      onCreateGist: handleCreateGist
+      onCreateGist: handleCreateGist,
+      loading: loading
     }
   }];
 
   return (
     <ModalOverlay
-      title="Connect to GitHub Gist"
+      title='Connect to GitHub Gist'
       isOpen={isOpen}
       onClose={handleClose}
     >
@@ -107,7 +113,9 @@ const AccountModal = ({
 };
 
 AccountModal.propTypes = {
-  authState: PropTypes.object.isRequired,
+  token: PropTypes.string,
+  gists: PropTypes.array,
+  loading: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,

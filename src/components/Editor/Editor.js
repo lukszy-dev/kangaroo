@@ -7,7 +7,7 @@ import EditorHeader from './EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet } from '../../actions/snippets';
 import { showGutter } from '../../actions/editor';
-import { languages } from './languages';
+import { languages } from '../../models/languages';
 
 import './Editor.scss';
 
@@ -38,7 +38,7 @@ const Editor = () => {
   };
 
   const handleOnLanguageChange = (event) => {
-    dispatch(updateSnippet({ ...snippet, language: event.currentTarget.value }));
+    dispatch(updateSnippet({...snippet, language: event.currentTarget.value }));
   };
 
   const handleTitleChange = (value) => {

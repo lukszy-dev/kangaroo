@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Tooltip, Button, HTMLSelect, Position } from '@blueprintjs/core';
 
 import Snippet from '../../models/Snippet';
-import { languages } from './languages';
+import { languages } from '../../models/languages';
 
 import './StatusBar.scss';
 
 const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
   const languageItems = Object.entries(languages).map(([key, value]) =>
-    ({ label: value, value: key })
+    ({ label: value.label, value: key })
   );
 
   return (
