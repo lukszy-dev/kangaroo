@@ -1,54 +1,34 @@
 import {
-  LOADING,
   SET_GH_AUTH_DATA,
   SET_GISTS,
-  SET_BACKUP_GIST_ID,
-  SET_ERROR
+  SET_BACKUP_GIST_ID
 } from '../actions/auth';
 
 const initial = {
-  loading: false,
   token: '',
   gists: [],
-  backupGistId: '',
-  error: null
+  backupGistId: ''
 };
 
 export default (state = initial, action) => {
   switch (action.type) {
-    case LOADING:
-      return {
-        ...state,
-        loading: action.loading
-      };
-    
     case SET_GH_AUTH_DATA:
       return {
         ...state,
         token: action.token,
-        backupGistId: action.backupGistId,
-        loading: false
+        backupGistId: action.backupGistId
       };
 
     case SET_GISTS:
       return {
         ...state,
-        gists: action.gists,
-        loading: false
+        gists: action.gists
       };
 
     case SET_BACKUP_GIST_ID:
       return {
         ...state,
-        backupGistId: action.backupGistId,
-        loading: false
-      };
-
-    case SET_ERROR:
-      return {
-        ...state,
-        error: action.error,
-        loading: false
+        backupGistId: action.backupGistId
       };
 
     default:

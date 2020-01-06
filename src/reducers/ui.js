@@ -1,16 +1,15 @@
 import {
   RESIZE_LEFT_PANEL,
-  SET_RESIZER_POSITION,
   SWITCH_THEME,
-  SHOW_MODAL
+  SET_LOADING,
+  SET_ERROR
 } from '../actions/ui';
 
 const initial = {
   theme: 'dark',
   leftPanelWidth: 200,
-  resizerPosition: 198,
-  modalVisible: false,
-  modalType: null
+  loading: false,
+  error: null
 };
 
 export default (state = initial, action) => {
@@ -21,24 +20,23 @@ export default (state = initial, action) => {
         leftPanelWidth: action.leftPanelWidth
       };
 
-    case SET_RESIZER_POSITION:
-      return {
-        ...state,
-        resizerPosition: action.resizerPosition
-      };
-
     case SWITCH_THEME:
       return {
         ...state,
         theme: state.theme === 'dark' ? 'light' : 'dark'
       };
 
-    case SHOW_MODAL:
+    case SET_LOADING:
       return {
         ...state,
-        modalVisible: action.modalVisible,
-        modalType: action.modalType
-      }
+        loading: action.loading
+      };
+
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.error
+      };
 
     default:
       return state;

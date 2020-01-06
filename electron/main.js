@@ -3,17 +3,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 const isDev = require('electron-is-dev');
-const Octokit = require('@octokit/rest');
 
 const { getMainWindow, setMainWindow } = require('./window');
 const { generateMenu } = require('./src/menu');
 const { GH_AUTH_TOKEN, BACKUP_GIST_ID } = require('./src/constants');
-const { dbActions, registerListeners, removeListeners } = require('./src/db/db');
-const { DB_SNIPPETS } = require('./src/db/constants');
 
 const store = new Store();
-
-let octokit = {};
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -53,7 +48,6 @@ const createWindow = () => {
   }
 
   generateMenu(mainWindow);
-  registerListeners(mainWindow);
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
@@ -61,7 +55,6 @@ const createWindow = () => {
 
   mainWindow.on('closed', () => {
     setMainWindow(null);
-    removeListeners();
   });
 
   setMainWindow(mainWindow);
@@ -92,84 +85,20 @@ app.on('activate', () => {
 ipcMain.on('LOAD_GH_AUTH_DATA', (event) => {
   const token = store.get(GH_AUTH_TOKEN);
   const backupGistId = store.get(BACKUP_GIST_ID);
+  event.sender.send('LOAD_GH_AUTH_DATA_REPLY', {
+    token,
+    backupGistId
+  });
+});
+
+ipcMain.on('SET_GH_AUTH_DATA', (event, data) => {
+  const { token, backupGistId } = data;
+
   if (token) {
-    event.sender.send('LOAD_GH_AUTH_DATA_REPLY', {
-      token,
-      backupGistId
-    });
+    store.set(GH_AUTH_TOKEN, token);
   }
-});
 
-ipcMain.on('SET_GH_AUTH_TOKEN', (event, token) => {
-  octokit = new Octokit({ auth: token });
-
-  octokit.gists
-    .list()
-    .then(response => {
-      store.set(GH_AUTH_TOKEN, token);
-      event.sender.send('SET_GH_AUTH_TOKEN_REPLY', response);
-    })
-    .catch(error => event.sender.send('SET_GH_AUTH_TOKEN_REPLY', error));
-});
-
-ipcMain.on('SYNCHRONIZE_GH_GIST', (event, id) => {
-  dbActions.findAll(DB_SNIPPETS, items => {
-    const request = {
-      gist_id: id,
-      description: '',
-      public: false,
-      files: {}
-    };
-
-    items.forEach(item => {
-      if (item.content) {
-        const filename = item.title + '.' + item.extension;
-        request.files[filename] = {
-          content: item.content
-        };
-      }
-    });
-
-    octokit.gists.update(request)
-      .then(response => {
-        store.set(BACKUP_GIST_ID, id);
-        // TODO
-        // dbActions.updateAll(DB_SNIPPETS, { source: 'gist' })
-        event.sender.send('SYNCHRONIZE_GH_GIST_REPLY', response);
-      })
-      .catch(error => {
-        console.error(error);
-        event.sender.send('SYNCHRONIZE_GH_GIST_REPLY', error);
-      });
-  });
-});
-
-ipcMain.on('CREATE_GH_GIST', (event, gist) => {
-  dbActions.findAll(DB_SNIPPETS, items => {
-    const request = {
-      description: gist.description,
-      public: false,
-      files: {}
-    };
-
-    items.forEach(item => {
-      if (item.content) {
-        const filename = item.title + '.' + item.extension;
-        request.files[filename] = {
-          content: item.content
-        };
-      }
-    });
-
-    octokit.gists.create(request)
-    .then(response => {
-      const gistId = response.data.id;
-      store.set(BACKUP_GIST_ID, gistId);
-      event.sender.send('CREATE_GH_GIST_REPLY', response);
-    })
-    .catch(error => {
-      console.error(error);
-      event.sender.send('CREATE_GH_GIST_REPLY', error);
-    }); 
-  });
+  if (backupGistId) {
+    store.set(BACKUP_GIST_ID, backupGistId);
+  }
 });

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 
 import App from './App';
+import { snippets } from './db/snippets';
 import * as serviceWorker from './serviceWorker';
 
 import rootReducer from './reducers';
@@ -20,6 +21,8 @@ const store = createStore(
     applyMiddleware(ReduxThunk.withExtraArgument(ipcRenderer))
   )
 );
+
+snippets.loadDatabase();
 
 ReactDOM.render(
   <Provider store={store}>

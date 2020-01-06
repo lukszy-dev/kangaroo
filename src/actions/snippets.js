@@ -1,6 +1,10 @@
-import Snippet, { sourceType } from '../models/Snippet';
 import uuidv4 from 'uuid/v4';
+import Octokit from '@octokit/rest';
+import { STATUS_CODES } from 'http';
+import Snippet, { sourceType } from '../models/Snippet';
 import { sortById } from '../utils/utils';
+import { setLoading, setError } from './ui';
+import { snippets } from '../db/snippets';
 
 const namespace = name => `SNIPPETS_${name}`;
 
@@ -47,9 +51,8 @@ export const setCurrentSnippet = (id) => ({
 });
 
 export const initSnippets = () => {
-  return (dispatch, _, ipcRenderer) => {
-    ipcRenderer.send('DB_LOAD');
-    ipcRenderer.once('DB_LOAD_REPLY', (_, data) => {
+  return (dispatch) => {
+    snippets.findAll(data => {
       const snippets = data.sort(sortById).map(entry => new Snippet(entry));
       const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
 
@@ -59,7 +62,7 @@ export const initSnippets = () => {
 };
 
 export const addSnippet = () => {
-  return (dispatch, getState, ipcRenderer) => {
+  return (dispatch, getState) => {
     const { snippets: { lastId, list } } = getState();
 
     const newSnippet = new Snippet({
@@ -73,13 +76,13 @@ export const addSnippet = () => {
     });
     const updatedList = [...list, newSnippet].sort(sortById);
 
-    ipcRenderer.send('DB_ADD', newSnippet);
+    snippets.add(newSnippet);
     dispatch(addSnippetAction(newSnippet, updatedList));
   };
 };
 
 export const updateSnippet = (snippet) => {
-  return (dispatch, getState, ipcRenderer) => {
+  return (dispatch, getState) => {
     const { snippets: { current, list }} = getState();
 
     const toUpdateIndex = list.findIndex(element => element.id === current.id);
@@ -87,18 +90,18 @@ export const updateSnippet = (snippet) => {
     const updatedList = [...list];
     updatedList[toUpdateIndex] = updatedSnippet;
 
-    ipcRenderer.send('DB_UPDATE', updatedSnippet);
+    snippets.update(updatedSnippet);
     dispatch(updateSnippetAction(updatedSnippet, updatedList));
   };
 };
 
 export const deleteSnippet = () => {
-  return (dispatch, getState, ipcRenderer) => {
+  return (dispatch, getState) => {
     const { snippets: { current, list }} = getState();
 
     const updatedList = list.filter(element => element.id !== current.id);
 
-    ipcRenderer.send('DB_DELETE', current.id);
+    snippets.remove(current.id);
     dispatch(deleteSnippetAction(updatedList[0], updatedList));
   };
 };
@@ -106,5 +109,89 @@ export const deleteSnippet = () => {
 export const setSearchSnippets = (query) => {
   return (dispatch) => {
     dispatch(setSearchSnippetsAction(query));
+  };
+};
+
+export const synchronizeGist = (id) => {
+  return (dispatch, getState, ipcRenderer) => {
+    const { auth: { token }, snippets: { list }} = getState();
+
+    return new Promise((resolve, reject) => {
+      dispatch(setLoading(true));
+
+      const octokit = new Octokit({ auth: token });
+
+      const request = {
+        gist_id: id,
+        description: '',
+        public: false,
+        files: {}
+      };
+
+      list.forEach(item => {
+        if (item.content) {
+          const filename = item.title + '.' + item.extension;
+          request.files[filename] = {
+            content: item.content
+          };
+        }
+      });
+
+      octokit.gists.update(request)
+      .then(response => {
+        console.log(response);
+        ipcRenderer.send('SET_GH_AUTH_DATA', { token });
+        snippets.updateAll({ source: 'gist' });
+        dispatch(setLoading(false));
+        resolve();
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch(setLoading(false));
+        reject();
+      });
+    });
+  };
+};
+
+export const createBackupGist = (description) => {
+  return (dispatch, getState, ipcRenderer) => {
+    const { auth: { token }, snippets: { list }} = getState();
+
+    return new Promise((resolve, reject) => {
+      dispatch(setLoading(true));
+
+      const octokit = new Octokit({ auth: token });
+
+      const request = {
+        description: description,
+        public: false,
+        files: {}
+      };
+
+      list.forEach(item => {
+        if (item.content) {
+          const filename = item.title + '.' + item.extension;
+          request.files[filename] = {
+            content: item.content
+          };
+        }
+      });
+
+      octokit.gists.create(request)
+      .then(response => {
+        console.log(response);
+        const gistId = response.data.id;
+        ipcRenderer.send('SET_GH_AUTH_DATA', { backupGistId: gistId });
+        dispatch(setLoading(false));
+        resolve();
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch(setError(STATUS_CODES[error.status]));
+        dispatch(setLoading(false));
+        reject();
+      });
+    });
   };
 };

@@ -13,7 +13,8 @@ import {
   setSearchSnippets
 } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
-import { setAuthToken, createBackupGist, synchronizeGist } from '../../actions/auth';
+import { setAuthToken } from '../../actions/auth';
+import { synchronizeGist, createBackupGist } from '../../actions/snippets';
 
 import './SnippetList.scss';
 
@@ -64,8 +65,8 @@ const SnippetList = () => {
     return dispatch(setAuthToken(token));
   };
 
-  const handleCreateBackupGist = (name) => {
-    return dispatch(createBackupGist(name));
+  const handleCreateBackupGist = (description) => {
+    return dispatch(createBackupGist(description));
   };
 
   const handleSynchronizeGist = (id) => {

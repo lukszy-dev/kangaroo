@@ -5,4 +5,3 @@
   * Synchronize
   * Error handling
 * Replace snippet's integer id to uuid? ...Add uuid as separate attribute √
-* Move db operations to renderer process?

@@ -1,9 +1,9 @@
 const namespace = name => `UI_${name}`;
 
-export const SHOW_MODAL = namespace('SHOW_MODAL');
 export const RESIZE_LEFT_PANEL = namespace('RESIZE_LEFT_PANEL');
-export const SET_RESIZER_POSITION = namespace('SET_RESIZER_POSITION');
 export const SWITCH_THEME = namespace('SWITCH_THEME');
+export const SET_LOADING = namespace('SET_LOADING');
+export const SET_ERROR = namespace('SET_ERROR');
 
 export const resizeLeftPanel = leftPanelWidth => {
   return {
@@ -12,12 +12,17 @@ export const resizeLeftPanel = leftPanelWidth => {
   };
 };
 
-export const setResizerPosition = resizerPosition => {
+export const setLoading = (loading) => {
   return {
-    type: SET_RESIZER_POSITION,
-    resizerPosition
-  };
+    type: SET_LOADING,
+    loading
+  }
 };
+
+export const setError = (error) => ({
+  type: SET_ERROR,
+  error
+});
 
 const switchThemeAction = () => {
   return {
@@ -25,16 +30,8 @@ const switchThemeAction = () => {
   };
 };
 
-export const showModal = (modalVisible = false, modalType = '') => {
-  return {
-    type: SHOW_MODAL,
-    modalVisible,
-    modalType
-  };
-};
-
 export const switchTheme = () => {
-  return (dispatch, getState, ipcRenderer) => {
+  return (dispatch, _, ipcRenderer) => {
     ipcRenderer.send('SWITCH_THEME');
     dispatch(switchThemeAction());
   };
