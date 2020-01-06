@@ -27,7 +27,8 @@ const SnippetListElement = ({
 
   const listElementClass = classNames({
     'SnippetListElement': true,
-    'SnippetListElement-active': currentlySelectedId === element.id
+    'SnippetListElement-active': currentlySelectedId === element.id,
+    'bp3-text-muted': currentlySelectedId !== element.id
   });
 
   return (

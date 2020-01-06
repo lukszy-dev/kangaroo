@@ -23,6 +23,7 @@ const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => 
         </FormGroup>
 
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+          {/* <Button disabled={!authToken}>Unlink</Button> */}
           <Button disabled={!authToken} onClick={onAccept} loading={loading}>Connect</Button>
         </div>
       </div>

@@ -118,7 +118,7 @@ const SnippetList = () => {
   return (
     <div
       style={{ width: leftPanelWidth, minWidth: 200 }}
-      className="SnippetList--container"
+      className='SnippetList--container'
     >
       <SnippetListHeader
         query={query}
@@ -130,7 +130,11 @@ const SnippetList = () => {
       />
 
       { list && (
-        <ScrollableWrapper bottomShadow={false} alwaysOn={true}>
+        <ScrollableWrapper
+          topShadow={false}
+          bottomShadow={false}
+          alwaysOn={true}
+        >
           { renderElements() }
         </ScrollableWrapper>
       )}
