@@ -52,12 +52,15 @@ export const setCurrentSnippet = (id) => ({
 
 export const initSnippets = () => {
   return (dispatch) => {
-    snippets.findAll(data => {
-      const snippets = data.sort(sortById).map(entry => new Snippet(entry));
-      const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
-
-      dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
-    });
+    return new Promise((resolve) => {
+      snippets.findAll(data => {
+        const snippets = data.sort(sortById).map(entry => new Snippet(entry));
+        const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
+  
+        dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
+        resolve();
+      });
+    })
   };
 };
 

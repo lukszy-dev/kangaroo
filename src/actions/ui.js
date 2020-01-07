@@ -1,9 +1,17 @@
 const namespace = name => `UI_${name}`;
 
+export const APP_INIT = namespace('APP_INIT');
 export const RESIZE_LEFT_PANEL = namespace('RESIZE_LEFT_PANEL');
 export const SWITCH_THEME = namespace('SWITCH_THEME');
 export const SET_LOADING = namespace('SET_LOADING');
 export const SET_ERROR = namespace('SET_ERROR');
+
+export const appInit = (init) => {
+  return {
+    type: APP_INIT,
+    init
+  };
+};
 
 export const resizeLeftPanel = leftPanelWidth => {
   return {

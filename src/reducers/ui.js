@@ -1,4 +1,5 @@
 import {
+  APP_INIT,
   RESIZE_LEFT_PANEL,
   SWITCH_THEME,
   SET_LOADING,
@@ -6,6 +7,7 @@ import {
 } from '../actions/ui';
 
 const initial = {
+  init: true,
   theme: 'dark',
   leftPanelWidth: 200,
   loading: false,
@@ -14,6 +16,12 @@ const initial = {
 
 export default (state = initial, action) => {
   switch (action.type) {
+    case APP_INIT:
+      return {
+        ...state,
+        init: action.init
+      };
+
     case RESIZE_LEFT_PANEL:
       return {
         ...state,

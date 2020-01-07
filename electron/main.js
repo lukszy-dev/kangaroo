@@ -5,8 +5,8 @@ const Store = require('electron-store');
 const isDev = require('electron-is-dev');
 
 const { getMainWindow, setMainWindow } = require('./window');
-const { generateMenu } = require('./src/menu');
-const { GH_AUTH_TOKEN, BACKUP_GIST_ID } = require('./src/constants');
+const { generateMenu } = require('./menu');
+const { GH_AUTH_TOKEN, BACKUP_GIST_ID } = require('./constants');
 
 const store = new Store();
 

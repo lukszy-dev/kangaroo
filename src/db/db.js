@@ -47,6 +47,7 @@ const dbFind = (db, id) => {
 
 const dbFindAll = (db, callback) => {
   db.find({}, (err, items) => {
+    if (err) throw new Error(err);
     callback(items);
   });
 };

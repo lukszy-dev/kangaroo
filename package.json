@@ -10,17 +10,16 @@
     "url": "https://proggramik.com"
   },
   "scripts": {
-    "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
-    "start-web": "react-scripts start",
-    "build": "npm run build-web && npm run build-electron",
-    "build-web": "react-scripts build",
-    "build-electron": "mkdir build/src && cp -r electron/. build/electron",
+    "start": "concurrently \"cross-env BROWSER=none REACT_APP_MODE=electron craco start\" \"NODE_ENV=dev nodemon --exec ' wait-on http://localhost:3000 && electron .'\"",
+    "start:web": "craco start",
+    "build": "npm run build:web && npm run build:electron",
+    "build:web": "craco build",
+    "build:electron": "mkdir build/src && cp -r electron/. build/electron",
     "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js --publish never",
-    "test": "react-scripts test"
+    "test": "craco test"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.22.0",
-    "@craco/craco": "^5.6.3",
     "@octokit/rest": "^16.35.2",
     "ace-builds": "^1.4.7",
     "classnames": "^2.2.6",
@@ -39,6 +38,7 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@craco/craco": "^5.6.3",
     "concurrently": "^5.0.0",
     "cross-env": "^6.0.3",
     "electron": "^7.1.3",
