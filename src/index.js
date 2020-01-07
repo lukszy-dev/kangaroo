@@ -5,15 +5,13 @@ import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 
 import App from './App';
-import { snippets } from './db/snippets';
-import * as serviceWorker from './serviceWorker';
-
 import rootReducer from './reducers';
+import { app, snippets } from './db';
+import * as serviceWorker from './serviceWorker';
 
 import './index.scss';
 
 const { ipcRenderer } = window.require('electron');
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
@@ -22,6 +20,7 @@ const store = createStore(
   )
 );
 
+app.loadDatabase();
 snippets.loadDatabase();
 
 ReactDOM.render(

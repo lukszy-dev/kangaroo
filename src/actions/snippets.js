@@ -112,7 +112,7 @@ export const setSearchSnippets = (query) => {
   };
 };
 
-export const synchronizeGist = (id) => {
+export const synchronizeGist = (gistId) => {
   return (dispatch, getState, ipcRenderer) => {
     const { auth: { token }, snippets: { list }} = getState();
 
@@ -122,7 +122,7 @@ export const synchronizeGist = (id) => {
       const octokit = new Octokit({ auth: token });
 
       const request = {
-        gist_id: id,
+        gist_id: gistId,
         description: '',
         public: false,
         files: {}
@@ -130,7 +130,7 @@ export const synchronizeGist = (id) => {
 
       list.forEach(item => {
         if (item.content) {
-          const filename = item.title + '.' + item.extension;
+          const filename = [item.title, item.extension].filter(Boolean).join('.');
           request.files[filename] = {
             content: item.content
           };
@@ -140,8 +140,8 @@ export const synchronizeGist = (id) => {
       octokit.gists.update(request)
       .then(response => {
         console.log(response);
-        ipcRenderer.send('SET_GH_AUTH_DATA', { token });
-        snippets.updateAll({ source: 'gist' });
+        ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
+        snippets.updateAll({ source: sourceType.GIST });
         dispatch(setLoading(false));
         resolve();
       })
@@ -171,7 +171,7 @@ export const createBackupGist = (description) => {
 
       list.forEach(item => {
         if (item.content) {
-          const filename = item.title + '.' + item.extension;
+          const filename = [item.title, item.extension].filter(Boolean).join('.');
           request.files[filename] = {
             content: item.content
           };
@@ -182,7 +182,8 @@ export const createBackupGist = (description) => {
       .then(response => {
         console.log(response);
         const gistId = response.data.id;
-        ipcRenderer.send('SET_GH_AUTH_DATA', { backupGistId: gistId });
+        ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
+        snippets.updateAll({ source: sourceType.GIST });
         dispatch(setLoading(false));
         resolve();
       })

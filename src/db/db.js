@@ -39,6 +39,12 @@ const dbRemove = (db, id) => {
   });
 };
 
+const dbFind = (db, id) => {
+  db.find({ id: id }, err => {
+    if (err) throw new Error(err);
+  });
+};
+
 const dbFindAll = (db, callback) => {
   db.find({}, (err, items) => {
     callback(items);
@@ -50,6 +56,7 @@ export {
   dbAdd,
   dbUpdate,
   dbRemove,
+  dbFind,
   dbFindAll,
   dbUpdateAll
 };

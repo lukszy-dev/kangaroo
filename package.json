@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.22.0",
+    "@craco/craco": "^5.6.3",
     "@octokit/rest": "^16.35.2",
     "ace-builds": "^1.4.7",
     "classnames": "^2.2.6",
