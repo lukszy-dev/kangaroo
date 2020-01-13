@@ -1,6 +1,6 @@
 # Snippet Manager
 
-![snippet-manager](https://user-images.githubusercontent.com/5923943/72253372-b05d6780-3601-11ea-8596-9c131916e89b.png)
+![snippet-manager](https://user-images.githubusercontent.com/5923943/72289262-04406e80-364b-11ea-8b7a-dca666ad5ee9.png)
 
 ## Available Scripts
 
