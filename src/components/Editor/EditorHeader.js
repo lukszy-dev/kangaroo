@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { EditableText } from '@blueprintjs/core';
+import { H3, EditableText } from '@blueprintjs/core';
 
 import Snippet from '../../models/Snippet';
 
@@ -20,15 +20,17 @@ const EditorHeader = ({ snippet, onTitleChange }) => {
 
   return (
     <div className="Editor--header">
-      <EditableText
-        className="Editor--snippet-title"
-        placeholder="Edit title..."
-        minWidth={200}
-        value={snippet ? snippet.title : ''}
-        disabled={!snippet}
-        onChange={onTitleChange}
-        alwaysRenderInput={true}
-      />
+      <H3>
+        <EditableText
+          className="Editor--snippet-title"
+          placeholder="Edit title..."
+          minWidth={200}
+          value={snippet ? snippet.title : ''}
+          disabled={!snippet}
+          onChange={onTitleChange}
+          alwaysRenderInput={true}
+        />
+      </H3>
 
       {/*
       <OverflowList

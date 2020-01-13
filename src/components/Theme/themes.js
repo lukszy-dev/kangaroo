@@ -2,7 +2,7 @@ import { Colors } from "@blueprintjs/core";
 
 const root = {
   "--header-height": "37px",
-  "--editor-header-height": "37px"
+  "--editor-header-height": "47px"
 }
 
 const light = {

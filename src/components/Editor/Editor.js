@@ -73,7 +73,7 @@ const Editor = () => {
           wrapEnabled={true}
           scrollMargin={[2, 2]}
           tabSize={2}
-          height={`${height - 67}px`}
+          height={`${height - 77}px`}
           width={`${width - leftPanelWidth}px`}
           setOptions={{ useWorker: false }}
         />

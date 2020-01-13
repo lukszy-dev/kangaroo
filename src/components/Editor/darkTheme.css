@@ -1,0 +1,130 @@
+.sm-dark {
+  background: #30404D;
+  color: #fff;
+}
+
+/* CURSOR */
+
+.sm-dark .ace_cursor {
+  color: white;
+}
+
+.sm-dark .ace_hidden-cursors .ace_cursor {
+  visibility: hidden;
+}
+
+/* GUTTER */
+
+.sm-dark .ace_gutter {
+  background: #30404D;
+  color: #8A9BA8;
+}
+
+.sm-dark.ace_focus .ace_gutter-active-line {
+  background-color : #394B59;
+}
+
+.sm-dark .ace_gutter-active-line {
+  background: none;
+}
+
+.sm-dark .ace_print-margin {
+  width: 1px;
+  background: #e8e8e8;
+}
+
+.sm-dark .ace_marker-layer .ace_selection {
+  background: #49483E;
+}
+
+.sm-dark.ace_multiselect .ace_selection.ace_start {
+  box-shadow: 0 0 3px 0px #272822;
+}
+
+.sm-dark .ace_keyword,
+.sm-dark .ace_meta.ace_tag,
+.sm-dark .ace_storage {
+  color: #C274C2;
+}
+
+.sm-dark .ace_meta.ace_tag.ace_tag-name.ace_xml {
+  color: #43BF4D;
+}
+
+.sm-dark .ace_meta.ace_tag.ace_punctuation.ace_xml {
+  color: #FFF;
+}
+
+.sm-dark .ace_entity.ace_other.ace_attribute-name.ace_xml {
+  color: #FFB366;
+}
+
+.sm-dark .ace_string {
+  color: #D1F26D;
+}
+
+.sm-dark .ace_variable {
+  color: #00B3A4;
+}
+
+/* .sm-dark .ace_variable.ace_class {
+  color: teal;
+} */
+
+.sm-dark .ace_constant.ace_numeric {
+  color: #099;
+}
+
+.sm-dark .ace_constant.ace_buildin {
+  color: #0086B3;
+}
+
+.sm-dark .ace_support.ace_function {
+  color: #669EFF;
+}
+
+.sm-dark .ace_comment {
+  color: #8A9BA8;
+}
+
+.sm-dark .ace_variable.ace_language {
+  color: #14CCBD;
+}
+
+.sm-dark .ace_string.ace_regexp {
+  color: #009926;
+  font-weight: normal;
+}
+
+.sm-dark .ace_variable.ace_instance {
+  color: teal;
+}
+
+.sm-dark.ace_focus .ace_marker-layer .ace_active-line {
+  background: #394B59;
+}
+
+.sm-dark.ace_multiselect .ace_selection.ace_start {
+  box-shadow: 0 0 3px 0px white;
+}
+
+.sm-dark .ace_marker-layer .ace_step {
+  background: rgb(252, 255, 0);
+}
+
+.sm-dark .ace_marker-layer .ace_stack {
+  background: rgb(164, 229, 101);
+}
+
+.sm-dark .ace_marker-layer .ace_bracket {
+  border: 1px solid rgb(192, 192, 192);
+}
+
+.sm-dark .ace_marker-layer .ace_selected-word {
+  background: rgb(250, 250, 255);
+  border: 1px solid rgb(200, 200, 250);
+}
+
+.sm-dark .ace_invisible {
+  color: #BFBFBF;
+}
