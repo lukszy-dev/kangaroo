@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
-import AccountModal from './AccountModal/AccountModal';
+import AccountModal from '../AccountModal/AccountModal';
 
 import './SnippetListHeader.scss';
 

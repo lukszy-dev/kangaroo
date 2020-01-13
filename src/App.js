@@ -12,7 +12,7 @@ import { appInit } from './actions/ui';
 
 import './App.scss';
 
-const { ipcRenderer } = window.require('electron');
+const { ipcRenderer } = require('electron');
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,14 +33,14 @@ const App = () => {
 
   return (
     <Theme mode={theme} classNames="App--content">
-      { init ? (
+      { init && (
         <Loader />
-      ) : (
-        <Fragment>
-          <SnippetList />
-          <Editor />
-        </Fragment>
       )}
+
+      <Fragment>
+        <SnippetList />
+        <Editor />
+      </Fragment>
     </Theme>
   );
 };

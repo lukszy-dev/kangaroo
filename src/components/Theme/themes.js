@@ -1,3 +1,5 @@
+import { Colors } from "@blueprintjs/core";
+
 const root = {
   "--header-height": "37px",
   "--editor-header-height": "37px"
@@ -5,8 +7,10 @@ const root = {
 
 const light = {
   ...root,
-  "--background-color-primary": "#f5f8fa",
-  "--background-color-secondary": "#fff",
+  "--background-color-primary": Colors.LIGHT_GRAY5,
+  "--background-color-secondary": Colors.WHITE,
+
+  "--color-selected": Colors.BLUE3,
 
   "--list-container-border": "solid 1px rgba(16, 22, 26, .15)",
 
@@ -16,8 +20,10 @@ const light = {
 
 const dark = {
   ...root,
-  "--background-color-primary": "#30404d",
-  "--background-color-secondary": "#394b59",
+  "--background-color-primary": Colors.DARK_GRAY4,
+  "--background-color-secondary": Colors.DARK_GRAY5,
+
+  "--color-selected": Colors.BLUE3,
 
   "--list-container-border": "solid 1px rgba(16, 22, 26, .4)",
 

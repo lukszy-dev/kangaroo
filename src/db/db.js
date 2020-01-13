@@ -1,6 +1,6 @@
 import Datastore from 'nedb';
 
-const { remote } = window.require('electron');
+const { remote } = require('electron');
 
 const dbFactory = (name) => {
   const db = new Datastore({

@@ -2,5 +2,8 @@
   "compilerOptions": {
     "baseUrl": "src"
   },
+  "typeAcquisition": {
+    "include": [ "jest" ]
+  },
   "include": ["src"]
 }

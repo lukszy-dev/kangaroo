@@ -13,9 +13,10 @@ import './Editor.scss';
 
 // https://github.com/securingsincity/react-ace/issues/725
 import 'ace-builds/webpack-resolver';
-
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-tomorrow_night';
+import './darkTheme';
+
 
 Object.keys(languages).forEach(lang => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
@@ -31,6 +32,7 @@ const Editor = () => {
 
   const handleOnLoad = (editor) => {
     editor.resize();
+    editor.setShowFoldWidgets(false);
   };
 
   const handleOnChange = (value) => {
@@ -59,7 +61,7 @@ const Editor = () => {
       <div className="Editor--editor">
         <AceEditor
           className="Editor--editor"
-          theme={theme === 'dark' ? 'tomorrow_night' : 'github'}
+          theme={theme === 'dark' ? 'sm-dark' : 'github'}
           onLoad={handleOnLoad}
           readOnly={!snippet}
           mode={snippet ? snippet.language : languages[0]}

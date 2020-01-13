@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import SnippetListHeader from './SnippetListHeader';
+import SnippetListHeader from './SnippetListHeader/SnippetListHeader';
 import SnippetListElement from './SnippetListElement';
 import ScrollableWrapper from './ScrollableWrapper';
 import Resizer from './Resizer';
@@ -18,7 +18,7 @@ import { synchronizeGist, createBackupGist } from '../../actions/snippets';
 
 import './SnippetList.scss';
 
-const { remote } = window.require('electron');
+const { remote } = require('electron');
 
 const SnippetList = () => {
   const dispatch = useDispatch();

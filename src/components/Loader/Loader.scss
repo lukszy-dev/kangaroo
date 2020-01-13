@@ -1,7 +1,12 @@
+@import "@blueprintjs/core/lib/scss/variables";
+
 .Loader--container {
+  position: absolute;
   display: flex;
-  flex: 1;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+  background-color: var(--background-color-primary); 
+  z-index: $pt-z-index-overlay;
 }
 
 .Loader--spinner {

@@ -9,8 +9,7 @@ const Resizer = ({ onMouseDown }) => {
     right: '-2px',
     marginLeft: 'auto',
     position: 'absolute',
-    cursor: 'col-resize',
-    zIndex: 100
+    cursor: 'col-resize'
   };
 
   return (
