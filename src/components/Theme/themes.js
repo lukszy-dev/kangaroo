@@ -3,7 +3,7 @@ import { Colors } from "@blueprintjs/core";
 const root = {
   "--header-height": "37px",
   "--editor-header-height": "47px"
-}
+};
 
 const light = {
   ...root,
@@ -13,7 +13,6 @@ const light = {
   "--color-selected": Colors.BLUE3,
 
   "--list-container-border": "solid 1px rgba(16, 22, 26, .15)",
-  "--list-container-shadow": "0 0 10px rgba(16, 22, 26, .15)",
 
   "--divider": "linear-gradient(90deg,rgba(16, 22, 26, 0) 0, rgba(16, 22, 26, .15) 40%)",
   "--active-snippet": "linear-gradient(90deg, rgba(245, 248, 250, 0) 0, #f5f8fa 40%)"
@@ -26,8 +25,7 @@ const dark = {
 
   "--color-selected": Colors.BLUE3,
 
-  "--list-container-border": "solid 1px rgba(16, 22, 26, .6)",
-  "--list-container-shadow": "0 0 10px rgba(16, 22, 26, .4)",
+  "--list-container-border": "solid 1px rgba(16, 22, 26, .5)",
 
   "--divider": "linear-gradient(90deg, rgba(16, 22, 26, 0) 0, rgba(16, 22, 26, .4) 40%)",
   "--active-snippet": "linear-gradient(90deg, rgba(48, 64, 77, 0) 0, #30404d 40%)"

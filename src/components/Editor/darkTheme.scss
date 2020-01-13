@@ -1,12 +1,12 @@
 .sm-dark {
   background: var(--background-color-primary);
-  color: #fff;
+  color: #FFF;
 }
 
 /* CURSOR */
 
 .sm-dark .ace_cursor {
-  color: white;
+  color: #FFF;
 }
 
 .sm-dark .ace_hidden-cursors .ace_cursor {
@@ -34,7 +34,7 @@
 }
 
 .sm-dark .ace_marker-layer .ace_selection {
-  background: #49483E;
+  background: #0E5A8A;
 }
 
 .sm-dark.ace_multiselect .ace_selection.ace_start {
@@ -72,7 +72,7 @@
 } */
 
 .sm-dark .ace_constant.ace_numeric {
-  color: #099;
+  color: #FF66A1;
 }
 
 .sm-dark .ace_constant.ace_buildin {
@@ -80,7 +80,7 @@
 }
 
 .sm-dark .ace_support.ace_function {
-  color: #669EFF;
+  color: #48AFF0;
 }
 
 .sm-dark .ace_comment {
@@ -121,8 +121,7 @@
 }
 
 .sm-dark .ace_marker-layer .ace_selected-word {
-  background: rgb(250, 250, 255);
-  border: 1px solid rgb(200, 200, 250);
+  background: #5C7080;
 }
 
 .sm-dark .ace_invisible {

@@ -169,17 +169,12 @@ export const createBackupGist = (description) => {
       const request = {
         description: description,
         public: false,
-        files: {}
-      };
-
-      list.forEach(item => {
-        if (item.content) {
-          const filename = [item.title, item.extension].filter(Boolean).join('.');
-          request.files[filename] = {
-            content: item.content
-          };
+        files: {
+          [description]: {
+            content: JSON.stringify(list)
+          }
         }
-      });
+      };
 
       octokit.gists.create(request)
       .then(response => {

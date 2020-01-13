@@ -33,6 +33,8 @@ const Editor = () => {
   const handleOnLoad = (editor) => {
     editor.resize();
     editor.setShowFoldWidgets(false);
+
+    editor.commands.removeCommand('find');
   };
 
   const handleOnChange = (value) => {

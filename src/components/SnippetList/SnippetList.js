@@ -100,7 +100,9 @@ const SnippetList = () => {
   }, [dispatch]);
 
   const renderElements = () => {
-    const filterd = list.filter((element) => element.title.includes(query));
+    const filterd = list.filter((element) =>
+      element.title.toLowerCase().includes(query.toLowerCase())
+    );
 
     return filterd.map((element) => {
       return (
