@@ -1,5 +1,5 @@
 .sm-dark {
-  background: #30404D;
+  background: var(--background-color-primary);
   color: #fff;
 }
 
@@ -16,7 +16,7 @@
 /* GUTTER */
 
 .sm-dark .ace_gutter {
-  background: #30404D;
+  background: var(--background-color-primary);
   color: #8A9BA8;
 }
 
