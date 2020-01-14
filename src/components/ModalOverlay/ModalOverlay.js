@@ -6,11 +6,12 @@ const ModalOverlay = ({
   isOpen,
   onClose,
   title,
+  theme,
   children
 }) => {
   return (
     <Dialog
-      className={'bp3-dark'} // TODO get from state
+      className={theme === 'dark' ? 'bp3-dark' : ''}
       title={title}
       isOpen={isOpen}
       onClose={onClose}
@@ -24,6 +25,7 @@ ModalOverlay.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
+  theme: PropTypes.string.isRequired,
   children: PropTypes.node
 };
 

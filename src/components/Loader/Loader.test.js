@@ -14,7 +14,7 @@ describe('<Loader />', () => {
     wrapper = shallow(<Loader />);
   });
 
-  it('should render', () => {
+  it('renders without crashing', () => {
     wrapper.contains(<Spinner />);
   });
 });

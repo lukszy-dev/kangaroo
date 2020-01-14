@@ -1,0 +1,129 @@
+.sm-light {
+  background: var(--background-color-primary);
+  color: #182026;
+}
+
+/* CURSOR */
+
+.sm-light .ace_cursor {
+  color: #182026;
+}
+
+.sm-light .ace_hidden-cursors .ace_cursor {
+  visibility: hidden;
+}
+
+/* GUTTER */
+
+.sm-light .ace_gutter {
+  background: var(--background-color-primary);
+  color: #182026;
+}
+
+.sm-light.ace_focus .ace_gutter-active-line {
+  background-color : #D8E1E8;
+}
+
+.sm-light .ace_gutter-active-line {
+  background: none;
+}
+
+.sm-light .ace_print-margin {
+  width: 1px;
+  background: #e8e8e8;
+}
+
+.sm-light.ace_focus .ace_marker-layer .ace_active-line {
+  background: #D8E1E8;
+}
+
+.sm-light .ace_marker-layer .ace_selection {
+  background: #48AFF0;
+}
+
+.sm-light.ace_multiselect .ace_selection.ace_start {
+  box-shadow: 0 0 3px 0px #272822;
+}
+
+.sm-light .ace_keyword,
+.sm-light .ace_meta.ace_tag,
+.sm-light .ace_storage {
+  color: #A854A8;
+}
+
+.sm-light .ace_meta.ace_tag.ace_tag-name.ace_xml {
+  color: #238C2C;
+}
+
+.sm-light .ace_meta.ace_tag.ace_punctuation.ace_xml {
+  color: #293742;
+}
+
+.sm-light .ace_entity.ace_other.ace_attribute-name.ace_xml {
+  color: #D9822B;
+}
+
+.sm-light .ace_string {
+  color: #87A629;
+}
+
+.sm-light .ace_variable {
+  color: #00998C;
+}
+
+/* .sm-light .ace_variable.ace_class {
+  color: teal;
+} */
+
+.sm-light .ace_constant.ace_numeric {
+  color: #FF66A1;
+}
+
+.sm-light .ace_constant.ace_buildin {
+  color: #0086B3;
+}
+
+.sm-light .ace_support.ace_function {
+  color: #2B95D6;
+}
+
+.sm-light .ace_comment {
+  color: #738694;
+}
+
+.sm-light .ace_variable.ace_language {
+  color: #00B3A4;
+}
+
+.sm-light .ace_string.ace_regexp {
+  color: #009926;
+  font-weight: normal;
+}
+
+.sm-light .ace_variable.ace_instance {
+  color: teal;
+}
+
+.sm-light.ace_multiselect .ace_selection.ace_start {
+  box-shadow: 0 0 3px 0px white;
+}
+
+.sm-light .ace_marker-layer .ace_step {
+  background: rgb(252, 255, 0);
+}
+
+.sm-light .ace_marker-layer .ace_stack {
+  background: rgb(164, 229, 101);
+}
+
+.sm-light .ace_marker-layer .ace_bracket {
+  border: 1px solid rgb(192, 192, 192);
+}
+
+.sm-light .ace_marker-layer .ace_selected-word {
+  background: #E1E8ED;
+}
+
+.sm-light .ace_invisible {
+  color: #BFBFBF;
+}
