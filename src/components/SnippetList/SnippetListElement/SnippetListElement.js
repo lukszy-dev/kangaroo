@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from '@blueprintjs/core';
 
-import Snippet, { sourceType } from '../../models/Snippet';
+import Snippet, { sourceType } from '../../../models/Snippet';
 
-import './SnippetList.scss';
 import './SnippetListElement.scss';
 
 const SnippetListElement = ({
@@ -49,7 +48,7 @@ const SnippetListElement = ({
 };
 
 SnippetListElement.propTypes = {
-  element: PropTypes.instanceOf(Snippet),
+  element: PropTypes.instanceOf(Snippet).isRequired,
   currentlySelectedId: PropTypes.number.isRequired,
   onChangeSnippet: PropTypes.func.isRequired,
   onContextMenu: PropTypes.func.isRequired

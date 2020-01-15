@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import SnippetListHeader from './SnippetListHeader/SnippetListHeader';
-import SnippetListElement from './SnippetListElement';
+import SnippetListElement from './SnippetListElement/SnippetListElement';
 import ScrollableWrapper from './ScrollableWrapper';
 import Resizer from './Resizer';
 
