@@ -55,3 +55,10 @@ export const setAuthToken = (token) => {
     });
   };
 };
+
+export const deleteAuthData = () => {
+  return (dispatch, _, ipcRenderer) => {
+    dispatch(setAuthDataAction({ token: '', backupGistId: '' }));
+    ipcRenderer.send('DELETE_GH_AUTH_DATA');
+  };
+};

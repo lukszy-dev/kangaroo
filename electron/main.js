@@ -102,3 +102,8 @@ ipcMain.on('SET_GH_AUTH_DATA', (event, data) => {
     store.set(BACKUP_GIST_ID, backupGistId);
   }
 });
+
+ipcMain.on('DELETE_GH_AUTH_DATA', () => {
+  store.delete(GH_AUTH_TOKEN);
+  store.delete(BACKUP_GIST_ID);
+});

@@ -3,6 +3,7 @@ import { Colors } from "@blueprintjs/core";
 const root = {
   "--header-height": "37px",
   "--editor-header-height": "47px",
+  "--snippet-list-element-height": "40px",
   "--color-selected": Colors.BLUE3
 };
 

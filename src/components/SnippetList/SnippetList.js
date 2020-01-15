@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import SnippetListHeader from './SnippetListHeader/SnippetListHeader';
 import SnippetListElement from './SnippetListElement';
@@ -74,11 +75,11 @@ const SnippetList = () => {
   };
 
   useEffect(() => {
-    function mouseUp() {
+    const mouseUp = () => {
       resizerXPosition.current = null;
     }
   
-    function mouseMove(event) {
+    const mouseMove = (event) => {
       if (!resizerXPosition.current) {
         return;
       }
@@ -100,19 +101,24 @@ const SnippetList = () => {
   }, [dispatch]);
 
   const renderElements = () => {
-    const filterd = list.filter((element) =>
+    const filtered = list.filter((element) =>
       element.title.toLowerCase().includes(query.toLowerCase())
     );
 
-    return filterd.map((element) => {
+    return filtered.map((element) => {
       return (
-        <SnippetListElement
+        <CSSTransition
           key={element.id}
-          element={element}
-          currentlySelectedId={current.id}
-          onChangeSnippet={handleChangeSnippet}
-          onContextMenu={handleElementContextMenu}
-        />
+          classNames='SnippetList--element'
+          timeout={{ enter: 350, exit: 350 }}
+        >
+          <SnippetListElement
+            element={element}
+            currentlySelectedId={current.id}
+            onChangeSnippet={handleChangeSnippet}
+            onContextMenu={handleElementContextMenu}
+          />
+        </CSSTransition>
       );
     });
   };
@@ -137,7 +143,9 @@ const SnippetList = () => {
           bottomShadow={false}
           alwaysOn={true}
         >
-          { renderElements() }
+          <TransitionGroup>
+            { renderElements() }
+          </TransitionGroup>
         </ScrollableWrapper>
       )}
 
