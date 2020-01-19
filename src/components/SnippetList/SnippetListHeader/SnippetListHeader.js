@@ -58,13 +58,11 @@ const SnippetListHeader = ({
   };
 
   const renderAccountButton = () => {
-    const accountButtonProps = {
-      icon: backupGistId ? 'user' : 'person', // TODO
-      onClick: handleAccountModalOpen
-    };
-
     return (
-      <Button { ...accountButtonProps } />
+      <Button
+        icon={backupGistId ? 'user' : 'person'} // TODO
+        onClick={handleAccountModalOpen}
+      />
     );
   };
 

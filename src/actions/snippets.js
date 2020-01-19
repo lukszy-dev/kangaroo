@@ -56,7 +56,7 @@ export const initSnippets = () => {
       snippets.findAll(data => {
         const snippets = data.sort(sortById).map(entry => new Snippet(entry));
         const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
-  
+
         dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
         resolve();
       });

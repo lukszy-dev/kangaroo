@@ -5,6 +5,7 @@ import { Dialog } from '@blueprintjs/core';
 const ModalOverlay = ({
   isOpen,
   onClose,
+  onOpening,
   title,
   theme,
   children
@@ -15,6 +16,7 @@ const ModalOverlay = ({
       title={title}
       isOpen={isOpen}
       onClose={onClose}
+      onOpening={onOpening}
     >
       {children}
     </Dialog>
@@ -24,6 +26,7 @@ const ModalOverlay = ({
 ModalOverlay.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  onOpening: PropTypes.func,
   title: PropTypes.string,
   theme: PropTypes.string.isRequired,
   children: PropTypes.node

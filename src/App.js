@@ -33,14 +33,14 @@ const App = () => {
 
   return (
     <Theme mode={theme} classNames="App--content">
-      { init && (
+      { init ? (
         <Loader />
+      ) : (
+        <Fragment>
+          <SnippetList />
+          <Editor />
+        </Fragment>
       )}
-
-      <Fragment>
-        <SnippetList />
-        <Editor />
-      </Fragment>
     </Theme>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import ModalOverlay from '../../ModalOverlay/ModalOverlay';
@@ -16,16 +16,9 @@ const AccountModal = ({
   onCreateBackupGist
 }) => {
   const [authToken, setAuthToken] = useState(token);
-  const [gistId, setGistId] = useState('');
+  const [gistId, setGistId] = useState(gists && gists[0] ? gists[0].id : '');
   const [gistDescription, setGistDescription] = useState('');
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    setAuthToken(token);
-    if (gists && gists.length > 0) {
-      setGistId(gists[0].id);
-    }
-  }, [token, gists]);
+  const [step, setStep] = useState(token ? 1 : 0);
 
   const handleAuthTokenChange = (event) => {
     setAuthToken(event.target.value);
@@ -66,17 +59,23 @@ const AccountModal = ({
     }
   };
 
+  const handleOnOpening = () => {
+    if (authToken) {
+      onSetAuthToken(authToken);
+    }
+  };
+
+  const handleClose = () => {
+    setStep(authToken ? 1 : 0);
+    onOpen();
+  };
+
   const renderPanel = () => {
     const panel = panels[step];
     if (panel) {
       return panel.component(panel.props);
     }
     return null;
-  };
-
-  const handleClose = () => {
-    setStep(0);
-    onOpen();
   };
 
   const panels = [{
@@ -105,6 +104,7 @@ const AccountModal = ({
     <ModalOverlay
       title='Connect to GitHub Gist'
       isOpen={isOpen}
+      onOpening={handleOnOpening}
       onClose={handleClose}
       theme={ui.theme}
     >
