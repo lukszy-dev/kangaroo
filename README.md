@@ -1,5 +1,7 @@
 # Snippet Manager
 
+[![Build Status](https://travis-ci.com/WilsonDev/snippet-manager.svg?branch=master)](https://travis-ci.com/WilsonDev/snippet-manager)
+
 ## Available Scripts
 
 In the project directory, you can run:
