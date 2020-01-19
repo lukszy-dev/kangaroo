@@ -128,23 +128,19 @@ export const synchronizeGist = (gistId) => {
         gist_id: gistId,
         description: '',
         public: false,
-        files: {}
-      };
-
-      list.forEach(item => {
-        if (item.content) {
-          const filename = [item.title, item.extension].filter(Boolean).join('.');
-          request.files[filename] = {
-            content: item.content
-          };
+        files: {
+          ['Bla']: {
+            content: JSON.stringify(list)
+          }
         }
-      });
+      };
 
       octokit.gists.update(request)
       .then(response => {
         console.log(response);
         ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
         snippets.updateAll({ source: sourceType.GIST });
+        dispatch(initSnippets());
         dispatch(setLoading(false));
         resolve();
       })
@@ -182,6 +178,7 @@ export const createBackupGist = (description) => {
         const gistId = response.data.id;
         ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
         snippets.updateAll({ source: sourceType.GIST });
+        dispatch(initSnippets());
         dispatch(setLoading(false));
         resolve();
       })

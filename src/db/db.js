@@ -28,7 +28,7 @@ const dbUpdate = (db, obj) => {
 };
 
 const dbUpdateAll = (db, changes) => {
-  db.update({}, { $set: changes}, {}, err => {
+  db.update({}, { $set: changes}, { multi: true }, err => {
     if (err) throw new Error(err);
   });
 };
