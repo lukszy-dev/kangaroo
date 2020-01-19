@@ -1,0 +1,20 @@
+.SnippetListElement {
+  height: var(--snippet-list-element-height);
+}
+
+.SnippetListElement-active {
+  background-image: var(--active-snippet);
+  // background-color: var(--color-selected);
+}
+
+.SnippetListElement--content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 5px 5px 5px 15px;
+  border-image: var(--divider) 1;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}

@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from '@blueprintjs/core';
 
-import Snippet, { sourceType } from '../../models/Snippet';
+import Snippet, { sourceType } from '../../../models/Snippet';
 
-import './SnippetList.scss';
 import './SnippetListElement.scss';
 
 const SnippetListElement = ({
@@ -32,24 +31,24 @@ const SnippetListElement = ({
   });
 
   return (
-    <div key={element.id}>
-      <div
-        className={listElementClass}
-        onClick={handleClick}
-        onContextMenu={handleContextMenu}
-      >
+    <div
+      key={element.id}
+      className={listElementClass}
+      onClick={handleClick}
+      onContextMenu={handleContextMenu}
+    >
+      <div className='SnippetListElement--content'>
         {element.title}
         {element.source === sourceType.GIST && (
           <Button icon="cloud" minimal={true} />
         )}
       </div>
-      <div className="SnippetList--divider" />
     </div>
   );
 };
 
 SnippetListElement.propTypes = {
-  element: PropTypes.instanceOf(Snippet),
+  element: PropTypes.instanceOf(Snippet).isRequired,
   currentlySelectedId: PropTypes.number.isRequired,
   onChangeSnippet: PropTypes.func.isRequired,
   onContextMenu: PropTypes.func.isRequired

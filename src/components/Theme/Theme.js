@@ -10,7 +10,7 @@ const Theme = ({ mode, children, classNames }) => {
   const node = createRef();
 
   useEffect(() => {
-    function updateCSSVariables() {
+    const updateCSSVariables = () => {
       if (!variables) {
         return;
       }

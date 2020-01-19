@@ -8,7 +8,7 @@ import GistSelectorPanel from './GistSelectorPanel';
 const AccountModal = ({
   token,
   gists,
-  loading,
+  ui,
   isOpen,
   onOpen,
   onSetAuthToken,
@@ -85,7 +85,7 @@ const AccountModal = ({
       authToken: authToken,
       onAuthTokenChange: handleAuthTokenChange,
       onAccept: handleAuthToken,
-      loading: loading
+      loading: ui.loading
     }
   }, {
     component: GistSelectorPanel,
@@ -97,7 +97,7 @@ const AccountModal = ({
       onGistDescriptionChange: handleGistDescriptionChange,
       onSynchronizeGist: handleSynchronizeGist,
       onCreateGist: handleCreateGist,
-      loading: loading
+      loading: ui.loading
     }
   }];
 
@@ -106,6 +106,7 @@ const AccountModal = ({
       title='Connect to GitHub Gist'
       isOpen={isOpen}
       onClose={handleClose}
+      theme={ui.theme}
     >
       {renderPanel()}
     </ModalOverlay>
@@ -115,7 +116,7 @@ const AccountModal = ({
 AccountModal.propTypes = {
   token: PropTypes.string,
   gists: PropTypes.array,
-  loading: PropTypes.bool.isRequired,
+  ui: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,

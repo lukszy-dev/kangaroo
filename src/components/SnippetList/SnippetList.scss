@@ -5,9 +5,32 @@
   height: 100vh;
   background-color: var(--background-color-secondary);
   border-right: var(--list-container-border);
+  z-index: 10;
 }
 
 .SnippetList--divider {
   height: 1px;
   background-image: var(--divider);
+}
+
+.SnippetList--element-enter {
+  opacity: 0.01;
+  height: 0 !important;
+}
+
+.SnippetList--element-enter.SnippetList--element-enter-active {
+  opacity: 1;
+  height: var(--snippet-list-element-height) !important;
+  transition: opacity 150ms ease, height 200ms ease;
+}
+
+.SnippetList--element-exit {
+  opacity: 1;
+  height: var(--snippet-list-element-height);
+}
+
+.SnippetList--element-exit.SnippetList--element-exit-active {
+  opacity: 0.01;
+  height: 0;
+  transition: opacity 150ms ease, height 200ms ease;
 }
