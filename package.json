@@ -1,6 +1,6 @@
 {
-  "name": "snippet-manager",
-  "version": "0.1.0",
+  "name": "snippee",
+  "version": "0.5.0",
   "private": true,
   "main": "electron/main.js",
   "description": "Snippet manager",
@@ -76,7 +76,7 @@
   "build": {
     "appId": "com.proggramik",
     "compression": "normal",
-    "productName": "Snippet manager",
+    "productName": "Snippee",
     "copyright": "Copyright © 2019 ${author}",
     "directories": {
       "buildResources": "build",
