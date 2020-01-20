@@ -21,6 +21,28 @@ const GistSelectorPanel = ({
     return ({ label: gist.title, value: gist.id })
   });
 
+  const renderGistCreator = () => {
+    return (
+      <Fragment>
+        <H5>Create new gist</H5>
+
+        <FormGroup label='Description'>
+          <InputGroup
+            placeholder='Description'
+            onChange={onGistDescriptionChange}
+            value={gistDescription}
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+            <Button disabled={!gistDescription} onClick={onCreateGist} loading={loading}>Create</Button>
+          </div>
+        </FormGroup>
+      </Fragment>
+    );
+  };
+
   const renderGistSelector = () => {
     if (remoteGists.length < 1) {
       return;
@@ -58,22 +80,7 @@ const GistSelectorPanel = ({
   return (
     <Fragment>
       <div className={dialogBodyClass}>
-        <H5>Create new gist</H5>
-
-        <FormGroup label='Description'>
-          <InputGroup
-            placeholder='Description'
-            onChange={onGistDescriptionChange}
-            value={gistDescription}
-          />
-        </FormGroup>
-
-        <FormGroup>
-          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-            <Button disabled={!gistDescription} onClick={onCreateGist} loading={loading}>Create</Button>
-          </div>
-        </FormGroup>
-
+        {renderGistCreator()}
         {renderGistSelector()}
       </div>
     </Fragment>

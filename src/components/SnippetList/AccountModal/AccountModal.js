@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import ModalOverlay from '../../ModalOverlay/ModalOverlay';
 import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
 
+const STEPS = {
+  AUTH_TOKEN: 0,
+  GIST_SELECTOR: 1
+};
+
 const AccountModal = ({
-  token,
-  gists,
   ui,
   isOpen,
   onOpen,
@@ -15,10 +19,12 @@ const AccountModal = ({
   onSynchronizeGist,
   onCreateBackupGist
 }) => {
+  const { token, gists } = useSelector(state => state.auth);
+
   const [authToken, setAuthToken] = useState(token);
-  const [gistId, setGistId] = useState(gists && gists[0] ? gists[0].id : '');
+  const [gistId, setGistId] = useState(gists.length > 0 ? gists[0].id : '');
   const [gistDescription, setGistDescription] = useState('');
-  const [step, setStep] = useState(token ? 1 : 0);
+  const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
 
   const handleAuthTokenChange = (event) => {
     setAuthToken(event.target.value);
@@ -47,8 +53,7 @@ const AccountModal = ({
   const handleSynchronizeGist = () => {
     onSynchronizeGist(gistId).then(() => {
       handleClose();
-    })
-    .catch(() => {
+    }).catch(() => {
       handleClose();
     });
   };
@@ -60,22 +65,22 @@ const AccountModal = ({
   };
 
   const handleOnOpening = () => {
-    if (authToken) {
-      onSetAuthToken(authToken);
-    }
+    // if (authToken) {
+    //   onSetAuthToken(authToken).then(gists => {
+    //     setGistId(gists.length > 0 ? gists[0].id : '');
+    //   });
+    // }
   };
 
   const handleClose = () => {
-    setStep(authToken ? 1 : 0);
+    setStep(authToken ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
     onOpen();
   };
 
   const renderPanel = () => {
+    console.log('test');
     const panel = panels[step];
-    if (panel) {
-      return panel.component(panel.props);
-    }
-    return null;
+    return panel ? panel.component(panel.props) : null;
   };
 
   const panels = [{
@@ -108,14 +113,12 @@ const AccountModal = ({
       onClose={handleClose}
       theme={ui.theme}
     >
-      {renderPanel()}
+      {isOpen && renderPanel()}
     </ModalOverlay>
   );
 };
 
 AccountModal.propTypes = {
-  token: PropTypes.string,
-  gists: PropTypes.array,
   ui: PropTypes.object.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,

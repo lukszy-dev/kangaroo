@@ -124,27 +124,26 @@ export const synchronizeGist = (gistId) => {
 
       const octokit = new Octokit({ auth: token });
 
+      const fileName = (new Date()).toISOString();
       const request = {
         gist_id: gistId,
-        description: '',
-        public: false,
         files: {
-          ['Bla']: {
+          [fileName]: {
             content: JSON.stringify(list)
           }
         }
       };
 
-      octokit.gists.update(request)
-      .then(response => {
+      octokit.gists.update(
+        request
+      ).then(response => {
         console.log(response);
         ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
         snippets.updateAll({ source: sourceType.GIST });
         dispatch(initSnippets());
         dispatch(setLoading(false));
         resolve();
-      })
-      .catch(error => {
+      }).catch(error => {
         console.error(error);
         dispatch(setLoading(false));
         reject();
@@ -162,18 +161,20 @@ export const createBackupGist = (description) => {
 
       const octokit = new Octokit({ auth: token });
 
+      const fileName = (new Date()).toISOString();
       const request = {
         description: description,
         public: false,
         files: {
-          [description]: {
+          [fileName]: {
             content: JSON.stringify(list)
           }
         }
       };
 
-      octokit.gists.create(request)
-      .then(response => {
+      octokit.gists.create(
+        request
+      ).then(response => {
         console.log(response);
         const gistId = response.data.id;
         ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
@@ -181,8 +182,7 @@ export const createBackupGist = (description) => {
         dispatch(initSnippets());
         dispatch(setLoading(false));
         resolve();
-      })
-      .catch(error => {
+      }).catch(error => {
         console.error(error);
         dispatch(setError(STATUS_CODES[error.status]));
         dispatch(setLoading(false));

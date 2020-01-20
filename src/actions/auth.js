@@ -44,7 +44,7 @@ export const setAuthToken = (token) => {
           const gists = response.data.map(gist => new Gist(gist));
           dispatch(setGistsAction(gists));
           dispatch(setLoading(false));
-          resolve();
+          resolve(gists);
         })
         .catch(error => {
           console.error(error);

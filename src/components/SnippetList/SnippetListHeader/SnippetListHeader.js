@@ -15,7 +15,7 @@ const SnippetListHeader = ({
   onCreateBackupGist,
   onSynchronizeGist
 }) => {
-  const { token, gists, backupGistId } = useSelector(state => state.auth);
+  const { backupGistId } = useSelector(state => state.auth);
   const ui = useSelector(state => state.ui);
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -80,8 +80,6 @@ const SnippetListHeader = ({
       </div>
 
       <AccountModal
-        token={token}
-        gists={gists}
         ui={ui}
         isOpen={isModalOpen}
         onOpen={handleAccountModalOpen}
