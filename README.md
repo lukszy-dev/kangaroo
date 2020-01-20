@@ -1,4 +1,5 @@
-# Snippet Manager [![Build Status](https://travis-ci.com/WilsonDev/snippet-manager.svg?branch=master)](https://travis-ci.com/WilsonDev/snippet-manager)
+# Snipp`ee` [![Build Status](https://travis-ci.com/WilsonDev/snippet-manager.svg?branch=master)](https://travis-ci.com/WilsonDev/snippet-manager)
+### Snippet manager
 
 ![snippet-manager](https://user-images.githubusercontent.com/5923943/72289262-04406e80-364b-11ea-8b7a-dca666ad5ee9.png)
 
