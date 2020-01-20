@@ -12,7 +12,7 @@ const store = new Store();
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    title: 'Snippet manager',
+    title: 'Snippee',
     // #f5f8fa
     backgroundColor: '#30404d',
     show: false,
@@ -61,7 +61,7 @@ const createWindow = () => {
 };
 
 app.setAboutPanelOptions({
-  applicationName: 'Snippet manager',
+  applicationName: 'Snippee',
   version: 'App Store',
   applicationVersion: '0.0.1',
 });
