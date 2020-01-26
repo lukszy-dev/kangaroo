@@ -28,14 +28,14 @@ const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
         <HTMLSelect
           value={snippet.language}
           minimal="true"
-          iconProps={{icon: 'caret-down'}}
-          style={{textTransform: 'capitalize'}}
+          iconProps={{ icon: 'caret-down' }}
+          style={{ textTransform: 'capitalize' }}
           onChange={onLanguageChange}
           options={languageItems}
         /> :
         <HTMLSelect
           minimal="true"
-          iconProps={{icon: 'caret-down'}}
+          iconProps={{ icon: 'caret-down' }}
           disabled={true}
         />
       }

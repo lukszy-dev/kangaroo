@@ -23,11 +23,11 @@ const AccountModal = ({
   const [gistDescription, setGistDescription] = useState('');
   const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
 
-  const handleAuthTokenChange = ({ target: { value }}) => {
+  const handleAuthTokenChange = ({ target: { value } }) => {
     setAuthToken(value);
   };
 
-  const handleGistDescriptionChange = ({ target: { value }}) => {
+  const handleGistDescriptionChange = ({ target: { value } }) => {
     setGistDescription(value);
   };
 

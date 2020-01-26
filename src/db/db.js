@@ -9,7 +9,7 @@ const dbFactory = (name) => {
     remote.app.getPath('userData')}/data/${name}.db`,
     autoload: true
   });
-  
+
   db.ensureIndex({ fieldName: 'id', unique: true });
 
   return db;
@@ -28,7 +28,7 @@ const dbUpdate = (db, obj) => {
 };
 
 const dbUpdateAll = (db, changes) => {
-  db.update({}, { $set: changes}, { multi: true }, err => {
+  db.update({}, { $set: changes }, { multi: true }, err => {
     if (err) throw new Error(err);
   });
 };

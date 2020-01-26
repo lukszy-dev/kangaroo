@@ -9,7 +9,7 @@ const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => 
   const dialogBodyClass = classNames({
     [Classes.DIALOG_BODY]: true,
     'Panel--dialog-body': true
-  }); 
+  });
 
   return (
     <>

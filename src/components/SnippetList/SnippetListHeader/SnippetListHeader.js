@@ -20,7 +20,7 @@ const SnippetListHeader = ({
   const { token, backupGistId } = useSelector(state => state.auth);
   const { loading } = useSelector(state => state.ui);
 
-  const handleSearchOnChange = ({ target: { value }}) => {
+  const handleSearchOnChange = ({ target: { value } }) => {
     onSearchChange(value);
   };
 

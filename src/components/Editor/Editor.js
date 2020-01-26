@@ -39,7 +39,7 @@ const Editor = () => {
   };
 
   const handleOnLanguageChange = (event) => {
-    dispatch(updateSnippet({...snippet, language: event.currentTarget.value }));
+    dispatch(updateSnippet({ ...snippet, language: event.currentTarget.value }));
   };
 
   const handleTitleChange = (value) => {
@@ -77,7 +77,7 @@ const Editor = () => {
           setOptions={{ useWorker: false }}
         />
       </div>
-      
+
       <StatusBar
         snippet={snippet}
         onShowGutter={handleShowGutter}

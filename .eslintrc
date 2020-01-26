@@ -20,6 +20,17 @@
     }
   },
   "rules": {
-    "jsx-quotes": ["error", "prefer-double"]
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }],
+    "eol-last": ["error", "always"],
+    "jsx-quotes": ["error", "prefer-double"],
+
+    "no-trailing-spaces": ["error", {
+      "skipBlankLines": false,
+      "ignoreComments": false
+    }],
+
+    "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
+    "no-whitespace-before-property": "error",
+    "object-curly-spacing": ["error", "always"]
   }
 }

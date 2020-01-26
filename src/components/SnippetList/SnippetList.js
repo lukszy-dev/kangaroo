@@ -78,12 +78,12 @@ const SnippetList = () => {
     const mouseUp = () => {
       resizerXPosition.current = null;
     }
-  
+
     const mouseMove = (event) => {
       if (!resizerXPosition.current) {
         return;
       }
-  
+
       const newPosition = panelWidth.current + event.clientX - resizerXPosition.current;
       // TODO Remove hardcoded values
       if (newPosition <= 600) {

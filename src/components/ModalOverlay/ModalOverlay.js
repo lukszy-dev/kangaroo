@@ -34,7 +34,7 @@ const ModalOverlay = () => {
   };
 
   const renderModalComponent = () => {
-    if (!modalType) { 
+    if (!modalType) {
       return null;
     }
 

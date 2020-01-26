@@ -86,7 +86,7 @@ export const addSnippet = () => {
 
 export const updateSnippet = (snippet) => {
   return (dispatch, getState) => {
-    const { snippets: { current, list }} = getState();
+    const { snippets: { current, list } } = getState();
 
     const toUpdateIndex = list.findIndex(element => element.id === current.id);
     const updatedSnippet = new Snippet({ ...snippet, lastUpdated: new Date() });
@@ -100,7 +100,7 @@ export const updateSnippet = (snippet) => {
 
 export const deleteSnippet = () => {
   return (dispatch, getState) => {
-    const { snippets: { current, list }} = getState();
+    const { snippets: { current, list } } = getState();
 
     const updatedList = list.filter(element => element.id !== current.id);
 
@@ -117,7 +117,7 @@ export const setSearchSnippets = (query) => {
 
 export const synchronizeGist = (gistId) => {
   return (dispatch, getState, ipcRenderer) => {
-    const { auth: { token }, snippets: { list }} = getState();
+    const { auth: { token }, snippets: { list } } = getState();
 
     return new Promise((resolve, reject) => {
       dispatch(setLoading(true));
@@ -154,7 +154,7 @@ export const synchronizeGist = (gistId) => {
 
 export const createBackupGist = (description) => {
   return (dispatch, getState, ipcRenderer) => {
-    const { auth: { token }, snippets: { list }} = getState();
+    const { auth: { token }, snippets: { list } } = getState();
 
     return new Promise((resolve, reject) => {
       dispatch(setLoading(true));
