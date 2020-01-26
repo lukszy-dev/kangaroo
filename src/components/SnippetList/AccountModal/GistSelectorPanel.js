@@ -36,7 +36,13 @@ const GistSelectorPanel = ({
 
         <FormGroup>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-            <Button disabled={!gistDescription} onClick={onCreateGist} loading={loading}>Create</Button>
+            <Button
+              disabled={!gistDescription}
+              onClick={onCreateGist}
+              loading={loading}
+            >
+              Create
+            </Button>
           </div>
         </FormGroup>
       </>
@@ -66,7 +72,13 @@ const GistSelectorPanel = ({
         </FormGroup>
 
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button disabled={!gistId} onClick={onSynchronizeGist} loading={loading}>Import</Button>
+          <Button
+            disabled={!gistId}
+            onClick={onSynchronizeGist}
+            loading={loading}
+          >
+            Import
+          </Button>
         </div>
       </>
     );
