@@ -1,35 +1,64 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { Dialog } from '@blueprintjs/core';
 
-const ModalOverlay = ({
-  isOpen,
-  onClose,
-  onOpening,
-  title,
-  theme,
-  children
-}) => {
+import AccountModal from 'components/SnippetList/AccountModal/AccountModal';
+import { hideModal } from 'actions/modal';
+import { ACCOUNT_MODAL } from './constants';
+
+const MODAL_COMPONENTS = {
+  [ACCOUNT_MODAL]: {
+    title: 'Connect to GitHub Gist',
+    component: AccountModal
+  }
+};
+
+const ModalOverlay = () => {
+  const dispatch = useDispatch();
+  const { modalType, modalProps } = useSelector(state => state.modal);
+  const { loading, theme } = useSelector(state => state.ui);
+
+  const handleHideModal = () => {
+    dispatch(hideModal());
+  };
+
+  const modalTitle = () => {
+    if (!modalType) {
+      return '';
+    }
+
+    const modalConfig = MODAL_COMPONENTS[modalType];
+    const modalTitle = modalConfig.title;
+
+    return modalTitle;
+  };
+
+  const renderModalComponent = () => {
+    if (!modalType) { 
+      return null;
+    }
+
+    const modalConfig = MODAL_COMPONENTS[modalType];
+    const ModalComponent = modalConfig.component;
+
+    return (
+      <ModalComponent
+        loading={loading}
+        {...modalProps}
+      />
+    );
+  };
+
   return (
     <Dialog
       className={theme === 'dark' ? 'bp3-dark' : ''}
-      title={title}
-      isOpen={isOpen}
-      onClose={onClose}
-      onOpening={onOpening}
+      title={modalTitle()}
+      isOpen={modalType !== null}
+      onClose={handleHideModal}
     >
-      {children}
+      {renderModalComponent()}
     </Dialog>
   );
-};
-
-ModalOverlay.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onOpening: PropTypes.func,
-  title: PropTypes.string,
-  theme: PropTypes.string.isRequired,
-  children: PropTypes.node
 };
 
 export default ModalOverlay;

@@ -18,5 +18,8 @@
     "react": {
       "version": "detect"
     }
+  },
+  "rules": {
+    "jsx-quotes": ["error", "prefer-double"]
   }
 }

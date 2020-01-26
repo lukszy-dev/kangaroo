@@ -1,14 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Loader from './components/Loader/Loader';
 import Theme from './components/Theme/Theme';
 import Editor from './components/Editor/Editor';
 import SnippetList from './components/SnippetList/SnippetList';
-import appCommand, { APP_COMMAND } from './utils/appCommand';
+import ModalOverlay from 'components/ModalOverlay/ModalOverlay';
+
 import { initSnippets } from './actions/snippets';
 import { loadAuthData } from './actions/auth';
 import { appInit } from './actions/ui';
+
+import appCommand, { APP_COMMAND } from './utils/appCommand';
 
 import './App.scss';
 
@@ -36,10 +39,11 @@ const App = () => {
       { init ? (
         <Loader />
       ) : (
-        <Fragment>
+        <>
           <SnippetList />
           <Editor />
-        </Fragment>
+          <ModalOverlay />
+        </>
       )}
     </Theme>
   );

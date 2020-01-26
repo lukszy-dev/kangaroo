@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes, H5 } from '@blueprintjs/core';
@@ -23,12 +23,12 @@ const GistSelectorPanel = ({
 
   const renderGistCreator = () => {
     return (
-      <Fragment>
+      <>
         <H5>Create new gist</H5>
 
-        <FormGroup label='Description'>
+        <FormGroup label="Description">
           <InputGroup
-            placeholder='Description'
+            placeholder="Description"
             onChange={onGistDescriptionChange}
             value={gistDescription}
           />
@@ -39,7 +39,7 @@ const GistSelectorPanel = ({
             <Button disabled={!gistDescription} onClick={onCreateGist} loading={loading}>Create</Button>
           </div>
         </FormGroup>
-      </Fragment>
+      </>
     );
   };
 
@@ -49,7 +49,7 @@ const GistSelectorPanel = ({
     }
 
     return (
-      <Fragment>
+      <>
         <FormGroup>
           <Divider />
         </FormGroup>
@@ -68,22 +68,17 @@ const GistSelectorPanel = ({
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
           <Button disabled={!gistId} onClick={onSynchronizeGist} loading={loading}>Import</Button>
         </div>
-      </Fragment>
+      </>
     );
   };
 
-  const dialogBodyClass = classNames({
-    [Classes.DIALOG_BODY]: true,
-    'Panel--dialog-body': true
-  }); 
-
   return (
-    <Fragment>
-      <div className={dialogBodyClass}>
+    <>
+      <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
         {renderGistCreator()}
         {renderGistSelector()}
       </div>
-    </Fragment>
+    </>
   );
 };
 

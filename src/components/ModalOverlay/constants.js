@@ -1,0 +1,3 @@
+const ACCOUNT_MODAL = 'ACCOUNT_MODAL';
+
+export { ACCOUNT_MODAL };

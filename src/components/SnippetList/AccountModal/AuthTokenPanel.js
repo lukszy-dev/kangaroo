@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button, InputGroup, FormGroup, Classes } from '@blueprintjs/core';
@@ -12,11 +12,11 @@ const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => 
   }); 
 
   return (
-    <Fragment>
+    <>
       <div className={dialogBodyClass}>
-        <FormGroup label='GitHub personal access token'>
+        <FormGroup label="GitHub personal access token">
           <InputGroup
-            placeholder='Token'
+            placeholder="Token"
             value={authToken}
             onChange={onAuthTokenChange}
           />
@@ -27,7 +27,7 @@ const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => 
           <Button disabled={!authToken} onClick={onAccept} loading={loading}>Connect</Button>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 };
 

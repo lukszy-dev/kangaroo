@@ -109,7 +109,7 @@ const SnippetList = () => {
       return (
         <CSSTransition
           key={element.id}
-          classNames='SnippetList--element'
+          classNames="SnippetList--element"
           timeout={{ enter: 350, exit: 350 }}
         >
           <SnippetListElement
@@ -126,7 +126,7 @@ const SnippetList = () => {
   return (
     <div
       style={{ width: leftPanelWidth, minWidth: 200 }}
-      className='SnippetList--container'
+      className="SnippetList--container"
     >
       <SnippetListHeader
         query={query}

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import ModalOverlay from '../../ModalOverlay/ModalOverlay';
 import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
 
@@ -12,9 +11,7 @@ const STEPS = {
 };
 
 const AccountModal = ({
-  ui,
-  isOpen,
-  onOpen,
+  loading,
   onSetAuthToken,
   onSynchronizeGist,
   onCreateBackupGist
@@ -26,12 +23,12 @@ const AccountModal = ({
   const [gistDescription, setGistDescription] = useState('');
   const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
 
-  const handleAuthTokenChange = (event) => {
-    setAuthToken(event.target.value);
+  const handleAuthTokenChange = ({ target: { value }}) => {
+    setAuthToken(value);
   };
 
-  const handleGistDescriptionChange = (event) => {
-    setGistDescription(event.target.value);
+  const handleGistDescriptionChange = ({ target: { value }}) => {
+    setGistDescription(value);
   };
 
   const handleGistSelect = (event) => {
@@ -64,21 +61,11 @@ const AccountModal = ({
     }
   };
 
-  const handleOnOpening = () => {
-    // if (authToken) {
-    //   onSetAuthToken(authToken).then(gists => {
-    //     setGistId(gists.length > 0 ? gists[0].id : '');
-    //   });
-    // }
-  };
-
   const handleClose = () => {
     setStep(authToken ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
-    onOpen();
   };
 
   const renderPanel = () => {
-    console.log('test');
     const panel = panels[step];
     return panel ? panel.component(panel.props) : null;
   };
@@ -89,7 +76,7 @@ const AccountModal = ({
       authToken: authToken,
       onAuthTokenChange: handleAuthTokenChange,
       onAccept: handleAuthToken,
-      loading: ui.loading
+      loading
     }
   }, {
     component: GistSelectorPanel,
@@ -101,27 +88,19 @@ const AccountModal = ({
       onGistDescriptionChange: handleGistDescriptionChange,
       onSynchronizeGist: handleSynchronizeGist,
       onCreateGist: handleCreateGist,
-      loading: ui.loading
+      loading
     }
   }];
 
   return (
-    <ModalOverlay
-      title='Connect to GitHub Gist'
-      isOpen={isOpen}
-      onOpening={handleOnOpening}
-      onClose={handleClose}
-      theme={ui.theme}
-    >
-      {isOpen && renderPanel()}
-    </ModalOverlay>
+    <>
+      {renderPanel()}
+    </>
   );
 };
 
 AccountModal.propTypes = {
-  ui: PropTypes.object.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onOpen: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
   onCreateBackupGist: PropTypes.func.isRequired

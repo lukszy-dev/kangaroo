@@ -19,12 +19,12 @@ const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true, al
     }
   }, [bottomShadow]);
 
-  const handleScroll = event => {
+  const handleScroll = ({ target }) => {
     if (alwaysOn) {
       return;
     }
 
-    const { scrollHeight, clientHeight, scrollTop } = event.target;
+    const { scrollHeight, clientHeight, scrollTop } = target;
 
     if (scrollHeight - scrollTop === clientHeight) {
       setActiveBottom(false);

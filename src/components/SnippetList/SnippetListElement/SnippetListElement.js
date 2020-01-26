@@ -37,7 +37,7 @@ const SnippetListElement = ({
       onClick={handleClick}
       onContextMenu={handleContextMenu}
     >
-      <div className='SnippetListElement--content'>
+      <div className="SnippetListElement--content">
         {element.title}
         {element.source === sourceType.GIST && (
           <Button icon="cloud" minimal={true} />
