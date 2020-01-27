@@ -45,6 +45,10 @@ const GistSelectorPanel = ({
             </Button>
           </div>
         </FormGroup>
+
+        <FormGroup>
+          <Divider />
+        </FormGroup>
       </>
     );
   };
@@ -56,10 +60,6 @@ const GistSelectorPanel = ({
 
     return (
       <>
-        <FormGroup>
-          <Divider />
-        </FormGroup>
-
         <H5>Synchronize with existing </H5>
 
         <FormGroup>
@@ -87,7 +87,7 @@ const GistSelectorPanel = ({
   return (
     <>
       <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
-        {renderGistCreator()}
+        {!gistId && renderGistCreator()}
         {renderGistSelector()}
       </div>
     </>

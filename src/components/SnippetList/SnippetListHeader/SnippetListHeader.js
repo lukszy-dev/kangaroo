@@ -18,7 +18,6 @@ const SnippetListHeader = ({
 }) => {
   const dispatch = useDispatch();
   const { token, backupGistId } = useSelector(state => state.auth);
-  const { loading } = useSelector(state => state.ui);
 
   const handleSearchOnChange = ({ target: { value } }) => {
     onSearchChange(value);
@@ -31,7 +30,6 @@ const SnippetListHeader = ({
   const handleAccountModalOpen = () => {
     onSetAuthToken(token).then(() => {
       dispatch(showModal(ACCOUNT_MODAL, {
-        loading,
         onSetAuthToken,
         onSynchronizeGist,
         onCreateBackupGist

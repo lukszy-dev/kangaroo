@@ -11,12 +11,13 @@ const STEPS = {
 };
 
 const AccountModal = ({
-  loading,
+  onHideModal,
   onSetAuthToken,
   onSynchronizeGist,
   onCreateBackupGist
 }) => {
   const { token, gists } = useSelector(state => state.auth);
+  const { loading } = useSelector(state => state.ui);
 
   const [authToken, setAuthToken] = useState(token);
   const [gistId, setGistId] = useState(gists.length > 0 ? gists[0].id : '');
@@ -63,6 +64,7 @@ const AccountModal = ({
 
   const handleClose = () => {
     setStep(authToken ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
+    onHideModal();
   };
 
   const renderPanel = () => {
@@ -100,7 +102,7 @@ const AccountModal = ({
 };
 
 AccountModal.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  onHideModal: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
   onCreateBackupGist: PropTypes.func.isRequired

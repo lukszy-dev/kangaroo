@@ -44,6 +44,7 @@ const ModalOverlay = () => {
     return (
       <ModalComponent
         loading={loading}
+        onHideModal={handleHideModal}
         {...modalProps}
       />
     );
