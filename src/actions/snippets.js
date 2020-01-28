@@ -15,6 +15,11 @@ export const SET_CURRENT_SNIPPET = namespace('SET_CURRENT_SNIPPET');
 export const LOAD_SNIPPETS = namespace('LOAD_SNIPPETS');
 export const SET_SEARCH_SNIPPETS = namespace('SET_SEARCH_SNIPPETS');
 
+export const SYNCHRONIZE_TYPE = {
+  BACKUP: 'BACKUP',
+  IMPORT: 'IMPORT'
+};
+
 const loadSnippetsAction = (list, current, lastId) => ({
   type: LOAD_SNIPPETS,
   list,
@@ -115,11 +120,17 @@ export const setSearchSnippets = (query) => {
   };
 };
 
-export const synchronizeGist = (gistId) => {
+export const synchronizeGist = (action, gistId) => {
   return (dispatch, getState, ipcRenderer) => {
     const { auth: { token }, snippets: { list } } = getState();
 
     return new Promise((resolve, reject) => {
+      if (action === SYNCHRONIZE_TYPE.SYNCHRONIZE) {
+        console.log('IMPORT');
+        reject();
+        return;
+      }
+
       dispatch(setLoading(true));
 
       const octokit = new Octokit({ auth: token });

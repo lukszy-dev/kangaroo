@@ -16,7 +16,7 @@ const AccountModal = ({
   onSynchronizeGist,
   onCreateBackupGist
 }) => {
-  const { token, gists } = useSelector(state => state.auth);
+  const { token, backupGistId, gists } = useSelector(state => state.auth);
   const { loading } = useSelector(state => state.ui);
 
   const [authToken, setAuthToken] = useState(token);
@@ -32,8 +32,8 @@ const AccountModal = ({
     setGistDescription(value);
   };
 
-  const handleGistSelect = (event) => {
-    setGistId(event.currentTarget.value);
+  const handleGistSelect = ({ currentTarget: { value } }) => {
+    setGistId(value);
   };
 
   const handleAuthToken = () => {
@@ -48,8 +48,8 @@ const AccountModal = ({
     });
   };
 
-  const handleSynchronizeGist = () => {
-    onSynchronizeGist(gistId).then(() => {
+  const handleSynchronizeGist = (action) => {
+    onSynchronizeGist(action, gistId).then(() => {
       handleClose();
     }).catch(() => {
       handleClose();
@@ -86,6 +86,7 @@ const AccountModal = ({
       remoteGists: gists,
       gistDescription: gistDescription,
       gistId: gistId,
+      backupGistId: backupGistId,
       onGistSelect: handleGistSelect,
       onGistDescriptionChange: handleGistDescriptionChange,
       onSynchronizeGist: handleSynchronizeGist,

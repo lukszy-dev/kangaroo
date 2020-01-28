@@ -70,8 +70,8 @@ const SnippetList = () => {
     return dispatch(createBackupGist(description));
   };
 
-  const handleSynchronizeGist = (id) => {
-    return dispatch(synchronizeGist(id));
+  const handleSynchronizeGist = (action, id) => {
+    return dispatch(synchronizeGist(action, id));
   };
 
   useEffect(() => {
