@@ -40,6 +40,7 @@ export const setAuthToken = (token) => {
 
       octokit.gists.list()
         .then(response => {
+          console.log(response);
           ipcRenderer.send('SET_GH_AUTH_DATA', { token });
           const gists = response.data.map(gist => new Gist(gist));
           dispatch(setGistsAction(gists));

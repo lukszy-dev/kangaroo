@@ -13,7 +13,7 @@ import './Editor.scss';
 
 // https://github.com/securingsincity/react-ace/issues/725
 import 'ace-builds/webpack-resolver';
-import './themes';
+import './ace-themes';
 
 Object.keys(languages).forEach(lang => {
   require(`ace-builds/src-noconflict/mode-${lang}`);

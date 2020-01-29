@@ -28,12 +28,21 @@ const SnippetListHeader = ({
   };
 
   const handleAccountModalOpen = () => {
-    onSetAuthToken(token).then(() => {
+    const dispatchShowModalAction = () => {
       dispatch(showModal(ACCOUNT_MODAL, {
         onSetAuthToken,
         onSynchronizeGist,
         onCreateBackupGist
       }));
+    };
+
+    if (!token) {
+      dispatchShowModalAction();
+      return;
+    }
+
+    onSetAuthToken(token).then(() => {
+      dispatchShowModalAction();
     });
   };
 

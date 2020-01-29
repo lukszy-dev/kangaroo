@@ -45,6 +45,7 @@ const GistSelectorPanel = ({
             disabled={!gistDescription}
             onClick={onCreateGist}
             loading={loading}
+            icon="cloud-upload"
           >
             Create
           </Button>

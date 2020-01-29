@@ -17,20 +17,18 @@ const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => 
         <FormGroup label="GitHub personal access token">
           <InputGroup
             placeholder="Token"
-            value={authToken}
+            value={authToken || ''}
             onChange={onAuthTokenChange}
           />
         </FormGroup>
 
-        <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button
-            disabled={!authToken}
-            onClick={onAccept}
-            loading={loading}
-          >
-            Connect
-          </Button>
-        </div>
+        <Button
+          disabled={!authToken}
+          onClick={onAccept}
+          loading={loading}
+        >
+          Connect
+        </Button>
       </div>
     </>
   );

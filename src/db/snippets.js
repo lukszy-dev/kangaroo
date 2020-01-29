@@ -3,6 +3,7 @@ import {
   dbAdd,
   dbUpdate,
   dbRemove,
+  dbRemoveAll,
   dbFindAll,
   dbUpdateAll
 } from './db';
@@ -35,11 +36,16 @@ const updateAll = (changes) => {
   dbUpdateAll(db, changes);
 };
 
+const removeAll = () => {
+  dbRemoveAll(db);
+};
+
 export const snippets = {
   loadDatabase,
   add,
   update,
   remove,
+  removeAll,
   findAll,
   updateAll
 };

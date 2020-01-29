@@ -1,4 +1,3 @@
-import uuidv4 from 'uuid/v4';
 import Octokit from '@octokit/rest';
 import { STATUS_CODES } from 'http';
 import Snippet, { sourceType } from '../models/Snippet';
@@ -73,15 +72,7 @@ export const addSnippet = () => {
   return (dispatch, getState) => {
     const { snippets: { lastId, list } } = getState();
 
-    const newSnippet = new Snippet({
-      id: lastId + 1,
-      source: sourceType.LOCAL,
-      uuid: uuidv4(),
-      title: 'New',
-      language: 'text',
-      content: '',
-      lastUpdated: new Date()
-    });
+    const newSnippet = new Snippet({ id: lastId + 1 });
     const updatedList = [...list, newSnippet].sort(sortById);
 
     snippets.add(newSnippet);
@@ -160,7 +151,7 @@ const importGist = (authToken, gistId) => {
 
 export const synchronizeGist = (action, gistId) => {
   return (dispatch, getState, ipcRenderer) => {
-    const { auth: { token }, snippets: { list } } = getState();
+    const { auth: { token }, snippets: { lastId, list } } = getState();
 
     return new Promise((resolve, reject) => {
       dispatch(setLoading(true));
@@ -184,7 +175,15 @@ export const synchronizeGist = (action, gistId) => {
         importGist(
           token, gistId
         ).then(response => {
-          console.log(response);
+          let id = lastId;
+          const files = Object.entries(response.data.files);
+          const data = JSON.parse(files[files.length - 1][1].content);
+          const imported = data.sort(sortById).map(entry => new Snippet({ ...entry, id: id++ }));
+
+          snippets.removeAll(); // TODO Merge local snippets instead
+          // TODO save to db
+          dispatch(loadSnippetsAction(imported, imported[0], id));
+          dispatch(setLoading(false));
           resolve();
         }).catch(error => {
           console.error(error);
@@ -219,7 +218,6 @@ export const createBackupGist = (description) => {
       octokit.gists.create(
         request
       ).then(response => {
-        console.log(response);
         const gistId = response.data.id;
         ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
         snippets.updateAll({ source: sourceType.GIST });
