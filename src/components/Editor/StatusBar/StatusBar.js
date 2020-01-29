@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip, Button, HTMLSelect, Position } from '@blueprintjs/core';
 
-import Snippet from '../../models/Snippet';
-import { languages } from '../../models/languages';
+import Snippet from '../../../models/Snippet';
+import { languages } from '../../../models/languages';
 
 import './StatusBar.scss';
 

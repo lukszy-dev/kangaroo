@@ -2,8 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AceEditor from 'react-ace';
 
-import StatusBar from './StatusBar';
-import EditorHeader from './EditorHeader';
+import StatusBar from './StatusBar/StatusBar';
+import EditorHeader from './EditorHeader/EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet } from '../../actions/snippets';
 import { showGutter } from '../../actions/editor';

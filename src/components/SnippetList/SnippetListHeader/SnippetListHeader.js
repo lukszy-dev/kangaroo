@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
 import { showModal } from 'actions/modal';
-import { ACCOUNT_MODAL } from 'components/ModalOverlay/constants';
+import { ACCOUNT_MODAL } from 'components/Modal/ModalOverlay/constants';
 
 import './SnippetListHeader.scss';
 

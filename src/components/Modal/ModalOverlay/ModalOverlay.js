@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dialog } from '@blueprintjs/core';
 
-import AccountModal from 'components/SnippetList/AccountModal/AccountModal';
+import AccountModal from 'components/Modal/AccountModal/AccountModal';
 import { hideModal } from 'actions/modal';
 import { ACCOUNT_MODAL } from './constants';
 

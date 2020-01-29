@@ -5,7 +5,7 @@ import Loader from './components/Loader/Loader';
 import Theme from './components/Theme/Theme';
 import Editor from './components/Editor/Editor';
 import SnippetList from './components/SnippetList/SnippetList';
-import ModalOverlay from 'components/ModalOverlay/ModalOverlay';
+import ModalOverlay from 'components/Modal/ModalOverlay/ModalOverlay';
 
 import { initSnippets } from './actions/snippets';
 import { loadAuthData } from './actions/auth';
