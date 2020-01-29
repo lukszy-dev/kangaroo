@@ -120,45 +120,78 @@ export const setSearchSnippets = (query) => {
   };
 };
 
+const backupSnippets = (authToken, gistId, snippets) => {
+  return new Promise((resolve, reject) => {
+    const octokit = new Octokit({ auth: authToken });
+
+    const fileName = (new Date()).toISOString();
+    const request = {
+      gist_id: gistId,
+      files: {
+        [fileName]: {
+          content: JSON.stringify(snippets)
+        }
+      }
+    };
+
+    octokit.gists.update(
+      request
+    ).then(response => {
+      resolve(response);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+};
+
+const importGist = (authToken, gistId) => {
+  return new Promise((resolve, reject) => {
+    const octokit = new Octokit({ auth: authToken });
+
+    octokit.gists.get({
+      gist_id: gistId
+    }).then(response => {
+      resolve(response);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+};
+
 export const synchronizeGist = (action, gistId) => {
   return (dispatch, getState, ipcRenderer) => {
     const { auth: { token }, snippets: { list } } = getState();
 
     return new Promise((resolve, reject) => {
-      if (action === SYNCHRONIZE_TYPE.SYNCHRONIZE) {
-        console.log('IMPORT');
-        reject();
-        return;
-      }
-
       dispatch(setLoading(true));
 
-      const octokit = new Octokit({ auth: token });
-
-      const fileName = (new Date()).toISOString();
-      const request = {
-        gist_id: gistId,
-        files: {
-          [fileName]: {
-            content: JSON.stringify(list)
-          }
-        }
-      };
-
-      octokit.gists.update(
-        request
-      ).then(response => {
-        console.log(response);
-        ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
-        snippets.updateAll({ source: sourceType.GIST });
-        dispatch(initSnippets());
-        dispatch(setLoading(false));
-        resolve();
-      }).catch(error => {
-        console.error(error);
-        dispatch(setLoading(false));
-        reject();
-      });
+      if (action === SYNCHRONIZE_TYPE.BACKUP) {
+        backupSnippets(
+          token, gistId, list
+        ).then(response => {
+          console.log(response);
+          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
+          snippets.updateAll({ source: sourceType.GIST });
+          dispatch(initSnippets());
+          dispatch(setLoading(false));
+          resolve();
+        }).catch(error => {
+          console.error(error);
+          dispatch(setLoading(false));
+          reject();
+        });
+      } else if (action === SYNCHRONIZE_TYPE.IMPORT) {
+        importGist(
+          token, gistId
+        ).then(response => {
+          console.log(response);
+          resolve();
+        }).catch(error => {
+          console.error(error);
+          dispatch(setLoading(false));
+          reject();
+        });
+      }
     });
   };
 };

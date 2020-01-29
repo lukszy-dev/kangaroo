@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes, H5 } from '@blueprintjs/core';
+import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes, H5, Callout, Intent } from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
 import { SYNCHRONIZE_TYPE } from 'actions/snippets';
@@ -85,6 +85,12 @@ const GistSelectorPanel = ({
         )}
 
         <H5>Synchronize with Gist</H5>
+
+        <FormGroup>
+          <Callout title="Warning" intent={Intent.WARNING}>
+            Will replace local snippets. [TODO]
+          </Callout>
+        </FormGroup>
 
         <FormGroup>
           <HTMLSelect
