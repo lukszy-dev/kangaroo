@@ -6,7 +6,7 @@ import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes, H5, Callou
 import Gist from 'models/Gist';
 import { SYNCHRONIZE_TYPE } from 'actions/snippets';
 
-import './Panel.scss';
+import '../Panel.scss';
 
 const GistSelectorPanel = ({
   remoteGists,
@@ -115,12 +115,10 @@ const GistSelectorPanel = ({
   };
 
   return (
-    <>
-      <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
-        {!gistId && renderGistCreator()}
-        {renderGistSelector()}
-      </div>
-    </>
+    <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
+      {!gistId && renderGistCreator()}
+      {renderGistSelector()}
+    </div>
   );
 };
 

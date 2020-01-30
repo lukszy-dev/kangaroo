@@ -1,8 +1,7 @@
 import Octokit from '@octokit/rest';
-import { STATUS_CODES } from 'http';
 import Snippet, { sourceType } from '../models/Snippet';
 import { sortById } from '../utils/utils';
-import { setLoading, setError } from './ui';
+import { setLoading } from './ui';
 import { snippetsDb } from '../db/snippets';
 
 const namespace = name => `SNIPPETS_${name}`;
@@ -139,9 +138,7 @@ const importGist = (authToken, gistId) => {
 
     octokit.gists.get({
       gist_id: gistId,
-      headers: {
-        'If-None-Match': ''
-      }
+      headers: { 'If-None-Match': '' }
     }).then(response => {
       resolve(response);
     }).catch(error => {
@@ -166,9 +163,8 @@ export const synchronizeGist = (action, gistId) => {
           dispatch(setLoading(false));
           resolve();
         }).catch(error => {
-          console.error(error);
           dispatch(setLoading(false));
-          reject();
+          reject(error);
         });
       } else if (action === SYNCHRONIZE_TYPE.IMPORT) {
         importGist(token, gistId).then(response => {
@@ -186,9 +182,8 @@ export const synchronizeGist = (action, gistId) => {
           dispatch(setLoading(false));
           resolve();
         }).catch(error => {
-          console.error(error);
           dispatch(setLoading(false));
-          reject();
+          reject(error);
         });
       }
     });
@@ -225,10 +220,8 @@ export const createBackupGist = (description) => {
         dispatch(setLoading(false));
         resolve();
       }).catch(error => {
-        console.error(error);
-        dispatch(setError(STATUS_CODES[error.status]));
         dispatch(setLoading(false));
-        reject();
+        reject(error);
       });
     });
   };

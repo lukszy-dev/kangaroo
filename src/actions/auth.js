@@ -1,8 +1,7 @@
-import { STATUS_CODES } from 'http';
 import Octokit from '@octokit/rest';
 import Gist from '../models/Gist';
 
-import { setLoading, setError } from './ui';
+import { setLoading } from './ui';
 
 const namespace = name => `AUTH_${name}`;
 
@@ -39,21 +38,16 @@ export const setAuthToken = (token) => {
       const octokit = new Octokit({ auth: token });
 
       octokit.gists.list({
-        headers: {
-          'If-None-Match': ''
-        }
+        headers: { 'If-None-Match': '' }
       }).then(response => {
-        console.log(response);
         ipcRenderer.send('SET_GH_AUTH_DATA', { token });
         const gists = response.data.map(gist => new Gist(gist));
         dispatch(setGistsAction(gists));
         dispatch(setLoading(false));
         resolve(gists);
       }).catch(error => {
-        console.error(error);
-        dispatch(setError(STATUS_CODES[error.status]));
         dispatch(setLoading(false));
-        reject();
+        reject(error);
       });
     });
   };

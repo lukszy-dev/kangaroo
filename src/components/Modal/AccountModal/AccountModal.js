@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { showModal } from 'actions/modal';
+import { ERROR_MODAL } from 'components/Modal/ModalOverlay/constants';
 
 import AuthTokenPanel from './AuthTokenPanel';
 import GistSelectorPanel from './GistSelectorPanel';
@@ -16,6 +19,7 @@ const AccountModal = ({
   onSynchronizeGist,
   onCreateBackupGist
 }) => {
+  const dispatch = useDispatch();
   const { token, backupGistId, gists } = useSelector(state => state.auth);
   const { loading } = useSelector(state => state.ui);
 
@@ -51,8 +55,9 @@ const AccountModal = ({
   const handleSynchronizeGist = (action) => {
     onSynchronizeGist(action, gistId).then(() => {
       handleClose();
-    }).catch(() => {
+    }).catch(error => {
       handleClose();
+      dispatch(showModal(ERROR_MODAL, { error }));
     });
   };
 
