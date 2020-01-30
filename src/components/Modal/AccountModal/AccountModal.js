@@ -17,7 +17,8 @@ const AccountModal = ({
   onHideModal,
   onSetAuthToken,
   onSynchronizeGist,
-  onCreateBackupGist
+  onCreateBackupGist,
+  onDeleteAuthData
 }) => {
   const dispatch = useDispatch();
   const { token, backupGistId, gists } = useSelector(state => state.auth);
@@ -61,6 +62,11 @@ const AccountModal = ({
     });
   };
 
+  const handleDeleteAuthData = () => {
+    onDeleteAuthData();
+    handleClose();
+  };
+
   const nextStep = () => {
     if (step < panels.length - 1) {
       setStep(step + 1);
@@ -96,6 +102,7 @@ const AccountModal = ({
       onGistDescriptionChange: handleGistDescriptionChange,
       onSynchronizeGist: handleSynchronizeGist,
       onCreateGist: handleCreateGist,
+      onDeleteAuthData: handleDeleteAuthData,
       loading
     }
   }];
@@ -111,7 +118,8 @@ AccountModal.propTypes = {
   onHideModal: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
-  onCreateBackupGist: PropTypes.func.isRequired
+  onCreateBackupGist: PropTypes.func.isRequired,
+  onDeleteAuthData: PropTypes.func.isRequired
 };
 
 export default AccountModal;

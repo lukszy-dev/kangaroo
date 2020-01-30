@@ -1,7 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { InputGroup, FormGroup, Button, HTMLSelect, Divider, Classes, H5, Callout, Intent } from '@blueprintjs/core';
+import {
+  InputGroup,
+  FormGroup,
+  Button,
+  HTMLSelect,
+  Divider,
+  Classes,
+  H5,
+  Checkbox
+} from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
 import { SYNCHRONIZE_TYPE } from 'actions/snippets';
@@ -17,6 +26,7 @@ const GistSelectorPanel = ({
   onGistDescriptionChange,
   onSynchronizeGist,
   onCreateGist,
+  onDeleteAuthData,
   loading
 }) => {
   const handleSynchronizeGist = (action) => () => {
@@ -67,6 +77,21 @@ const GistSelectorPanel = ({
       <>
         {backupGistId && (
           <>
+            <H5>Unlink GitHub account</H5>
+
+            <FormGroup>
+              <Button
+                onClick={onDeleteAuthData}
+                icon="trash"
+              >
+                Unlink
+              </Button>
+            </FormGroup>
+          </>
+        )}
+
+        {backupGistId && (
+          <>
             <H5>Backup snippets</H5>
 
             <FormGroup>
@@ -88,19 +113,20 @@ const GistSelectorPanel = ({
         <H5>Synchronize with Gist</H5>
 
         <FormGroup>
-          <Callout title="Warning" intent={Intent.WARNING}>
-            Will replace local snippets. [TODO]
-          </Callout>
-        </FormGroup>
-
-        <FormGroup>
           <HTMLSelect
             value={gistId}
             options={gistItems}
             onChange={onGistSelect}
             fill={true}
+            disabled={backupGistId}
           />
         </FormGroup>
+
+        <Checkbox
+          checked={() => console.log('checked')}
+          label="Backup locally stored snippets (otherwise they will be removed)"
+          onChange={(event) => console.log(event)}
+        />
 
         <Button
           disabled={!gistId}
@@ -116,7 +142,7 @@ const GistSelectorPanel = ({
 
   return (
     <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
-      {!gistId && renderGistCreator()}
+      {!backupGistId && renderGistCreator()}
       {renderGistSelector()}
     </div>
   );
@@ -131,6 +157,7 @@ GistSelectorPanel.propTypes = {
   onGistDescriptionChange: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
   onCreateGist: PropTypes.func.isRequired,
+  onDeleteAuthData: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
 };
 

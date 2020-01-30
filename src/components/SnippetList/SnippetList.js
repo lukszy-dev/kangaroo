@@ -14,7 +14,7 @@ import {
   setSearchSnippets
 } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
-import { setAuthToken } from '../../actions/auth';
+import { setAuthToken, deleteAuthData } from '../../actions/auth';
 import { synchronizeGist, createBackupGist } from '../../actions/snippets';
 
 import './SnippetList.scss';
@@ -60,6 +60,10 @@ const SnippetList = () => {
 
   const handleSearchChange = (value) => {
     dispatch(setSearchSnippets(value));
+  };
+
+  const handleDeleteAuthData = () => {
+    dispatch(deleteAuthData());
   };
 
   const handleSetAuthToken = (token) => {
@@ -135,6 +139,7 @@ const SnippetList = () => {
         onSetAuthToken={handleSetAuthToken}
         onCreateBackupGist={handleCreateBackupGist}
         onSynchronizeGist={handleSynchronizeGist}
+        onDeleteAuthData={handleDeleteAuthData}
       />
 
       { list && (

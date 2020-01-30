@@ -110,13 +110,13 @@ export const setSearchSnippets = (query) => {
   };
 };
 
-const backupSnippets = (authToken, gistId, snippets) => {
+const backupSnippets = (authToken, backupGistId, snippets) => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
 
     const fileName = (new Date()).toISOString();
     const request = {
-      gist_id: gistId,
+      gist_id: backupGistId,
       files: {
         [fileName]: {
           content: JSON.stringify(snippets)
@@ -132,12 +132,12 @@ const backupSnippets = (authToken, gistId, snippets) => {
   });
 };
 
-const importGist = (authToken, gistId) => {
+const importGist = (authToken, backupGistId) => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
 
     octokit.gists.get({
-      gist_id: gistId,
+      gist_id: backupGistId,
       headers: { 'If-None-Match': '' }
     }).then(response => {
       resolve(response);
@@ -147,7 +147,7 @@ const importGist = (authToken, gistId) => {
   });
 };
 
-export const synchronizeGist = (action, gistId) => {
+export const synchronizeGist = (action, backupGistId) => {
   return (dispatch, getState, ipcRenderer) => {
     const { auth: { token }, snippets: { lastId, list } } = getState();
 
@@ -156,8 +156,8 @@ export const synchronizeGist = (action, gistId) => {
 
       if (action === SYNCHRONIZE_TYPE.BACKUP) {
         // eslint-disable-next-line no-unused-vars
-        backupSnippets(token, gistId, list).then(response => {
-          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
+        backupSnippets(token, backupGistId, list).then(response => {
+          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId });
           snippetsDb.updateAll({ source: sourceType.GIST });
           dispatch(initSnippets());
           dispatch(setLoading(false));
@@ -167,7 +167,7 @@ export const synchronizeGist = (action, gistId) => {
           reject(error);
         });
       } else if (action === SYNCHRONIZE_TYPE.IMPORT) {
-        importGist(token, gistId).then(response => {
+        importGist(token, backupGistId).then(response => {
           let id = lastId;
           const files = Object.entries(response.data.files);
           const data = JSON.parse(files[files.length - 1][1].content);
@@ -176,7 +176,7 @@ export const synchronizeGist = (action, gistId) => {
           snippetsDb.removeAll(); // TODO Merge local snippets instead
           snippetsDb.add(imported);
 
-          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
+          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId });
 
           dispatch(loadSnippetsAction(imported, imported[0], id));
           dispatch(setLoading(false));

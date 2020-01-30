@@ -1,7 +1,8 @@
 import {
   SET_GH_AUTH_DATA,
   SET_GISTS,
-  SET_BACKUP_GIST_ID
+  SET_BACKUP_GIST_ID,
+  CLEAR_GH_AUTH_DATA
 } from '../actions/auth';
 
 const initial = {
@@ -18,6 +19,9 @@ export default (state = initial, action) => {
         token: action.token,
         backupGistId: action.backupGistId
       };
+
+    case CLEAR_GH_AUTH_DATA:
+      return initial;
 
     case SET_GISTS:
       return {

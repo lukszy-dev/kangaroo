@@ -14,10 +14,11 @@ const SnippetListHeader = ({
   onSearchChange,
   onSetAuthToken,
   onCreateBackupGist,
-  onSynchronizeGist
+  onSynchronizeGist,
+  onDeleteAuthData
 }) => {
   const dispatch = useDispatch();
-  const { token, backupGistId } = useSelector(state => state.auth);
+  const { token } = useSelector(state => state.auth);
 
   const handleSearchOnChange = ({ target: { value } }) => {
     onSearchChange(value);
@@ -32,7 +33,8 @@ const SnippetListHeader = ({
       dispatch(showModal(ACCOUNT_MODAL, {
         onSetAuthToken,
         onSynchronizeGist,
-        onCreateBackupGist
+        onCreateBackupGist,
+        onDeleteAuthData
       }));
     };
 
@@ -63,7 +65,7 @@ const SnippetListHeader = ({
       <div className="SnippetListHeader--container">
         <ButtonGroup minimal={true}>
           <Button
-            icon={backupGistId ? 'user' : 'person'} // TODO
+            icon="person"
             onClick={handleAccountModalOpen}
           />
 
@@ -94,7 +96,8 @@ SnippetListHeader.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
-  onCreateBackupGist: PropTypes.func.isRequired
+  onCreateBackupGist: PropTypes.func.isRequired,
+  onDeleteAuthData: PropTypes.func.isRequired
 };
 
 export default SnippetListHeader;
