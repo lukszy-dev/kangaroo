@@ -1,6 +1,6 @@
 import uuidv4 from 'uuid/v4';
 
-import { languages } from './languages';
+import { languages, TEXT } from './languages';
 
 export const sourceType = {
   LOCAL: 'local',
@@ -30,7 +30,7 @@ export default class Snippet {
     this.uuid = uuid || uuidv4();
     this.title = title || 'New';
     this.description = description;
-    this.language = language || 'text';
+    this.language = language || TEXT;
     this.extension = languages[language] ? languages[language].extension : '';
     this.content = content || '';
     this.lastUpdated = lastUpdated || new Date();

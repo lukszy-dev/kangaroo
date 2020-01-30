@@ -3,7 +3,7 @@ import { STATUS_CODES } from 'http';
 import Snippet, { sourceType } from '../models/Snippet';
 import { sortById } from '../utils/utils';
 import { setLoading, setError } from './ui';
-import { snippets } from '../db/snippets';
+import { snippetsDb } from '../db/snippets';
 
 const namespace = name => `SNIPPETS_${name}`;
 
@@ -57,7 +57,7 @@ export const setCurrentSnippet = (id) => ({
 export const initSnippets = () => {
   return (dispatch) => {
     return new Promise((resolve) => {
-      snippets.findAll(data => {
+      snippetsDb.findAll(data => {
         const snippets = data.sort(sortById).map(entry => new Snippet(entry));
         const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
 
@@ -75,7 +75,7 @@ export const addSnippet = () => {
     const newSnippet = new Snippet({ id: lastId + 1 });
     const updatedList = [...list, newSnippet].sort(sortById);
 
-    snippets.add(newSnippet);
+    snippetsDb.add(newSnippet);
     dispatch(addSnippetAction(newSnippet, updatedList));
   };
 };
@@ -89,7 +89,7 @@ export const updateSnippet = (snippet) => {
     const updatedList = [...list];
     updatedList[toUpdateIndex] = updatedSnippet;
 
-    snippets.update(updatedSnippet);
+    snippetsDb.update(updatedSnippet);
     dispatch(updateSnippetAction(updatedSnippet, updatedList));
   };
 };
@@ -100,7 +100,7 @@ export const deleteSnippet = () => {
 
     const updatedList = list.filter(element => element.id !== current.id);
 
-    snippets.remove(current.id);
+    snippetsDb.remove(current.id);
     dispatch(deleteSnippetAction(updatedList[0], updatedList));
   };
 };
@@ -125,9 +125,7 @@ const backupSnippets = (authToken, gistId, snippets) => {
       }
     };
 
-    octokit.gists.update(
-      request
-    ).then(response => {
+    octokit.gists.update(request).then(response => {
       resolve(response);
     }).catch(error => {
       reject(error);
@@ -140,7 +138,10 @@ const importGist = (authToken, gistId) => {
     const octokit = new Octokit({ auth: authToken });
 
     octokit.gists.get({
-      gist_id: gistId
+      gist_id: gistId,
+      headers: {
+        'If-None-Match': ''
+      }
     }).then(response => {
       resolve(response);
     }).catch(error => {
@@ -157,12 +158,10 @@ export const synchronizeGist = (action, gistId) => {
       dispatch(setLoading(true));
 
       if (action === SYNCHRONIZE_TYPE.BACKUP) {
-        backupSnippets(
-          token, gistId, list
-        ).then(response => {
-          console.log(response);
+        // eslint-disable-next-line no-unused-vars
+        backupSnippets(token, gistId, list).then(response => {
           ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
-          snippets.updateAll({ source: sourceType.GIST });
+          snippetsDb.updateAll({ source: sourceType.GIST });
           dispatch(initSnippets());
           dispatch(setLoading(false));
           resolve();
@@ -172,16 +171,17 @@ export const synchronizeGist = (action, gistId) => {
           reject();
         });
       } else if (action === SYNCHRONIZE_TYPE.IMPORT) {
-        importGist(
-          token, gistId
-        ).then(response => {
+        importGist(token, gistId).then(response => {
           let id = lastId;
           const files = Object.entries(response.data.files);
           const data = JSON.parse(files[files.length - 1][1].content);
-          const imported = data.sort(sortById).map(entry => new Snippet({ ...entry, id: id++ }));
+          const imported = data.map(entry => new Snippet({ ...entry, id: id++ })).sort(sortById);
 
-          snippets.removeAll(); // TODO Merge local snippets instead
-          // TODO save to db
+          snippetsDb.removeAll(); // TODO Merge local snippets instead
+          snippetsDb.add(imported);
+
+          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
+
           dispatch(loadSnippetsAction(imported, imported[0], id));
           dispatch(setLoading(false));
           resolve();
@@ -220,7 +220,7 @@ export const createBackupGist = (description) => {
       ).then(response => {
         const gistId = response.data.id;
         ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
-        snippets.updateAll({ source: sourceType.GIST });
+        snippetsDb.updateAll({ source: sourceType.GIST });
         dispatch(initSnippets());
         dispatch(setLoading(false));
         resolve();

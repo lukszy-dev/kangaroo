@@ -15,8 +15,8 @@ const dbFactory = (name) => {
   return db;
 };
 
-const dbAdd = (db, obj) => {
-  db.insert(obj, err => {
+const dbAdd = (db, objArray) => {
+  db.insert(objArray, err => {
     if (err) throw new Error(err);
   });
 };

@@ -7,7 +7,7 @@ import EditorHeader from './EditorHeader/EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet } from '../../actions/snippets';
 import { showGutter } from '../../actions/editor';
-import { languages } from '../../models/languages';
+import { languages, TEXT } from '../../models/languages';
 
 import './Editor.scss';
 
@@ -63,7 +63,7 @@ const Editor = () => {
           theme={theme === 'dark' ? 'sm-dark' : 'sm-light'}
           onLoad={handleOnLoad}
           readOnly={!snippet}
-          mode={snippet ? snippet.language : languages[0]}
+          mode={snippet ? snippet.language : TEXT}
           value={snippet ? snippet.content : ''}
           onChange={handleOnChange}
           editorProps={{ $blockScrolling: true }}

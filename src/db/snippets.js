@@ -16,8 +16,8 @@ const loadDatabase = () => {
   db = dbFactory(DB_SNIPPETS);
 };
 
-const add = (obj) => {
-  dbAdd(db, obj);
+const add = (objArray) => {
+  dbAdd(db, objArray);
 };
 
 const update = (obj) => {
@@ -40,7 +40,7 @@ const removeAll = () => {
   dbRemoveAll(db);
 };
 
-export const snippets = {
+export const snippetsDb = {
   loadDatabase,
   add,
   update,

@@ -30,7 +30,7 @@ const find = (id) => {
   dbFind(db, id);
 };
 
-export const app = {
+export const appDb = {
   loadDatabase,
   add,
   update,

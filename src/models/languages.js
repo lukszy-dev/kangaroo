@@ -1,49 +1,62 @@
+export const TEXT = 'text';
+export const JAVASCRIPT = 'javascript';
+export const TYPESCRIPT = 'typescript';
+export const JAVA = 'java';
+export const XML = 'xml';
+export const CSS = 'css';
+export const SCSS = 'scss';
+export const MARKDOWN = 'markdown';
+export const SQL = 'sql';
+export const JSON_MODE = 'json';
+export const HTML = 'html';
+export const CSHARP = 'csharp';
+
 const languages = {
-  'text': {
+  [TEXT]: {
     label: 'Text',
     extension: ''
   },
-  'javascript': {
+  [JAVASCRIPT]: {
     label: 'JavaScript',
     extension: 'js'
   },
-  'typescript': {
+  [TYPESCRIPT]: {
     label: 'TypeScript',
     extension: 'ts'
   },
-  'java': {
+  [JAVA]: {
     label: 'Java',
     extension: 'java'
   },
-  'xml': {
+  [XML]: {
     label: 'XML',
     extension: 'xml'
   },
-  'css': {
+  [CSS]: {
     label: 'CSS',
     extension: 'css'
   },
-  'scss': {
+  [SCSS]: {
     label: 'SCSS',
     extension: 'scss'
   },
-  'markdown': {
+  [MARKDOWN]: {
     label: 'Markdown',
     extension: 'md'
   },
-  'sql': {
+  [SQL]: {
     label: 'SQL',
     extension: 'sql'
   },
-  'json': {
+  [JSON_MODE]: {
     label: 'JSON',
     extension: 'json'
   },
-  'html': {
+  [HTML]: {
     label: 'HTML',
     extension: 'html'
   },
-  'csharp': {
+  [CSHARP]: {
     label: 'C#',
     extension: 'cs'
   }
