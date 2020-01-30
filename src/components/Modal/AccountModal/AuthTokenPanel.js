@@ -7,25 +7,22 @@ import '../Panel.scss';
 
 const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => {
   return (
-    <>
-      <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
-        <FormGroup label="GitHub personal access token">
-          <InputGroup
-            placeholder="Token"
-            value={authToken || ''}
-            onChange={onAuthTokenChange}
-          />
-        </FormGroup>
+    <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
+      <FormGroup label="GitHub personal access token">
+        <InputGroup
+          placeholder="Token"
+          value={authToken || ''}
+          onChange={onAuthTokenChange}
+        />
+      </FormGroup>
 
-        <Button
-          disabled={!authToken}
-          onClick={onAccept}
-          loading={loading}
-        >
-          Connect
-        </Button>
-      </div>
-    </>
+      <Button
+        disabled={!authToken}
+        onClick={onAccept}
+        loading={loading}
+        text="Connect"
+      />
+    </div>
   );
 };
 

@@ -8,8 +8,8 @@ import {
   HTMLSelect,
   Divider,
   Classes,
-  H5,
-  Checkbox
+  Callout,
+  H5
 } from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
@@ -56,14 +56,11 @@ const GistSelectorPanel = ({
             onClick={onCreateGist}
             loading={loading}
             icon="cloud-upload"
-          >
-            Create
-          </Button>
+            text="Create"
+          />
         </FormGroup>
 
-        <FormGroup>
-          <Divider />
-        </FormGroup>
+        <FormGroup><Divider /></FormGroup>
       </>
     );
   };
@@ -80,18 +77,11 @@ const GistSelectorPanel = ({
             <H5>Unlink GitHub account</H5>
 
             <FormGroup>
-              <Button
-                onClick={onDeleteAuthData}
-                icon="trash"
-              >
-                Unlink
-              </Button>
+              <Button onClick={onDeleteAuthData} text="Unlink" />
             </FormGroup>
-          </>
-        )}
 
-        {backupGistId && (
-          <>
+            <FormGroup><Divider /></FormGroup>
+
             <H5>Backup snippets</H5>
 
             <FormGroup>
@@ -99,43 +89,37 @@ const GistSelectorPanel = ({
                 onClick={handleSynchronizeGist(SYNCHRONIZE_TYPE.BACKUP)}
                 loading={loading}
                 icon="cloud-upload"
-              >
-                Backup
-              </Button>
+                text="Backup"
+              />
             </FormGroup>
 
-            <FormGroup>
-              <Divider />
-            </FormGroup>
+            <FormGroup><Divider /></FormGroup>
           </>
         )}
 
         <H5>Synchronize with Gist</H5>
 
         <FormGroup>
-          <HTMLSelect
-            value={gistId}
-            options={gistItems}
-            onChange={onGistSelect}
-            fill={true}
-            disabled={backupGistId}
-          />
+          {backupGistId ? (
+            <Callout>{gistItems[0].label}</Callout>
+          ) : (
+            <HTMLSelect
+              value={gistId}
+              options={gistItems}
+              large={true}
+              onChange={onGistSelect}
+              fill={true}
+            />
+          )}
         </FormGroup>
-
-        <Checkbox
-          checked={() => console.log('checked')}
-          label="Backup locally stored snippets (otherwise they will be removed)"
-          onChange={(event) => console.log(event)}
-        />
 
         <Button
           disabled={!gistId}
           onClick={handleSynchronizeGist(SYNCHRONIZE_TYPE.IMPORT)}
           loading={loading}
           icon="cloud-download"
-        >
-          Import
-        </Button>
+          text="Import"
+        />
       </>
     );
   };

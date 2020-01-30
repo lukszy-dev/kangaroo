@@ -114,7 +114,6 @@ export const setSearchSnippets = (query) => {
 const backupSnippets = (authToken, backupGistId, snippets) => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
-
     const fileName = (new Date()).toISOString();
     const request = {
       gist_id: backupGistId,
@@ -136,7 +135,6 @@ const backupSnippets = (authToken, backupGistId, snippets) => {
 const importGist = (authToken, backupGistId) => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
-
     octokit.gists.get({
       gist_id: backupGistId,
       headers: { 'If-None-Match': '' }
@@ -156,9 +154,11 @@ export const synchronizeGist = (action, authToken, backupGistId) => {
       dispatch(setLoading(true));
 
       if (action === SYNCHRONIZE_TYPE.BACKUP) {
-        backupSnippets(authToken, backupGistId, list).then(() => {
-          ipcRenderer.send('SET_GH_AUTH_DATA', { authToken, backupGistId });
-          snippetsDb.updateAll({ source: sourceType.GIST }); // TODO update before request to GH
+        const snippets = list.slice(0);
+        snippets.forEach(snippet => snippet.source = sourceType.GIST);
+
+        backupSnippets(authToken, backupGistId, snippets).then(() => {
+          snippetsDb.updateAll({ source: sourceType.GIST });
 
           dispatch(initSnippets());
           dispatch(setLoading(false));
@@ -174,7 +174,7 @@ export const synchronizeGist = (action, authToken, backupGistId) => {
           const data = JSON.parse(files[files.length - 1][1].content);
           const imported = data.map(entry => new Snippet({ ...entry, id: id++ })).sort(sortById);
 
-          snippetsDb.removeAll(); // TODO Merge local snippets instead
+          snippetsDb.removeAll(); // TODO Merge local snippets instead?
           snippetsDb.add(imported);
 
           ipcRenderer.send('SET_GH_AUTH_DATA', { token: authToken, backupGistId });
@@ -192,22 +192,24 @@ export const synchronizeGist = (action, authToken, backupGistId) => {
   };
 };
 
-export const createBackupGist = (description) => {
+export const createBackupGist = (description, authToken) => {
   return (dispatch, getState, ipcRenderer) => {
-    const { auth: { token }, snippets: { list } } = getState();
+    const { snippets: { list, lastId } } = getState();
 
     return new Promise((resolve, reject) => {
       dispatch(setLoading(true));
 
-      const octokit = new Octokit({ auth: token });
+      const snippets = list.slice(0);
+      snippets.forEach(snippet => snippet.source = sourceType.GIST);
 
+      const octokit = new Octokit({ auth: authToken });
       const fileName = (new Date()).toISOString();
       const request = {
         description: description,
         public: false,
         files: {
           [fileName]: {
-            content: JSON.stringify(list)
+            content: JSON.stringify(snippets)
           }
         }
       };
@@ -216,9 +218,11 @@ export const createBackupGist = (description) => {
         request
       ).then(response => {
         const gistId = response.data.id;
-        ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId: gistId });
+        ipcRenderer.send('SET_GH_AUTH_DATA', { token: authToken, backupGistId: gistId });
         snippetsDb.updateAll({ source: sourceType.GIST });
-        dispatch(initSnippets());
+
+        dispatch(setAuthDataAction({ token: authToken, gistId }));
+        dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
         dispatch(setLoading(false));
         resolve();
       }).catch(error => {
