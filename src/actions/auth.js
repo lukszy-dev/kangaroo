@@ -10,7 +10,7 @@ export const SET_GISTS = namespace('SET_GISTS');
 export const SET_BACKUP_GIST_ID = namespace('SET_BACKUP_GIST_ID');
 export const CLEAR_GH_AUTH_DATA = namespace('CLEAR_GH_AUTH_DATA');
 
-const setAuthDataAction = (data) => ({
+export const setAuthDataAction = (data) => ({
   type: SET_GH_AUTH_DATA,
   token: data.token,
   backupGistId: data.backupGistId

@@ -3,6 +3,7 @@ import Snippet, { sourceType } from '../models/Snippet';
 import { sortById } from '../utils/utils';
 import { setLoading } from './ui';
 import { snippetsDb } from '../db/snippets';
+import { setAuthDataAction } from './auth';
 
 const namespace = name => `SNIPPETS_${name}`;
 
@@ -147,18 +148,18 @@ const importGist = (authToken, backupGistId) => {
   });
 };
 
-export const synchronizeGist = (action, backupGistId) => {
+export const synchronizeGist = (action, authToken, backupGistId) => {
   return (dispatch, getState, ipcRenderer) => {
-    const { auth: { token }, snippets: { lastId, list } } = getState();
+    const { snippets: { lastId, list } } = getState();
 
     return new Promise((resolve, reject) => {
       dispatch(setLoading(true));
 
       if (action === SYNCHRONIZE_TYPE.BACKUP) {
-        // eslint-disable-next-line no-unused-vars
-        backupSnippets(token, backupGistId, list).then(response => {
-          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId });
-          snippetsDb.updateAll({ source: sourceType.GIST });
+        backupSnippets(authToken, backupGistId, list).then(() => {
+          ipcRenderer.send('SET_GH_AUTH_DATA', { authToken, backupGistId });
+          snippetsDb.updateAll({ source: sourceType.GIST }); // TODO update before request to GH
+
           dispatch(initSnippets());
           dispatch(setLoading(false));
           resolve();
@@ -167,7 +168,7 @@ export const synchronizeGist = (action, backupGistId) => {
           reject(error);
         });
       } else if (action === SYNCHRONIZE_TYPE.IMPORT) {
-        importGist(token, backupGistId).then(response => {
+        importGist(authToken, backupGistId).then(response => {
           let id = lastId;
           const files = Object.entries(response.data.files);
           const data = JSON.parse(files[files.length - 1][1].content);
@@ -176,8 +177,9 @@ export const synchronizeGist = (action, backupGistId) => {
           snippetsDb.removeAll(); // TODO Merge local snippets instead
           snippetsDb.add(imported);
 
-          ipcRenderer.send('SET_GH_AUTH_DATA', { token, backupGistId });
+          ipcRenderer.send('SET_GH_AUTH_DATA', { token: authToken, backupGistId });
 
+          dispatch(setAuthDataAction({ token: authToken, backupGistId }));
           dispatch(loadSnippetsAction(imported, imported[0], id));
           dispatch(setLoading(false));
           resolve();

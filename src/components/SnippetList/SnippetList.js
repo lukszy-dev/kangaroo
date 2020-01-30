@@ -70,12 +70,12 @@ const SnippetList = () => {
     return dispatch(setAuthToken(token));
   };
 
-  const handleCreateBackupGist = (description) => {
-    return dispatch(createBackupGist(description));
+  const handleCreateBackupGist = (description, token) => {
+    return dispatch(createBackupGist(description, token));
   };
 
-  const handleSynchronizeGist = (action, id) => {
-    return dispatch(synchronizeGist(action, id));
+  const handleSynchronizeGist = (action, token, id) => {
+    return dispatch(synchronizeGist(action, token, id));
   };
 
   useEffect(() => {

@@ -48,13 +48,13 @@ const AccountModal = ({
   };
 
   const handleCreateGist = () => {
-    onCreateBackupGist(gistDescription).then(() => {
+    onCreateBackupGist(gistDescription, authToken).then(() => {
       handleClose();
     });
   };
 
   const handleSynchronizeGist = (action) => {
-    onSynchronizeGist(action, gistId).then(() => {
+    onSynchronizeGist(action, authToken, gistId).then(() => {
       handleClose();
     }).catch(error => {
       handleClose();
