@@ -9,7 +9,9 @@ import {
   Divider,
   Classes,
   Callout,
-  H5
+  H5,
+  Intent,
+  AnchorButton
 } from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
@@ -59,29 +61,15 @@ const GistSelectorPanel = ({
             text="Create"
           />
         </FormGroup>
-
-        <FormGroup><Divider /></FormGroup>
       </>
     );
   };
 
-  const renderGistSelector = () => {
-    if (remoteGists.length < 1) {
-      return;
-    }
-
+  const renderBackupSnippetsButton = () => {
     return (
       <>
         {backupGistId && (
           <>
-            <H5>Unlink GitHub account</H5>
-
-            <FormGroup>
-              <Button onClick={onDeleteAuthData} text="Unlink" />
-            </FormGroup>
-
-            <FormGroup><Divider /></FormGroup>
-
             <H5>Backup snippets</H5>
 
             <FormGroup>
@@ -92,10 +80,16 @@ const GistSelectorPanel = ({
                 text="Backup"
               />
             </FormGroup>
-
-            <FormGroup><Divider /></FormGroup>
           </>
         )}
+      </>
+    );
+  };
+
+  const renderGistSelector = () => {
+    return (
+      <>
+        <FormGroup><Divider /></FormGroup>
 
         <H5>Synchronize with Gist</H5>
 
@@ -113,13 +107,34 @@ const GistSelectorPanel = ({
           )}
         </FormGroup>
 
-        <Button
-          disabled={!gistId}
-          onClick={handleSynchronizeGist(SYNCHRONIZE_TYPE.IMPORT)}
-          loading={loading}
-          icon="cloud-download"
-          text="Import"
-        />
+        <FormGroup>
+          <Button
+            disabled={!gistId}
+            onClick={handleSynchronizeGist(SYNCHRONIZE_TYPE.IMPORT)}
+            loading={loading}
+            icon="cloud-download"
+            text="Import"
+          />
+        </FormGroup>
+      </>
+    );
+  };
+
+  const renderUnlinkAccountButton = () => {
+    return (
+      <>
+        {backupGistId && (
+          <>
+            <FormGroup><Divider /></FormGroup>
+            <AnchorButton
+              icon="log-out"
+              minimal={true}
+              intent={Intent.DANGER}
+              onClick={onDeleteAuthData}
+              text="Unlink GitHub account"
+            />
+          </>
+        )}
       </>
     );
   };
@@ -127,7 +142,13 @@ const GistSelectorPanel = ({
   return (
     <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
       {!backupGistId && renderGistCreator()}
-      {renderGistSelector()}
+      {remoteGists.length > 0 && (
+        <>
+          {renderBackupSnippetsButton()}
+          {renderGistSelector()}
+          {renderUnlinkAccountButton()}
+        </>
+      )}
     </div>
   );
 };

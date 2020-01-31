@@ -85,7 +85,7 @@ export const updateSnippet = (snippet) => {
     const { snippets: { current, list } } = getState();
 
     const toUpdateIndex = list.findIndex(element => element.id === current.id);
-    const updatedSnippet = new Snippet({ ...snippet, lastUpdated: new Date() });
+    const updatedSnippet = { ...snippet, lastUpdated: new Date() };
     const updatedList = [...list];
     updatedList[toUpdateIndex] = updatedSnippet;
 

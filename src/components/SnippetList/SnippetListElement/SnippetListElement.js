@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Button } from '@blueprintjs/core';
+import { Icon } from '@blueprintjs/core';
 
 import Snippet, { sourceType } from '../../../models/Snippet';
 
@@ -40,7 +40,7 @@ const SnippetListElement = ({
       <div className="SnippetListElement--content">
         {element.title}
         {element.source === sourceType.GIST && (
-          <Button icon="cloud" minimal={true} />
+          <Icon className="SnippetListElement--source-icon" icon="cloud" />
         )}
       </div>
     </div>
