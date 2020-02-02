@@ -11,6 +11,7 @@ import {
   Callout,
   H5,
   Intent,
+  Checkbox,
   AnchorButton
 } from '@blueprintjs/core';
 
@@ -106,6 +107,8 @@ const GistSelectorPanel = ({
             />
           )}
         </FormGroup>
+
+        <Checkbox checked={true} label="Backup local snippets" onChange={event => console.log(event)} />
 
         <FormGroup>
           <Button

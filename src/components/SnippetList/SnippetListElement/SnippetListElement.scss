@@ -1,10 +1,9 @@
 .SnippetListElement {
   height: var(--snippet-list-element-height);
-}
 
-.SnippetListElement-active {
-  background-image: var(--active-snippet);
-  // background-color: var(--color-selected);
+  &.active {
+    background-image: var(--active-snippet);
+  }
 }
 
 .SnippetListElement--content {
