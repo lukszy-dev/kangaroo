@@ -1,4 +1,4 @@
-# Snipp`ee` [![Build Status](https://api.travis-ci.com/WilsonDev/kangaroo.svg?branch=master)](https://travis-ci.com/WilsonDev/kangaroo)
+# Kangaroo [![Build Status](https://api.travis-ci.com/WilsonDev/kangaroo.svg?branch=master)](https://travis-ci.com/WilsonDev/kangaroo)
 ### Snippet manager
 
 ![kangaroo](https://user-images.githubusercontent.com/5923943/72289262-04406e80-364b-11ea-8b7a-dca666ad5ee9.png)
