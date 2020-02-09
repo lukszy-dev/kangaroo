@@ -27,6 +27,7 @@ const AccountModal = ({
   const [authToken, setAuthToken] = useState(token);
   const [gistId, setGistId] = useState(gists.length > 0 ? gists[0].id : '');
   const [gistDescription, setGistDescription] = useState('');
+  const [backupLocalSnippets, setBackupLocalSnippets] = useState(false);
   const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
 
   const handleAuthTokenChange = ({ target: { value } }) => {
@@ -35,6 +36,10 @@ const AccountModal = ({
 
   const handleGistDescriptionChange = ({ target: { value } }) => {
     setGistDescription(value);
+  };
+
+  const handleBackupLocalSnippetsChange = ({ target: { checked } }) => {
+    setBackupLocalSnippets(checked);
   };
 
   const handleGistSelect = ({ currentTarget: { value } }) => {
@@ -53,8 +58,8 @@ const AccountModal = ({
     });
   };
 
-  const handleSynchronizeGist = (action) => {
-    onSynchronizeGist(action, authToken, gistId).then(() => {
+  const handleSynchronizeGist = () => {
+    onSynchronizeGist(backupLocalSnippets, authToken, gistId).then(() => {
       handleClose();
     }).catch(error => {
       handleClose();
@@ -98,8 +103,10 @@ const AccountModal = ({
       gistDescription: gistDescription,
       gistId: gistId,
       backupGistId: backupGistId,
+      overwriteSnippets: backupLocalSnippets,
       onGistSelect: handleGistSelect,
       onGistDescriptionChange: handleGistDescriptionChange,
+      onBackupLocalSnippetsChange: handleBackupLocalSnippetsChange,
       onSynchronizeGist: handleSynchronizeGist,
       onCreateGist: handleCreateGist,
       onDeleteAuthData: handleDeleteAuthData,
@@ -108,9 +115,7 @@ const AccountModal = ({
   }];
 
   return (
-    <>
-      {renderPanel()}
-    </>
+    <>{renderPanel()}</>
   );
 };
 

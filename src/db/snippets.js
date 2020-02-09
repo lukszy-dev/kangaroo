@@ -3,7 +3,7 @@ import {
   dbAdd,
   dbUpdate,
   dbRemove,
-  dbRemoveAll,
+  dbRemoveQuery,
   dbFindAll,
   dbUpdateAll
 } from './db';
@@ -36,8 +36,8 @@ const updateAll = (changes) => {
   dbUpdateAll(db, changes);
 };
 
-const removeAll = () => {
-  dbRemoveAll(db);
+const removeQuery = (query) => {
+  dbRemoveQuery(db, query);
 };
 
 export const snippetsDb = {
@@ -45,7 +45,7 @@ export const snippetsDb = {
   add,
   update,
   remove,
-  removeAll,
+  removeQuery,
   findAll,
   updateAll
 };

@@ -16,7 +16,6 @@ import {
 } from '@blueprintjs/core';
 
 import Gist from 'models/Gist';
-import { SYNCHRONIZE_TYPE } from 'actions/snippets';
 
 import '../Panel.scss';
 
@@ -25,8 +24,10 @@ const GistSelectorPanel = ({
   gistDescription,
   gistId,
   backupGistId,
+  backupLocalSnippets,
   onGistSelect,
   onGistDescriptionChange,
+  onBackupLocalSnippetsChange,
   onSynchronizeGist,
   onCreateGist,
   onDeleteAuthData,
@@ -41,6 +42,10 @@ const GistSelectorPanel = ({
   });
 
   const renderGistCreator = () => {
+    if (backupGistId) {
+      return null;
+    }
+
     return (
       <>
         <H5>Create new gist</H5>
@@ -62,36 +67,19 @@ const GistSelectorPanel = ({
             text="Create"
           />
         </FormGroup>
-      </>
-    );
-  };
 
-  const renderBackupSnippetsButton = () => {
-    return (
-      <>
-        {backupGistId && (
-          <>
-            <H5>Backup snippets</H5>
-
-            <FormGroup>
-              <Button
-                onClick={handleSynchronizeGist(SYNCHRONIZE_TYPE.BACKUP)}
-                loading={loading}
-                icon="cloud-upload"
-                text="Backup"
-              />
-            </FormGroup>
-          </>
-        )}
+        <FormGroup><Divider /></FormGroup>
       </>
     );
   };
 
   const renderGistSelector = () => {
+    if (remoteGists.length === 0) {
+      return null;
+    }
+
     return (
       <>
-        <FormGroup><Divider /></FormGroup>
-
         <H5>Synchronize with Gist</H5>
 
         <FormGroup>
@@ -108,15 +96,20 @@ const GistSelectorPanel = ({
           )}
         </FormGroup>
 
-        <Checkbox checked={true} label="Backup local snippets" onChange={event => console.log(event)} />
+        <Checkbox
+          className={classNames('bp3-focus-disabled')}
+          checked={backupLocalSnippets}
+          label="Backup local snippets"
+          onChange={onBackupLocalSnippetsChange}
+        />
 
         <FormGroup>
           <Button
             disabled={!gistId}
-            onClick={handleSynchronizeGist(SYNCHRONIZE_TYPE.IMPORT)}
+            onClick={handleSynchronizeGist()}
             loading={loading}
             icon="cloud-download"
-            text="Import"
+            text="Synchronize"
           />
         </FormGroup>
       </>
@@ -124,34 +117,29 @@ const GistSelectorPanel = ({
   };
 
   const renderUnlinkAccountButton = () => {
+    if (!backupGistId || remoteGists.length === 0) {
+      return null;
+    }
+
     return (
       <>
-        {backupGistId && (
-          <>
-            <FormGroup><Divider /></FormGroup>
-            <AnchorButton
-              icon="log-out"
-              minimal={true}
-              intent={Intent.DANGER}
-              onClick={onDeleteAuthData}
-              text="Unlink GitHub account"
-            />
-          </>
-        )}
+        <FormGroup><Divider /></FormGroup>
+        <AnchorButton
+          icon="log-out"
+          minimal={true}
+          intent={Intent.DANGER}
+          onClick={onDeleteAuthData}
+          text="Unlink GitHub account"
+        />
       </>
     );
   };
 
   return (
     <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
-      {!backupGistId && renderGistCreator()}
-      {remoteGists.length > 0 && (
-        <>
-          {renderBackupSnippetsButton()}
-          {renderGistSelector()}
-          {renderUnlinkAccountButton()}
-        </>
-      )}
+      {renderGistCreator()}
+      {renderGistSelector()}
+      {renderUnlinkAccountButton()}
     </div>
   );
 };
@@ -161,8 +149,10 @@ GistSelectorPanel.propTypes = {
   gistDescription: PropTypes.string,
   gistId: PropTypes.string,
   backupGistId: PropTypes.string,
+  backupLocalSnippets: PropTypes.bool.isRequired,
   onGistSelect: PropTypes.func.isRequired,
   onGistDescriptionChange: PropTypes.func.isRequired,
+  onBackupLocalSnippetsChange: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
   onCreateGist: PropTypes.func.isRequired,
   onDeleteAuthData: PropTypes.func.isRequired,

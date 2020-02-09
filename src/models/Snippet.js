@@ -28,7 +28,7 @@ export default class Snippet {
     this.id = id;
     this.source = source || sourceType.LOCAL;
     this.uuid = uuid || uuidv4();
-    this.title = title || 'New';
+    this.title = title;
     this.description = description;
     this.language = language || TEXT;
     this.extension = languages[language] ? languages[language].extension : '';

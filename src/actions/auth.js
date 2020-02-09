@@ -5,15 +5,15 @@ import { setLoading } from './ui';
 
 const namespace = name => `AUTH_${name}`;
 
-export const SET_GH_AUTH_DATA = namespace('SET_GH_AUTH_DATA');
+export const SET_GH_DATA = namespace('SET_GH_DATA');
 export const SET_GISTS = namespace('SET_GISTS');
-export const SET_BACKUP_GIST_ID = namespace('SET_BACKUP_GIST_ID');
-export const CLEAR_GH_AUTH_DATA = namespace('CLEAR_GH_AUTH_DATA');
+export const CLEAR_GH_DATA = namespace('CLEAR_GH_DATA');
 
-export const setAuthDataAction = (data) => ({
-  type: SET_GH_AUTH_DATA,
+export const setGitHubDataAction = (data) => ({
+  type: SET_GH_DATA,
   token: data.token,
-  backupGistId: data.backupGistId
+  backupGistId: data.backupGistId,
+  lastSychronizedGistDate: data.gistDate
 });
 
 const setGistsAction = (gists) => ({
@@ -22,14 +22,14 @@ const setGistsAction = (gists) => ({
 });
 
 const clearAuthDataAction = () => ({
-  type: CLEAR_GH_AUTH_DATA
+  type: CLEAR_GH_DATA
 });
 
 export const loadAuthData = () => {
   return (dispatch, _, ipcRenderer) => {
-    ipcRenderer.send('LOAD_GH_AUTH_DATA');
-    ipcRenderer.once('LOAD_GH_AUTH_DATA_REPLY', (_, data) => {
-      dispatch(setAuthDataAction(data));
+    ipcRenderer.send('LOAD_GH_DATA');
+    ipcRenderer.once('LOAD_GH_DATA_REPLY', (_, data) => {
+      dispatch(setGitHubDataAction(data));
     });
   };
 };
@@ -63,6 +63,6 @@ export const setAuthToken = (token) => {
 export const deleteAuthData = () => {
   return (dispatch, _, ipcRenderer) => {
     dispatch(clearAuthDataAction());
-    ipcRenderer.send('DELETE_GH_AUTH_DATA');
+    ipcRenderer.send('DELETE_GH_DATA');
   };
 };

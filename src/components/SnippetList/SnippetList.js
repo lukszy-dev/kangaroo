@@ -74,8 +74,8 @@ const SnippetList = () => {
     return dispatch(createBackupGist(description, token));
   };
 
-  const handleSynchronizeGist = (action, token, id) => {
-    return dispatch(synchronizeGist(action, token, id));
+  const handleSynchronizeGist = (backupLocalSnippets, token, id) => {
+    return dispatch(synchronizeGist(backupLocalSnippets, token, id));
   };
 
   useEffect(() => {
