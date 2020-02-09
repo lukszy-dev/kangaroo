@@ -97,7 +97,6 @@ const GistSelectorPanel = ({
         </FormGroup>
 
         <Checkbox
-          className={classNames('bp3-focus-disabled')}
           checked={backupLocalSnippets}
           label="Backup local snippets"
           onChange={onBackupLocalSnippetsChange}
