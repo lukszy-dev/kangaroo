@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import classNames from 'classnames';
 import { Dialog } from '@blueprintjs/core';
 
 import AccountModal from 'components/Modal/AccountModal/AccountModal';
@@ -57,7 +58,7 @@ const ModalOverlay = () => {
 
   return (
     <Dialog
-      className={theme === 'dark' ? 'bp3-dark' : ''}
+      className={classNames({ 'bp3-dark': theme === 'dark', 'bp3-focus-disabled': true })}
       title={modalTitle()}
       isOpen={modalType !== null}
       onClose={handleHideModal}

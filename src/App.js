@@ -35,7 +35,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Theme mode={theme} classNames="App--content">
+    <Theme mode={theme} className="App--content">
       { init ? (
         <Loader />
       ) : (
