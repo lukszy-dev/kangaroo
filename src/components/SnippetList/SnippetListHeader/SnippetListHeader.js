@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
-import AccountModal from '../AccountModal/AccountModal';
+import { showModal } from 'actions/modal';
+import { ACCOUNT_MODAL } from 'components/Modal/ModalOverlay/constants';
 
 import './SnippetListHeader.scss';
 
@@ -13,15 +14,13 @@ const SnippetListHeader = ({
   onSearchChange,
   onSetAuthToken,
   onCreateBackupGist,
-  onSynchronizeGist
+  onSynchronizeGist,
+  onDeleteAuthData
 }) => {
-  const { token, gists, backupGistId } = useSelector(state => state.auth);
-  const ui = useSelector(state => state.ui);
+  const dispatch = useDispatch();
+  const { token } = useSelector(state => state.auth);
 
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const handleSearchOnChange = (event) => {
-    const value = event.target.value;
+  const handleSearchOnChange = ({ target: { value } }) => {
     onSearchChange(value);
   };
 
@@ -30,19 +29,23 @@ const SnippetListHeader = ({
   };
 
   const handleAccountModalOpen = () => {
-    setModalOpen(!isModalOpen);
-  };
+    const dispatchShowModalAction = () => {
+      dispatch(showModal(ACCOUNT_MODAL, {
+        onSetAuthToken,
+        onSynchronizeGist,
+        onCreateBackupGist,
+        onDeleteAuthData
+      }));
+    };
 
-  const handleSetAuthToken = (token) => {
-    return onSetAuthToken(token);
-  };
+    if (!token) {
+      dispatchShowModalAction();
+      return;
+    }
 
-  const handleCreateBackupGist = (description) => {
-    return onCreateBackupGist(description);
-  };
-
-  const handleSynchronizeGist = (id) => {
-    return onSynchronizeGist(id);
+    onSetAuthToken(token).then(() => {
+      dispatchShowModalAction();
+    });
   };
 
   const renderClearSearchButton = () => {
@@ -57,22 +60,14 @@ const SnippetListHeader = ({
     }
   };
 
-  const renderAccountButton = () => {
-    const accountButtonProps = {
-      icon: backupGistId ? 'user' : 'person', // TODO
-      onClick: handleAccountModalOpen
-    };
-
-    return (
-      <Button { ...accountButtonProps } />
-    );
-  };
-
   return (
     <div className="SnippetListHeader">
       <div className="SnippetListHeader--container">
         <ButtonGroup minimal={true}>
-          {renderAccountButton()}
+          <Button
+            icon="person"
+            onClick={handleAccountModalOpen}
+          />
 
           <Button
             icon="add-to-artifact"
@@ -81,21 +76,10 @@ const SnippetListHeader = ({
         </ButtonGroup>
       </div>
 
-      <AccountModal
-        token={token}
-        gists={gists}
-        ui={ui}
-        isOpen={isModalOpen}
-        onOpen={handleAccountModalOpen}
-        onSetAuthToken={handleSetAuthToken}
-        onSynchronizeGist={handleSynchronizeGist}
-        onCreateBackupGist={handleCreateBackupGist}
-      />
-
       <div className="SnippetListHeader--search-container">
         <InputGroup
           leftIcon="search"
-          placeholder="Search"
+          placeholder="Search..."
           rightElement={renderClearSearchButton()}
           fill={true}
           value={query}
@@ -112,7 +96,8 @@ SnippetListHeader.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   onSetAuthToken: PropTypes.func.isRequired,
   onSynchronizeGist: PropTypes.func.isRequired,
-  onCreateBackupGist: PropTypes.func.isRequired
+  onCreateBackupGist: PropTypes.func.isRequired,
+  onDeleteAuthData: PropTypes.func.isRequired
 };
 
 export default SnippetListHeader;

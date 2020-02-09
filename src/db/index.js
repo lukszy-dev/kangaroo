@@ -1,2 +1,2 @@
-export { app } from './app';
-export { snippets } from './snippets';
+export { appDb } from './app';
+export { snippetsDb } from './snippets';

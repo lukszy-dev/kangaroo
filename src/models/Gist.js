@@ -19,6 +19,7 @@ export default class Gist {
   }
 
   get title() {
-    return Object.keys(this.files)[0];
+    const keys = Object.keys(this.files);
+    return keys[keys.length - 1];
   }
 }

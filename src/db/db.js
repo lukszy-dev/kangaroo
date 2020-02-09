@@ -9,14 +9,14 @@ const dbFactory = (name) => {
     remote.app.getPath('userData')}/data/${name}.db`,
     autoload: true
   });
-  
+
   db.ensureIndex({ fieldName: 'id', unique: true });
 
   return db;
 };
 
-const dbAdd = (db, obj) => {
-  db.insert(obj, err => {
+const dbAdd = (db, objArray) => {
+  db.insert(objArray, err => {
     if (err) throw new Error(err);
   });
 };
@@ -28,13 +28,19 @@ const dbUpdate = (db, obj) => {
 };
 
 const dbUpdateAll = (db, changes) => {
-  db.update({}, { $set: changes}, {}, err => {
+  db.update({}, { $set: changes }, { multi: true }, err => {
     if (err) throw new Error(err);
   });
 };
 
 const dbRemove = (db, id) => {
   db.remove({ id }, err => {
+    if (err) throw new Error(err);
+  });
+};
+
+const dbRemoveQuery = (db, query) => {
+  db.remove(query, { multi: true }, err => {
     if (err) throw new Error(err);
   });
 };
@@ -57,6 +63,7 @@ export {
   dbAdd,
   dbUpdate,
   dbRemove,
+  dbRemoveQuery,
   dbFind,
   dbFindAll,
   dbUpdateAll

@@ -1,5 +1,5 @@
 {
-  "name": "snippee",
+  "name": "kangaroo",
   "version": "0.5.0",
   "private": true,
   "main": "electron/main.js",
@@ -16,6 +16,8 @@
     "build:web": "craco build",
     "build:electron": "mkdir build/src && cp -r electron/. build/electron",
     "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js --publish never",
+    "lint": "eslint --max-warnings=0 src/",
+    "lint:fix": "eslint --fix src/",
     "test": "craco test"
   },
   "dependencies": {
@@ -75,8 +77,8 @@
   "build": {
     "appId": "com.proggramik",
     "compression": "normal",
-    "productName": "Snippee",
-    "copyright": "Copyright © 2019 ${author}",
+    "productName": "Kangaroo",
+    "copyright": "Copyright © 2020 ${author}",
     "directories": {
       "buildResources": "build",
       "output": "dist"
