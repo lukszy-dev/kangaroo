@@ -6,7 +6,7 @@ import ReduxThunk from 'redux-thunk';
 
 import App from './App';
 import rootReducer from './reducers';
-import { app, snippets } from './db';
+import { appDb, snippetsDb } from './db';
 import * as serviceWorker from './serviceWorker';
 
 import './index.scss';
@@ -20,8 +20,8 @@ const store = createStore(
   )
 );
 
-app.loadDatabase();
-snippets.loadDatabase();
+appDb.loadDatabase();
+snippetsDb.loadDatabase();
 
 ReactDOM.render(
   <Provider store={store}>

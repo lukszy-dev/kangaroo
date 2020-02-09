@@ -1,20 +1,19 @@
-import { STATUS_CODES } from 'http';
 import Octokit from '@octokit/rest';
 import Gist from '../models/Gist';
 
-import { setLoading, setError } from './ui';
+import { setLoading } from './ui';
 
 const namespace = name => `AUTH_${name}`;
 
-export const SET_GH_AUTH_DATA = namespace('SET_GH_AUTH_DATA');
+export const SET_GH_DATA = namespace('SET_GH_DATA');
 export const SET_GISTS = namespace('SET_GISTS');
-export const SET_BACKUP_GIST_ID = namespace('SET_BACKUP_GIST_ID');
-export const SET_ERROR = namespace('SET_ERROR');
+export const CLEAR_GH_DATA = namespace('CLEAR_GH_DATA');
 
-const setAuthDataAction = (data) => ({
-  type: SET_GH_AUTH_DATA,
+export const setGitHubDataAction = (data) => ({
+  type: SET_GH_DATA,
   token: data.token,
-  backupGistId: data.backupGistId
+  backupGistId: data.backupGistId,
+  lastSychronizedGistDate: data.gistDate
 });
 
 const setGistsAction = (gists) => ({
@@ -22,43 +21,48 @@ const setGistsAction = (gists) => ({
   gists
 });
 
+const clearAuthDataAction = () => ({
+  type: CLEAR_GH_DATA
+});
+
 export const loadAuthData = () => {
   return (dispatch, _, ipcRenderer) => {
-    ipcRenderer.send('LOAD_GH_AUTH_DATA');
-    ipcRenderer.once('LOAD_GH_AUTH_DATA_REPLY', (_, data) => {
-      dispatch(setAuthDataAction(data));
+    ipcRenderer.send('LOAD_GH_DATA');
+    ipcRenderer.once('LOAD_GH_DATA_REPLY', (_, data) => {
+      dispatch(setGitHubDataAction(data));
     });
   };
 };
 
 export const setAuthToken = (token) => {
-  return (dispatch, _, ipcRenderer) => {
+  return (dispatch, getState) => {
+    const { auth: { backupGistId } } = getState();
+
     return new Promise((resolve, reject) => {
       dispatch(setLoading(true));
 
       const octokit = new Octokit({ auth: token });
 
-      octokit.gists.list()
-        .then(response => {
-          ipcRenderer.send('SET_GH_AUTH_DATA', { token });
-          const gists = response.data.map(gist => new Gist(gist));
-          dispatch(setGistsAction(gists));
-          dispatch(setLoading(false));
-          resolve();
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(setError(STATUS_CODES[error.status]));
-          dispatch(setLoading(false));
-          reject();
-        });
+      octokit.gists.list({
+        headers: { 'If-None-Match': '' }
+      }).then(response => {
+        const gists = response.data.map(gist => new Gist(gist));
+        const current = gists.find(gist => gist.id === backupGistId);
+
+        dispatch(setGistsAction(current ? [current] : gists));
+        dispatch(setLoading(false));
+        resolve(gists);
+      }).catch(error => {
+        dispatch(setLoading(false));
+        reject(error);
+      });
     });
   };
 };
 
 export const deleteAuthData = () => {
   return (dispatch, _, ipcRenderer) => {
-    dispatch(setAuthDataAction({ token: '', backupGistId: '' }));
-    ipcRenderer.send('DELETE_GH_AUTH_DATA');
+    dispatch(clearAuthDataAction());
+    ipcRenderer.send('DELETE_GH_DATA');
   };
 };

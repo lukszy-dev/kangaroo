@@ -3,6 +3,7 @@ import {
   dbAdd,
   dbUpdate,
   dbRemove,
+  dbRemoveQuery,
   dbFindAll,
   dbUpdateAll
 } from './db';
@@ -15,8 +16,8 @@ const loadDatabase = () => {
   db = dbFactory(DB_SNIPPETS);
 };
 
-const add = (obj) => {
-  dbAdd(db, obj);
+const add = (objArray) => {
+  dbAdd(db, objArray);
 };
 
 const update = (obj) => {
@@ -35,11 +36,16 @@ const updateAll = (changes) => {
   dbUpdateAll(db, changes);
 };
 
-export const snippets = {
+const removeQuery = (query) => {
+  dbRemoveQuery(db, query);
+};
+
+export const snippetsDb = {
   loadDatabase,
   add,
   update,
   remove,
+  removeQuery,
   findAll,
   updateAll
 };

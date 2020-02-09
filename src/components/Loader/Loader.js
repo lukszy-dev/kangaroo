@@ -5,9 +5,9 @@ import './Loader.scss';
 
 const Loader = () => {
   return (
-    <div className='Loader--container'>
+    <div className="Loader--container">
       <Spinner
-        className='Loader--spinner'
+        className="Loader--spinner"
         size={150}
       />
     </div>

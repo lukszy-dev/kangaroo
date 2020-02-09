@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { H3, EditableText } from '@blueprintjs/core';
 
-import Snippet from '../../models/Snippet';
+import Snippet from '../../../models/Snippet';
 
 import './EditorHeader.scss';
 

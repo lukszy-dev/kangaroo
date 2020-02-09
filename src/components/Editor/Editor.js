@@ -2,18 +2,18 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AceEditor from 'react-ace';
 
-import StatusBar from './StatusBar';
-import EditorHeader from './EditorHeader';
+import StatusBar from './StatusBar/StatusBar';
+import EditorHeader from './EditorHeader/EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
 import { updateSnippet } from '../../actions/snippets';
 import { showGutter } from '../../actions/editor';
-import { languages } from '../../models/languages';
+import { languages, TEXT } from '../../models/languages';
 
 import './Editor.scss';
 
 // https://github.com/securingsincity/react-ace/issues/725
 import 'ace-builds/webpack-resolver';
-import './themes';
+import './ace-themes';
 
 Object.keys(languages).forEach(lang => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
@@ -39,7 +39,7 @@ const Editor = () => {
   };
 
   const handleOnLanguageChange = (event) => {
-    dispatch(updateSnippet({...snippet, language: event.currentTarget.value }));
+    dispatch(updateSnippet({ ...snippet, language: event.currentTarget.value }));
   };
 
   const handleTitleChange = (value) => {
@@ -63,7 +63,7 @@ const Editor = () => {
           theme={theme === 'dark' ? 'sm-dark' : 'sm-light'}
           onLoad={handleOnLoad}
           readOnly={!snippet}
-          mode={snippet ? snippet.language : languages[0]}
+          mode={snippet ? snippet.language : TEXT}
           value={snippet ? snippet.content : ''}
           onChange={handleOnChange}
           editorProps={{ $blockScrolling: true }}
@@ -77,7 +77,7 @@ const Editor = () => {
           setOptions={{ useWorker: false }}
         />
       </div>
-      
+
       <StatusBar
         snippet={snippet}
         onShowGutter={handleShowGutter}

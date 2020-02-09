@@ -1,4 +1,5 @@
 @import "~normalize.css";
+@import "./svg-icon-overrides.scss"; // https://github.com/palantir/blueprint/issues/2976#issuecomment-479231949
 @import "~@blueprintjs/core/src/blueprint.scss";
 
 html {

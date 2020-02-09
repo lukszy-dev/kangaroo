@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Button } from '@blueprintjs/core';
+import { Icon } from '@blueprintjs/core';
 
 import Snippet, { sourceType } from '../../../models/Snippet';
 
@@ -26,7 +26,7 @@ const SnippetListElement = ({
 
   const listElementClass = classNames({
     'SnippetListElement': true,
-    'SnippetListElement-active': currentlySelectedId === element.id,
+    'active': currentlySelectedId === element.id,
     'bp3-text-muted': currentlySelectedId !== element.id
   });
 
@@ -37,10 +37,10 @@ const SnippetListElement = ({
       onClick={handleClick}
       onContextMenu={handleContextMenu}
     >
-      <div className='SnippetListElement--content'>
+      <div className="SnippetListElement--content">
         {element.title}
         {element.source === sourceType.GIST && (
-          <Button icon="cloud" minimal={true} />
+          <Icon className="SnippetListElement--source-icon" icon="cloud" />
         )}
       </div>
     </div>

@@ -16,6 +16,8 @@
     "build:web": "craco build",
     "build:electron": "mkdir build/src && cp -r electron/. build/electron",
     "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js --publish never",
+    "lint": "eslint --max-warnings=0 src/",
+    "lint:fix": "eslint --fix src/",
     "test": "craco test"
   },
   "dependencies": {

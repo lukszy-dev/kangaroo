@@ -14,7 +14,7 @@ import {
   setSearchSnippets
 } from '../../actions/snippets';
 import { resizeLeftPanel } from '../../actions/ui';
-import { setAuthToken } from '../../actions/auth';
+import { setAuthToken, deleteAuthData } from '../../actions/auth';
 import { synchronizeGist, createBackupGist } from '../../actions/snippets';
 
 import './SnippetList.scss';
@@ -62,28 +62,32 @@ const SnippetList = () => {
     dispatch(setSearchSnippets(value));
   };
 
+  const handleDeleteAuthData = () => {
+    dispatch(deleteAuthData());
+  };
+
   const handleSetAuthToken = (token) => {
     return dispatch(setAuthToken(token));
   };
 
-  const handleCreateBackupGist = (description) => {
-    return dispatch(createBackupGist(description));
+  const handleCreateBackupGist = (description, token) => {
+    return dispatch(createBackupGist(description, token));
   };
 
-  const handleSynchronizeGist = (id) => {
-    return dispatch(synchronizeGist(id));
+  const handleSynchronizeGist = (backupLocalSnippets, token, id) => {
+    return dispatch(synchronizeGist(backupLocalSnippets, token, id));
   };
 
   useEffect(() => {
     const mouseUp = () => {
       resizerXPosition.current = null;
     }
-  
+
     const mouseMove = (event) => {
       if (!resizerXPosition.current) {
         return;
       }
-  
+
       const newPosition = panelWidth.current + event.clientX - resizerXPosition.current;
       // TODO Remove hardcoded values
       if (newPosition <= 600) {
@@ -109,7 +113,7 @@ const SnippetList = () => {
       return (
         <CSSTransition
           key={element.id}
-          classNames='SnippetList--element'
+          classNames="SnippetList--element"
           timeout={{ enter: 350, exit: 350 }}
         >
           <SnippetListElement
@@ -126,7 +130,7 @@ const SnippetList = () => {
   return (
     <div
       style={{ width: leftPanelWidth, minWidth: 200 }}
-      className='SnippetList--container'
+      className="SnippetList--container"
     >
       <SnippetListHeader
         query={query}
@@ -135,6 +139,7 @@ const SnippetList = () => {
         onSetAuthToken={handleSetAuthToken}
         onCreateBackupGist={handleCreateBackupGist}
         onSynchronizeGist={handleSynchronizeGist}
+        onDeleteAuthData={handleDeleteAuthData}
       />
 
       { list && (

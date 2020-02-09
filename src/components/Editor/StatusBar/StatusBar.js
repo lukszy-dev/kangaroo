@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip, Button, HTMLSelect, Position } from '@blueprintjs/core';
 
-import Snippet from '../../models/Snippet';
-import { languages } from '../../models/languages';
+import Snippet from '../../../models/Snippet';
+import { languages } from '../../../models/languages';
 
 import './StatusBar.scss';
 
@@ -28,14 +28,14 @@ const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
         <HTMLSelect
           value={snippet.language}
           minimal="true"
-          iconProps={{icon: 'caret-down'}}
-          style={{textTransform: 'capitalize'}}
+          iconProps={{ icon: 'caret-down' }}
+          style={{ textTransform: 'capitalize' }}
           onChange={onLanguageChange}
           options={languageItems}
         /> :
         <HTMLSelect
           minimal="true"
-          iconProps={{icon: 'caret-down'}}
+          iconProps={{ icon: 'caret-down' }}
           disabled={true}
         />
       }
