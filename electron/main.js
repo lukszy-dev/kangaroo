@@ -10,7 +10,7 @@ require('./actions');
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    title: 'Snippee',
+    title: 'Kangaroo',
     // #f5f8fa
     backgroundColor: '#30404d',
     show: false,
@@ -59,7 +59,7 @@ const createWindow = () => {
 };
 
 app.setAboutPanelOptions({
-  applicationName: 'Snippee',
+  applicationName: 'Kangaroo',
   version: 'App Store',
   applicationVersion: '0.0.1',
 });

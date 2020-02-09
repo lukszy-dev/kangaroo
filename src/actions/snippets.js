@@ -185,7 +185,7 @@ export const synchronizeGist = (backupLocalSnippets, authToken, backupGistId) =>
 
         let id = lastId;
 
-        if (gistTime > lastSynchronizedGistTime) {
+        if (!lastSynchronizedGistTime || gistTime > lastSynchronizedGistTime) {
           snippetsDb.removeQuery({ source: sourceType.GIST });
 
           const synchronized = gistContent.map(snippet => new Snippet({
@@ -215,10 +215,10 @@ export const synchronizeGist = (backupLocalSnippets, authToken, backupGistId) =>
               reject(error);
             });
           }
-
-          dispatch(setLoading(false));
-          resolve();
         }
+
+        dispatch(setLoading(false));
+        resolve();
       }).catch(error => {
         dispatch(setLoading(false));
         reject(error);

@@ -1,7 +1,7 @@
-# Snipp`ee` [![Build Status](https://api.travis-ci.com/WilsonDev/snippee.svg?branch=master)](https://travis-ci.com/WilsonDev/snippee)
+# Snipp`ee` [![Build Status](https://api.travis-ci.com/WilsonDev/kangaroo.svg?branch=master)](https://travis-ci.com/WilsonDev/kangaroo)
 ### Snippet manager
 
-![snippet-manager](https://user-images.githubusercontent.com/5923943/72289262-04406e80-364b-11ea-8b7a-dca666ad5ee9.png)
+![kangaroo](https://user-images.githubusercontent.com/5923943/72289262-04406e80-364b-11ea-8b7a-dca666ad5ee9.png)
 
 ## Available Scripts
 
