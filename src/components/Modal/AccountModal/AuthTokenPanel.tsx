@@ -1,11 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button, InputGroup, FormGroup, Classes } from '@blueprintjs/core';
 
 import '../Panel.scss';
 
-const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => {
+type AuthTokenPanelProps = {
+  authToken: string;
+  onAuthTokenChange: () => void;
+  onAccept: () => void;
+  loading: boolean;
+}
+
+const AuthTokenPanel = ({
+  authToken,
+  onAuthTokenChange,
+  onAccept,
+  loading
+}: AuthTokenPanelProps) => {
   return (
     <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
       <FormGroup label="GitHub personal access token">
@@ -24,13 +35,6 @@ const AuthTokenPanel = ({ authToken, onAuthTokenChange, onAccept, loading }) => 
       />
     </div>
   );
-};
-
-AuthTokenPanel.propTypes = {
-  authToken: PropTypes.string.isRequired,
-  onAuthTokenChange: PropTypes.func.isRequired,
-  onAccept: PropTypes.func.isRequired,
-  loading: PropTypes.func.isRequired
 };
 
 export default AuthTokenPanel;

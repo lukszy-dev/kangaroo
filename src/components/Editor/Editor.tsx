@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AceEditor from 'react-ace';
+import AceEditor, { IEditorProps } from 'react-ace';
 
 import StatusBar from './StatusBar/StatusBar';
 import EditorHeader from './EditorHeader/EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
+import { RootState } from 'store/types';
 import { updateSnippet } from 'store/snippets/actions';
 import { showGutter } from 'store/editor/actions';
 import { languages, TEXT } from '../../models/languages';
@@ -21,29 +22,35 @@ Object.keys(languages).forEach(lang => {
 
 const Editor = () => {
   const dispatch = useDispatch();
-  const { theme, leftPanelWidth } = useSelector(state => state.ui);
-  const { gutter } = useSelector(state => state.editor);
-  const { current: snippet } = useSelector(state => state.snippets);
+  const { theme, leftPanelWidth } = useSelector((state: RootState) => state.ui);
+  const { gutter } = useSelector((state: RootState) => state.editor);
+  const { current: snippet } = useSelector((state: RootState) => state.snippets);
 
   const { height, width } = useWindowDimensions();
 
-  const handleOnLoad = (editor) => {
+  const handleOnLoad = (editor: IEditorProps) => {
     editor.resize();
     editor.setShowFoldWidgets(false);
 
     editor.commands.removeCommand('find');
   };
 
-  const handleOnChange = (value) => {
-    dispatch(updateSnippet({ ...snippet, content: value }));
+  const handleOnChange = (value: any) => {
+    if (snippet) {
+      dispatch(updateSnippet({ ...snippet, content: value }));
+    }
   };
 
-  const handleOnLanguageChange = (event) => {
-    dispatch(updateSnippet({ ...snippet, language: event.currentTarget.value }));
+  const handleOnLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (snippet) {
+      dispatch(updateSnippet({ ...snippet, language: event.currentTarget.value }));
+    }
   };
 
-  const handleTitleChange = (value) => {
-    dispatch(updateSnippet({ ...snippet, title: value }));
+  const handleTitleChange = (value: string) => {
+    if (snippet) {
+      dispatch(updateSnippet({ ...snippet, title: value }));
+    }
   };
 
   const handleShowGutter = () => {

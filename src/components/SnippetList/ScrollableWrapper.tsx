@@ -1,16 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 
 import './ScrollableWrapper.scss';
 
-const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true, alwaysOn = false }) => {
+type ScrollableWrapperProps = {
+  children: any;
+  topShadow: boolean;
+  bottomShadow: boolean;
+  alwaysOn: boolean;
+}
+
+const ScrollableWrapper = ({
+  children,
+  topShadow = true,
+  bottomShadow = true,
+  alwaysOn = false
+}: ScrollableWrapperProps) => {
   const [top, setActiveTop] = useState(alwaysOn);
   const [bottom, setActiveBottom] = useState(alwaysOn);
 
-  const contentRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (bottomShadow) {
+    if (bottomShadow && contentRef.current) {
       const { current: { scrollHeight, clientHeight } } = contentRef;
 
       if (scrollHeight > clientHeight) {
@@ -19,7 +30,7 @@ const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true, al
     }
   }, [bottomShadow]);
 
-  const handleScroll = ({ target }) => {
+  const handleScroll = ({ target }: any) => {
     if (alwaysOn) {
       return;
     }
@@ -55,13 +66,6 @@ const ScrollableWrapper = ({ children, topShadow = true, bottomShadow = true, al
       </div>
     </div>
   );
-};
-
-ScrollableWrapper.propTypes = {
-  children: PropTypes.any.isRequired,
-  topShadow: PropTypes.bool,
-  bottomShadow: PropTypes.bool,
-  alwaysOn: PropTypes.bool
 };
 
 export default ScrollableWrapper;

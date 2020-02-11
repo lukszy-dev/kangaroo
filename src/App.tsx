@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { IpcRenderer, IpcRendererEvent } from 'electron';
 
 import Loader from 'components/Loader/Loader';
 import Theme from 'components/Theme/Theme';
@@ -12,7 +13,7 @@ import { initSnippets } from 'store/snippets/actions';
 import { loadAuthData } from 'store/auth/actions';
 import { appInit } from 'store/ui/actions';
 
-import appCommand, { APP_COMMAND } from 'utils/appCommand';
+import appCommand, { APP_COMMAND, AppCommandMessage } from 'utils/appCommand';
 
 import './App.scss';
 
@@ -28,7 +29,10 @@ const App = () => {
       () => dispatch(appInit(false))
     );
 
-    ipcRenderer.on(APP_COMMAND, (_: any, message: any) => appCommand(dispatch, message));
+    (ipcRenderer as IpcRenderer).on(
+      APP_COMMAND,
+      (_: IpcRendererEvent, message: AppCommandMessage) => appCommand(dispatch, message)
+    );
 
     return () => {
       ipcRenderer.removeAllListeners(APP_COMMAND);

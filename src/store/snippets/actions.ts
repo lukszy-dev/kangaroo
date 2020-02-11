@@ -67,7 +67,7 @@ export const setCurrentSnippet = (
 export const initSnippets = (): AppThunk<Promise<{}>> => {
   return (dispatch) => {
     return new Promise((resolve) => {
-      snippetsDb.findAll((data: any) => {
+      snippetsDb.findAll((data: Array<ISnippet>) => {
         const snippets = data.sort(sortById).map((entry: ISnippet) => new Snippet({ ...entry }));
         const lastId = Math.max.apply(Math, snippets.map((entry: Snippet) => entry.id)) | 0;
 
@@ -90,7 +90,7 @@ export const addSnippet = (): AppThunk => {
   };
 };
 
-export const updateSnippet = (snippet: Snippet): AppThunk => {
+export const updateSnippet = (snippet: ISnippet): AppThunk => {
   return (dispatch, getState) => {
     const { snippets: { current, list } } = getState();
 
@@ -220,6 +220,7 @@ export const synchronizeGist = (
         const gistTime = gistDate.getTime();
 
         const gistSourceSnippets = list.filter((snippet: Snippet) => snippet.source === sourceType.GIST);
+        const localSourceSnippets = list.filter((snippet: Snippet) => snippet.source === sourceType.LOCAL);
 
         let id = lastId;
 
@@ -239,7 +240,8 @@ export const synchronizeGist = (
             Math, gistSourceSnippets.map((snippet: Snippet) => new Date(snippet.lastUpdated).getTime())
           );
 
-          if (lastUpdatedTime > lastSynchronizedGistTime) {
+          const allowBackupLocalSnippets = backupLocalSnippets && localSourceSnippets.length > 0;
+          if (lastUpdatedTime > lastSynchronizedGistTime || allowBackupLocalSnippets) {
             let snippets = backupLocalSnippets ? list.slice(0) : gistSourceSnippets;
             snippets.forEach(snippet => snippet.source = sourceType.GIST);
 

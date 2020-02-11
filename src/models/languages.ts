@@ -11,7 +11,11 @@ export const JSON_MODE = 'json';
 export const HTML = 'html';
 export const CSHARP = 'csharp';
 
-const languages: any = {
+interface LanguageItem {
+  [key: string]: { label: string, extension: string }
+}
+
+const languages: LanguageItem = {
   [TEXT]: {
     label: 'Text',
     extension: ''

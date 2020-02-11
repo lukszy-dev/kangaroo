@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -7,28 +7,26 @@ import SnippetListElement from './SnippetListElement/SnippetListElement';
 import ScrollableWrapper from './ScrollableWrapper';
 import Resizer from './Resizer';
 
-import {
-  setCurrentSnippet,
-  addSnippet,
-  deleteSnippet,
-  setSearchSnippets
-} from 'store/snippets/actions';
+import { AppDispatch, RootState } from 'store/types';
 import { resizeLeftPanel } from 'store/ui/actions';
 import { setAuthToken, deleteAuthData } from 'store/auth/actions';
-import { synchronizeGist, createBackupGist } from 'store/snippets/actions';
+import {
+  synchronizeGist, createBackupGist, setCurrentSnippet,
+  addSnippet, deleteSnippet, setSearchSnippets
+} from 'store/snippets/actions';
 
 import './SnippetList.scss';
 
 const { remote } = require('electron');
 
 const SnippetList = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { leftPanelWidth } = useSelector(state => state.ui);
-  const { current, list, query } = useSelector(state => state.snippets);
+  const { leftPanelWidth } = useSelector((state: RootState) => state.ui);
+  const { current, list, query } = useSelector((state: RootState) => state.snippets);
 
-  const resizerXPosition = React.useRef(null);
-  const panelWidth = React.useRef(null);
+  const resizerXPosition = useRef<number | null>(null);
+  const panelWidth = useRef<number | null>(null);
 
   const menu = new remote.Menu();
   const menuItem = new remote.MenuItem({
@@ -37,7 +35,7 @@ const SnippetList = () => {
   });
   menu.append(menuItem)
 
-  const handleOnMouseDown = event => {
+  const handleOnMouseDown = (event: React.MouseEvent) => {
     resizerXPosition.current = event.clientX;
     panelWidth.current = event.clientX;
   };
@@ -46,7 +44,7 @@ const SnippetList = () => {
     menu.popup(remote.getCurrentWindow());
   };
 
-  const handleChangeSnippet = id => {
+  const handleChangeSnippet = (id: number) => {
     dispatch(setCurrentSnippet(id));
   };
 
@@ -58,7 +56,7 @@ const SnippetList = () => {
     dispatch(deleteSnippet());
   };
 
-  const handleSearchChange = (value) => {
+  const handleSearchChange = (value: string) => {
     dispatch(setSearchSnippets(value));
   };
 
@@ -66,15 +64,15 @@ const SnippetList = () => {
     dispatch(deleteAuthData());
   };
 
-  const handleSetAuthToken = (token) => {
+  const handleSetAuthToken = (token: string) => {
     return dispatch(setAuthToken(token));
   };
 
-  const handleCreateBackupGist = (description, token) => {
+  const handleCreateBackupGist = (description: string, token: string) => {
     return dispatch(createBackupGist(description, token));
   };
 
-  const handleSynchronizeGist = (backupLocalSnippets, token, id) => {
+  const handleSynchronizeGist = (backupLocalSnippets: boolean, token: string, id: string) => {
     return dispatch(synchronizeGist(backupLocalSnippets, token, id));
   };
 
@@ -83,8 +81,8 @@ const SnippetList = () => {
       resizerXPosition.current = null;
     }
 
-    const mouseMove = (event) => {
-      if (!resizerXPosition.current) {
+    const mouseMove = (event: MouseEvent) => {
+      if (!resizerXPosition.current || !panelWidth.current) {
         return;
       }
 
@@ -118,7 +116,7 @@ const SnippetList = () => {
         >
           <SnippetListElement
             element={element}
-            currentlySelectedId={current.id}
+            currentlySelectedId={current ? current.id : null}
             onChangeSnippet={handleChangeSnippet}
             onContextMenu={handleElementContextMenu}
           />

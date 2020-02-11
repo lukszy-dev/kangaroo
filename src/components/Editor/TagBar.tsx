@@ -1,10 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Tag } from '@blueprintjs/core';
 
 import './TagBar.scss';
 
-const TagBar = ({ tags, onEditTag }) => {
+type TagBarProps = {
+  tags: string[];
+  onEditTag: () => void;
+}
+
+const TagBar = ({
+  tags,
+  onEditTag
+}: TagBarProps) => {
   const renderTags = () => {
     if (!tags || tags.length < 1) {
       return null;
@@ -56,11 +63,6 @@ const TagBar = ({ tags, onEditTag }) => {
       </Tag>
     </div>
   );
-};
-
-TagBar.propTypes = {
-  tags: PropTypes.array,
-  onEditTag: PropTypes.func
 };
 
 export default TagBar;

@@ -5,10 +5,15 @@ import { Dialog } from '@blueprintjs/core';
 
 import AccountModal from 'components/Modal/AccountModal/AccountModal';
 import ErrorModal from 'components/Modal/ErrorModal/ErrorModal';
+import { RootState } from 'store/types';
 import { hideModal } from 'store/modal/actions';
 import { ACCOUNT_MODAL, ERROR_MODAL } from './constants';
 
-const MODAL_COMPONENTS = {
+interface ModalComponents {
+  [key: string]: { title: string, component: any }
+}
+
+const MODAL_COMPONENTS: ModalComponents = {
   [ACCOUNT_MODAL]: {
     title: 'Connect to GitHub Gist',
     component: AccountModal
@@ -21,8 +26,8 @@ const MODAL_COMPONENTS = {
 
 const ModalOverlay = () => {
   const dispatch = useDispatch();
-  const { modalType, modalProps } = useSelector(state => state.modal);
-  const { loading, theme } = useSelector(state => state.ui);
+  const { modalType, modalProps } = useSelector((state: RootState) => state.modal);
+  const { loading, theme } = useSelector((state: RootState) => state.ui);
 
   const handleHideModal = () => {
     dispatch(hideModal());
@@ -60,7 +65,7 @@ const ModalOverlay = () => {
     <Dialog
       className={classNames({ 'bp3-dark': theme === 'dark', 'bp3-focus-disabled': true })}
       title={modalTitle()}
-      isOpen={modalType}
+      isOpen={Boolean(modalType)}
       onClose={handleHideModal}
     >
       {renderModalComponent()}

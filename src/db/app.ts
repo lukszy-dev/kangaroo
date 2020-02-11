@@ -1,3 +1,5 @@
+import Datastore from 'nedb';
+
 import {
   dbFactory,
   dbAdd,
@@ -8,25 +10,25 @@ import {
 
 import { DB_APP } from './constants';
 
-let db;
+let db: Datastore;
 
 const loadDatabase = () => {
   db = dbFactory(DB_APP);
 };
 
-const add = (obj) => {
-  dbAdd(db, obj);
+const add = (objArray: {} | Array<{}>) => {
+  dbAdd(db, objArray);
 };
 
-const update = (obj) => {
+const update = (obj: { id: number }) => {
   dbUpdate(db, obj);
 };
 
-const remove = (id) => {
+const remove = (id: number) => {
   dbRemove(db, id);
 };
 
-const find = (id) => {
+const find = (id: number) => {
   dbFind(db, id);
 };
 

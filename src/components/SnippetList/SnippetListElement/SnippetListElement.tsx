@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Icon } from '@blueprintjs/core';
 
@@ -7,12 +6,19 @@ import Snippet, { sourceType } from '../../../models/Snippet';
 
 import './SnippetListElement.scss';
 
+type SnippetListElementProps = {
+  element: Snippet;
+  currentlySelectedId: number | null;
+  onChangeSnippet: (id: number) => void;
+  onContextMenu: (id: number) => void;
+}
+
 const SnippetListElement = ({
   element,
   currentlySelectedId,
   onChangeSnippet,
   onContextMenu
-}) => {
+}: SnippetListElementProps) => {
   const handleClick = () => {
     if (currentlySelectedId !== element.id) {
       onChangeSnippet(element.id);
@@ -45,13 +51,6 @@ const SnippetListElement = ({
       </div>
     </div>
   );
-};
-
-SnippetListElement.propTypes = {
-  element: PropTypes.instanceOf(Snippet).isRequired,
-  currentlySelectedId: PropTypes.number.isRequired,
-  onChangeSnippet: PropTypes.func.isRequired,
-  onContextMenu: PropTypes.func.isRequired
 };
 
 export default SnippetListElement;

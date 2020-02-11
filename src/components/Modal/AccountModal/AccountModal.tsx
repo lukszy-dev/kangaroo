@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import { GistsListResponseItem } from '@octokit/rest';
 
+import { RootState } from 'store/types';
 import { showModal } from 'store/modal/actions';
 import { ERROR_MODAL } from 'components/Modal/ModalOverlay/constants';
 
@@ -13,36 +14,44 @@ const STEPS = {
   GIST_SELECTOR: 1
 };
 
+type AccountModalProps = {
+  onHideModal: () => void;
+  onSetAuthToken: (token: string) => Promise<GistsListResponseItem[]>;
+  onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<{}>;
+  onCreateBackupGist: (description: string, token: string) => Promise<{}>;
+  onDeleteAuthData: () => void;
+}
+
 const AccountModal = ({
   onHideModal,
   onSetAuthToken,
   onSynchronizeGist,
   onCreateBackupGist,
   onDeleteAuthData
-}) => {
+}: AccountModalProps) => {
   const dispatch = useDispatch();
-  const { token, backupGistId, gists } = useSelector(state => state.auth);
-  const { loading } = useSelector(state => state.ui);
+  const { token, backupGistId, gists } = useSelector((state: RootState) => state.auth);
+  const { loading } = useSelector((state: RootState) => state.ui);
 
   const [authToken, setAuthToken] = useState(token);
-  const [gistId, setGistId] = useState('');
+  const [gistId, setGistId] = useState(gists.length > 0 ? gists[0].id : '');
   const [gistDescription, setGistDescription] = useState('');
   const [backupLocalSnippets, setBackupLocalSnippets] = useState(false);
   const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
 
-  const handleAuthTokenChange = ({ target: { value } }) => {
+  const handleAuthTokenChange = ({ target: { value } }: any) => {
     setAuthToken(value);
   };
 
-  const handleGistDescriptionChange = ({ target: { value } }) => {
+  const handleGistDescriptionChange = ({ target: { value } }: any) => {
     setGistDescription(value);
   };
 
-  const handleBackupLocalSnippetsChange = ({ target: { checked } }) => {
+  const handleBackupLocalSnippetsChange = ({ target: { checked } }: any) => {
     setBackupLocalSnippets(checked);
   };
 
-  const handleGistSelect = ({ currentTarget: { value } }) => {
+  const handleGistSelect = ({ currentTarget: { value } }: any) => {
     setGistId(value);
   };
 
@@ -89,7 +98,7 @@ const AccountModal = ({
     return panel ? panel.component(panel.props) : null;
   };
 
-  const panels = [{
+  const panels: Array<{ component: any, props: any }> = [{
     component: AuthTokenPanel,
     props: {
       authToken: authToken,
@@ -118,14 +127,6 @@ const AccountModal = ({
   return (
     <>{renderPanel()}</>
   );
-};
-
-AccountModal.propTypes = {
-  onHideModal: PropTypes.func.isRequired,
-  onSetAuthToken: PropTypes.func.isRequired,
-  onSynchronizeGist: PropTypes.func.isRequired,
-  onCreateBackupGist: PropTypes.func.isRequired,
-  onDeleteAuthData: PropTypes.func.isRequired
 };
 
 export default AccountModal;

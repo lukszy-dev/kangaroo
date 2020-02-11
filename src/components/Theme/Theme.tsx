@@ -1,12 +1,17 @@
 import React, { useEffect, createRef } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { Light, Dark } from './themes';
 
-const Theme = ({ mode, children, className }) => {
+type ThemeProps = {
+  mode: string;
+  children: any;
+  className: string;
+}
+
+const Theme = ({ mode, children, className }: ThemeProps) => {
   const variables = mode === 'dark' ? Dark : Light;
-  const node = createRef();
+  const containerRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
     const updateCSSVariables = () => {
@@ -14,13 +19,16 @@ const Theme = ({ mode, children, className }) => {
         return;
       }
 
-      Object.entries(variables).forEach(([prop, value]) =>
-        node.current.style.setProperty(prop, value)
-      );
+      Object.entries(variables).forEach(([prop, value]) => {
+        const node = containerRef.current;
+        if (node) {
+          node.style.setProperty(prop, value);
+        }
+      });
     }
 
     updateCSSVariables();
-  }, [node, variables]);
+  }, [containerRef, variables]);
 
   const containerClassNames = classNames({
     'bp3-dark': mode === 'dark',
@@ -28,16 +36,10 @@ const Theme = ({ mode, children, className }) => {
   }, className);
 
   return (
-    <div className={containerClassNames} ref={node}>
+    <div className={containerClassNames} ref={containerRef}>
       { children }
     </div>
   );
-}
-
-Theme.propTypes = {
-  mode: PropTypes.string.isRequired,
-  children: PropTypes.any,
-  className: PropTypes.string
 };
 
 Theme.Light = Light;

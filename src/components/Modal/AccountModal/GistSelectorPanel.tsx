@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { GistsListResponseItem } from "@octokit/rest";
 
@@ -19,6 +18,21 @@ import {
 
 import '../Panel.scss';
 
+type GistSelectorPanelProps = {
+  remoteGists: Array<GistsListResponseItem>;
+  gistDescription: string;
+  gistId: string;
+  backupGistId: string;
+  backupLocalSnippets: boolean;
+  onGistSelect: () => void;
+  onGistDescriptionChange: () => void;
+  onBackupLocalSnippetsChange: () => void;
+  onSynchronizeGist: () => void;
+  onCreateGist: () => void;
+  onDeleteAuthData: () => void;
+  loading: boolean;
+};
+
 const GistSelectorPanel = ({
   remoteGists,
   gistDescription,
@@ -32,11 +46,7 @@ const GistSelectorPanel = ({
   onCreateGist,
   onDeleteAuthData,
   loading
-}) => {
-  const handleSynchronizeGist = (action) => () => {
-    onSynchronizeGist(action)
-  };
-
+}: GistSelectorPanelProps) => {
   const gistItems = remoteGists.map(gist => {
     const keys = Object.keys(gist.files);
     const title = keys[keys.length - 1];
@@ -107,7 +117,7 @@ const GistSelectorPanel = ({
         <FormGroup>
           <Button
             disabled={!gistId}
-            onClick={handleSynchronizeGist()}
+            onClick={onSynchronizeGist}
             loading={loading}
             icon="cloud-download"
             text="Synchronize"
@@ -143,21 +153,6 @@ const GistSelectorPanel = ({
       {renderUnlinkAccountButton()}
     </div>
   );
-};
-
-GistSelectorPanel.propTypes = {
-  remoteGists: PropTypes.arrayOf(GistsListResponseItem),
-  gistDescription: PropTypes.string,
-  gistId: PropTypes.string,
-  backupGistId: PropTypes.string,
-  backupLocalSnippets: PropTypes.bool.isRequired,
-  onGistSelect: PropTypes.func.isRequired,
-  onGistDescriptionChange: PropTypes.func.isRequired,
-  onBackupLocalSnippetsChange: PropTypes.func.isRequired,
-  onSynchronizeGist: PropTypes.func.isRequired,
-  onCreateGist: PropTypes.func.isRequired,
-  onDeleteAuthData: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
 };
 
 export default GistSelectorPanel;

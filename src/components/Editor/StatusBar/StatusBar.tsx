@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Tooltip, Button, HTMLSelect, Position } from '@blueprintjs/core';
 
 import Snippet from '../../../models/Snippet';
@@ -7,7 +6,17 @@ import { languages } from '../../../models/languages';
 
 import './StatusBar.scss';
 
-const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
+type StatusBarProps = {
+  snippet: Snippet | null;
+  onShowGutter: () => void;
+  onLanguageChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+const StatusBar = ({
+  snippet,
+  onShowGutter,
+  onLanguageChange
+}: StatusBarProps) => {
   const languageItems = Object.entries(languages).map(([key, value]) =>
     ({ label: value.label, value: key })
   );
@@ -16,9 +25,9 @@ const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
     <div className="StatusBar--container">
       <Tooltip content="Show gutter" position={Position.TOP}>
         <Button
-          small="true"
+          small={true}
           icon="list-detail-view"
-          minimal="true"
+          minimal={true}
           style={{ marginLeft: "3px" }}
           onClick={onShowGutter}
         />
@@ -27,26 +36,20 @@ const StatusBar = ({ snippet, onShowGutter, onLanguageChange }) => {
       { snippet ?
         <HTMLSelect
           value={snippet.language}
-          minimal="true"
+          minimal={true}
           iconProps={{ icon: 'caret-down' }}
           style={{ textTransform: 'capitalize' }}
           onChange={onLanguageChange}
           options={languageItems}
         /> :
         <HTMLSelect
-          minimal="true"
+          minimal={true}
           iconProps={{ icon: 'caret-down' }}
           disabled={true}
         />
       }
     </div>
   );
-};
-
-StatusBar.propTypes = {
-  snippet: PropTypes.instanceOf(Snippet),
-  onShowGutter: PropTypes.func.isRequired,
-  onLanguageChange: PropTypes.func
 };
 
 export default StatusBar;

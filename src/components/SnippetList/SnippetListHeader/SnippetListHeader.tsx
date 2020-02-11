@@ -1,12 +1,22 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
+import { RootState } from 'store/types';
 import { showModal } from 'store/modal/actions';
 import { ACCOUNT_MODAL } from 'components/Modal/ModalOverlay/constants';
 
 import './SnippetListHeader.scss';
+
+type SnippetListHeaderProps = {
+  query: string;
+  onAddSnippet: () => void;
+  onSearchChange: (value: string) => void;
+  onSetAuthToken: (token: string) => Promise<{}>;
+  onCreateBackupGist: (description: string, token: string) => Promise<{}>;
+  onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<{}>;
+  onDeleteAuthData: () => void;
+}
 
 const SnippetListHeader = ({
   query,
@@ -16,11 +26,11 @@ const SnippetListHeader = ({
   onCreateBackupGist,
   onSynchronizeGist,
   onDeleteAuthData
-}) => {
+}: SnippetListHeaderProps) => {
   const dispatch = useDispatch();
-  const { token } = useSelector(state => state.auth);
+  const { token } = useSelector((state: RootState) => state.auth);
 
-  const handleSearchOnChange = ({ target: { value } }) => {
+  const handleSearchOnChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     onSearchChange(value);
   };
 
@@ -53,7 +63,7 @@ const SnippetListHeader = ({
       return (
         <Button
           icon="cross"
-          minimal="true"
+          minimal={true}
           onClick={handleClearSearch}
         />
       );
@@ -88,16 +98,6 @@ const SnippetListHeader = ({
       </div>
     </div>
   );
-};
-
-SnippetListHeader.propTypes = {
-  query: PropTypes.string.isRequired,
-  onAddSnippet: PropTypes.func.isRequired,
-  onSearchChange: PropTypes.func.isRequired,
-  onSetAuthToken: PropTypes.func.isRequired,
-  onSynchronizeGist: PropTypes.func.isRequired,
-  onCreateBackupGist: PropTypes.func.isRequired,
-  onDeleteAuthData: PropTypes.func.isRequired
 };
 
 export default SnippetListHeader;
