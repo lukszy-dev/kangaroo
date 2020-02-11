@@ -31,7 +31,7 @@ const App = () => {
     ipcRenderer.on(APP_COMMAND, (_: any, message: any) => appCommand(dispatch, message));
 
     return () => {
-      ipcRenderer.removeAllListeners();
+      ipcRenderer.removeAllListeners(APP_COMMAND);
     };
   }, [dispatch]);
 

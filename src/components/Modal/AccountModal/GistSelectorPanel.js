@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { GistsListResponseItem } from "@octokit/rest";
+
 import {
   InputGroup,
   FormGroup,
@@ -14,8 +16,6 @@ import {
   Checkbox,
   AnchorButton
 } from '@blueprintjs/core';
-
-import Gist from 'models/Gist';
 
 import '../Panel.scss';
 
@@ -38,7 +38,9 @@ const GistSelectorPanel = ({
   };
 
   const gistItems = remoteGists.map(gist => {
-    return ({ label: gist.title, value: gist.id })
+    const keys = Object.keys(gist.files);
+    const title = keys[keys.length - 1];
+    return ({ label: title, value: gist.id })
   });
 
   const renderGistCreator = () => {
@@ -144,7 +146,7 @@ const GistSelectorPanel = ({
 };
 
 GistSelectorPanel.propTypes = {
-  remoteGists: PropTypes.arrayOf(Gist),
+  remoteGists: PropTypes.arrayOf(GistsListResponseItem),
   gistDescription: PropTypes.string,
   gistId: PropTypes.string,
   backupGistId: PropTypes.string,

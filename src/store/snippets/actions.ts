@@ -1,8 +1,9 @@
-import Octokit, { GistsGetResponse } from "@octokit/rest";
+import Octokit, { GistsGetResponse, GistsCreateResponse } from "@octokit/rest";
 
 import { AppThunk } from "store/types";
 import Snippet, { ISnippet, sourceType } from "models/Snippet";
 import { setLoading } from "store/ui/actions";
+import { setGitHubDataAction } from "store/auth/actions";
 import { sortById } from "utils/utils";
 import { snippetsDb } from "db";
 
@@ -10,7 +11,6 @@ import {
   LOAD_SNIPPETS, ADD_SNIPPET, UPDATE_SNIPPET, DELETE_SNIPPET, SET_SEARCH_SNIPPETS, SET_CURRENT_SNIPPET,
   SnippetsActionTypes
 } from "./types";
-import { setGitHubDataAction } from "store/auth/actions";
 
 const loadSnippetsAction = (
   list: Array<Snippet>,
@@ -132,7 +132,7 @@ export const setSearchSnippets = (query: string): AppThunk => {
 const getGist = (
   authToken: string,
   backupGistId: string
-): Promise<Octokit.Response<Octokit.GistsGetResponse>> => {
+): Promise<Octokit.Response<GistsGetResponse>> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
     octokit.gists.get({
@@ -175,7 +175,7 @@ const createGist = (
   authToken: string,
   gistDescription: string,
   snippets: Array<Snippet>
-): Promise<Octokit.Response<Octokit.GistsCreateResponse>> => {
+): Promise<Octokit.Response<GistsCreateResponse>> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
     const fileName = (new Date()).toISOString();

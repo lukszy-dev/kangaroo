@@ -34,7 +34,9 @@ export const loadAuthData = (): AppThunk => {
   };
 };
 
-export const setAuthToken = (token: string): AppThunk<Promise<{}>> => {
+export const setAuthToken = (
+  token: string
+): AppThunk<Promise<GistsListResponseItem | GistsListResponseItem[]>> => {
   return (dispatch, getState) => {
     const { auth: { backupGistId } } = getState();
 

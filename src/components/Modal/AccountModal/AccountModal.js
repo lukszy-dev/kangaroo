@@ -25,7 +25,7 @@ const AccountModal = ({
   const { loading } = useSelector(state => state.ui);
 
   const [authToken, setAuthToken] = useState(token);
-  const [gistId, setGistId] = useState(gists.length > 0 ? gists[0].id : '');
+  const [gistId, setGistId] = useState('');
   const [gistDescription, setGistDescription] = useState('');
   const [backupLocalSnippets, setBackupLocalSnippets] = useState(false);
   const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
@@ -47,7 +47,8 @@ const AccountModal = ({
   };
 
   const handleAuthToken = () => {
-    onSetAuthToken(authToken).then(() => {
+    onSetAuthToken(authToken).then(gists => {
+      setGistId(gists.length > 0 ? gists[0].id : '')
       nextStep();
     });
   };

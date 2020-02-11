@@ -60,7 +60,7 @@ const ModalOverlay = () => {
     <Dialog
       className={classNames({ 'bp3-dark': theme === 'dark', 'bp3-focus-disabled': true })}
       title={modalTitle()}
-      isOpen={modalType !== null}
+      isOpen={modalType}
       onClose={handleHideModal}
     >
       {renderModalComponent()}
