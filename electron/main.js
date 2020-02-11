@@ -42,7 +42,12 @@ const createWindow = () => {
       .catch(err => console.log('An error occurred: ', err));
     });
 
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.on('did-frame-finish-load', () => {
+      mainWindow.webContents.openDevTools();
+      mainWindow.webContents.on('devtools-opened', () => {
+        mainWindow.focus();
+      });
+    });
   }
 
   generateMenu(mainWindow);
@@ -57,6 +62,8 @@ const createWindow = () => {
 
   setMainWindow(mainWindow);
 };
+
+app.allowRendererProcessReuse = true;
 
 app.setAboutPanelOptions({
   applicationName: 'Kangaroo',

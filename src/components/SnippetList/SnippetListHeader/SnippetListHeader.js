@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
-import { showModal } from 'actions/modal';
+import { showModal } from 'store/modal/actions';
 import { ACCOUNT_MODAL } from 'components/Modal/ModalOverlay/constants';
 
 import './SnippetListHeader.scss';

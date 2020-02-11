@@ -5,8 +5,8 @@ import AceEditor from 'react-ace';
 import StatusBar from './StatusBar/StatusBar';
 import EditorHeader from './EditorHeader/EditorHeader';
 import useWindowDimensions from '../../utils/useWindowDimensions';
-import { updateSnippet } from '../../actions/snippets';
-import { showGutter } from '../../actions/editor';
+import { updateSnippet } from 'store/snippets/actions';
+import { showGutter } from 'store/editor/actions';
 import { languages, TEXT } from '../../models/languages';
 
 import './Editor.scss';

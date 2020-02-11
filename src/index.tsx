@@ -5,14 +5,14 @@ import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 
 import App from './App';
-import rootReducer from './reducers';
+import rootReducer from 'store/index';
 import { appDb, snippetsDb } from './db';
 import * as serviceWorker from './serviceWorker';
 
 import './index.scss';
 
 const { ipcRenderer } = window.require('electron');
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
   composeEnhancers(

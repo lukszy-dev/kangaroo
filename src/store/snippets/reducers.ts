@@ -4,17 +4,22 @@ import {
   DELETE_SNIPPET,
   SET_CURRENT_SNIPPET,
   LOAD_SNIPPETS,
-  SET_SEARCH_SNIPPETS
-} from '../actions/snippets';
+  SET_SEARCH_SNIPPETS,
+  SnippetsState,
+  SnippetsActionTypes
+} from './types';
 
-const initial = {
+const initialState: SnippetsState = {
   current: null,
-  list: null,
+  list: [],
   query: '',
   lastId: 0
 };
 
-export default (state = initial, action) => {
+export const snippetsReducer = (
+  state = initialState,
+  action: SnippetsActionTypes
+): SnippetsState => {
   switch (action.type) {
     case ADD_SNIPPET:
       return {
@@ -41,7 +46,7 @@ export default (state = initial, action) => {
     case SET_CURRENT_SNIPPET:
       return {
         ...state,
-        current: state.list.find(element => element.id === action.id)
+        current: state.list.find(element => element.id === action.id) || null
       };
 
     case LOAD_SNIPPETS:

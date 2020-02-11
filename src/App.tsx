@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Loader from './components/Loader/Loader';
-import Theme from './components/Theme/Theme';
-import Editor from './components/Editor/Editor';
-import SnippetList from './components/SnippetList/SnippetList';
+import Loader from 'components/Loader/Loader';
+import Theme from 'components/Theme/Theme';
+import Editor from 'components/Editor/Editor';
+import SnippetList from 'components/SnippetList/SnippetList';
 import ModalOverlay from 'components/Modal/ModalOverlay/ModalOverlay';
 
-import { initSnippets } from './actions/snippets';
-import { loadAuthData } from './actions/auth';
-import { appInit } from './actions/ui';
+import { RootState, AppDispatch } from 'store/types';
+import { initSnippets } from 'store/snippets/actions';
+import { loadAuthData } from 'store/auth/actions';
+import { appInit } from 'store/ui/actions';
 
-import appCommand, { APP_COMMAND } from './utils/appCommand';
+import appCommand, { APP_COMMAND } from 'utils/appCommand';
 
 import './App.scss';
 
 const { ipcRenderer } = require('electron');
 
 const App = () => {
-  const dispatch = useDispatch();
-  const { init, theme } = useSelector(state => state.ui);
+  const dispatch = useDispatch<AppDispatch>();
+  const { init, theme } = useSelector((state: RootState) => state.ui);
 
   useEffect(() => {
     dispatch(loadAuthData());
@@ -27,7 +28,7 @@ const App = () => {
       () => dispatch(appInit(false))
     );
 
-    ipcRenderer.on(APP_COMMAND, (_, message) => appCommand(dispatch, message));
+    ipcRenderer.on(APP_COMMAND, (_: any, message: any) => appCommand(dispatch, message));
 
     return () => {
       ipcRenderer.removeAllListeners();

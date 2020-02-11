@@ -1,10 +1,20 @@
 /** Class representing a gist. */
 export default class Gist {
+  id: string;
+  description: string;
+  files: Array<any>;
+  url: string;
+
   /**
    * Create a gist.
    * @param {object} args
    */
-  constructor(args) {
+  constructor(args: {
+    id: string,
+    description: string,
+    files: Array<any>,
+    url: string
+  }) {
     const {
       id,
       description,

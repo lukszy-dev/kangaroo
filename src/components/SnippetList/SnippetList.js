@@ -12,10 +12,10 @@ import {
   addSnippet,
   deleteSnippet,
   setSearchSnippets
-} from '../../actions/snippets';
-import { resizeLeftPanel } from '../../actions/ui';
-import { setAuthToken, deleteAuthData } from '../../actions/auth';
-import { synchronizeGist, createBackupGist } from '../../actions/snippets';
+} from 'store/snippets/actions';
+import { resizeLeftPanel } from 'store/ui/actions';
+import { setAuthToken, deleteAuthData } from 'store/auth/actions';
+import { synchronizeGist, createBackupGist } from 'store/snippets/actions';
 
 import './SnippetList.scss';
 

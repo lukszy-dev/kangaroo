@@ -5,7 +5,7 @@ import { Dialog } from '@blueprintjs/core';
 
 import AccountModal from 'components/Modal/AccountModal/AccountModal';
 import ErrorModal from 'components/Modal/ErrorModal/ErrorModal';
-import { hideModal } from 'actions/modal';
+import { hideModal } from 'store/modal/actions';
 import { ACCOUNT_MODAL, ERROR_MODAL } from './constants';
 
 const MODAL_COMPONENTS = {

@@ -3,10 +3,12 @@ import {
   RESIZE_LEFT_PANEL,
   SWITCH_THEME,
   SET_LOADING,
-  SET_ERROR
-} from '../actions/ui';
+  SET_ERROR,
+  UIState,
+  UIActionTypes
+} from './types';
 
-const initial = {
+const initialState: UIState = {
   init: true,
   theme: 'dark',
   leftPanelWidth: 200,
@@ -14,7 +16,10 @@ const initial = {
   error: null
 };
 
-export default (state = initial, action) => {
+export const uiReducer = (
+  state = initialState,
+  action: UIActionTypes
+): UIState => {
   switch (action.type) {
     case APP_INIT:
       return {

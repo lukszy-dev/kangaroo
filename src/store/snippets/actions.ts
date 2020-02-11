@@ -1,60 +1,75 @@
-import Octokit from '@octokit/rest';
-import Snippet, { sourceType } from '../models/Snippet';
-import { sortById } from '../utils/utils';
-import { setLoading } from './ui';
-import { snippetsDb } from '../db/snippets';
-import { setGitHubDataAction } from './auth';
+import Octokit, { GistsGetResponse } from "@octokit/rest";
 
-const namespace = name => `SNIPPETS_${name}`;
+import { AppThunk } from "store/types";
+import Snippet, { ISnippet, sourceType } from "models/Snippet";
+import { setLoading } from "store/ui/actions";
+import { sortById } from "utils/utils";
+import { snippetsDb } from "db";
 
-export const ADD_SNIPPET = namespace('ADD_SNIPPET');
-export const UPDATE_SNIPPET = namespace('UPDATE_SNIPPET');
-export const DELETE_SNIPPET = namespace('DELETE_SNIPPET');
-export const SET_CURRENT_SNIPPET = namespace('SET_CURRENT_SNIPPET');
-export const LOAD_SNIPPETS = namespace('LOAD_SNIPPETS');
-export const SET_SEARCH_SNIPPETS = namespace('SET_SEARCH_SNIPPETS');
+import {
+  LOAD_SNIPPETS, ADD_SNIPPET, UPDATE_SNIPPET, DELETE_SNIPPET, SET_SEARCH_SNIPPETS, SET_CURRENT_SNIPPET,
+  SnippetsActionTypes
+} from "./types";
+import { setGitHubDataAction } from "store/auth/actions";
 
-const loadSnippetsAction = (list, current, lastId) => ({
+const loadSnippetsAction = (
+  list: Array<Snippet>,
+  current: Snippet,
+  lastId: number
+): SnippetsActionTypes => ({
   type: LOAD_SNIPPETS,
   list,
   current,
   lastId
 });
 
-const addSnippetAction = (snippet, list) => ({
+const addSnippetAction = (
+  snippet: Snippet,
+  list: Array<Snippet>
+): SnippetsActionTypes => ({
   type: ADD_SNIPPET,
   snippet,
   list
 });
 
-const updateSnippetAction = (snippet, list) => ({
+const updateSnippetAction = (
+  snippet: Snippet,
+  list: Array<Snippet>
+): SnippetsActionTypes => ({
   type: UPDATE_SNIPPET,
   snippet,
   list
 });
 
-const deleteSnippetAction = (current, list) => ({
+const deleteSnippetAction = (
+  current: Snippet,
+  list: Array<Snippet>
+): SnippetsActionTypes => ({
   type: DELETE_SNIPPET,
   current,
   list
 });
 
-const setSearchSnippetsAction = (query) => ({
+const setSearchSnippetsAction = (
+  query: string
+): SnippetsActionTypes => ({
   type: SET_SEARCH_SNIPPETS,
   query
 });
 
-export const setCurrentSnippet = (id) => ({
+export const setCurrentSnippet = (
+  id: number
+): SnippetsActionTypes => ({
   type: SET_CURRENT_SNIPPET,
   id
 });
 
-export const initSnippets = () => {
+export const initSnippets = (): AppThunk<Promise<{}>> => {
   return (dispatch) => {
     return new Promise((resolve) => {
-      snippetsDb.findAll(data => {
-        const snippets = data.sort(sortById).map(entry => new Snippet(entry));
-        const lastId = Math.max.apply(Math, snippets.map(entry => entry.id)) | 0;
+      snippetsDb.findAll((data: any) => {
+        const snippets = data.sort(sortById).map((entry: ISnippet) => new Snippet({ ...entry }));
+        const lastId = Math.max.apply(Math, snippets.map((entry: Snippet) => entry.id)) | 0;
 
         dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
         resolve();
@@ -63,7 +78,7 @@ export const initSnippets = () => {
   };
 };
 
-export const addSnippet = () => {
+export const addSnippet = (): AppThunk => {
   return (dispatch, getState) => {
     const { snippets: { lastId, list } } = getState();
 
@@ -75,12 +90,16 @@ export const addSnippet = () => {
   };
 };
 
-export const updateSnippet = (snippet) => {
+export const updateSnippet = (snippet: Snippet): AppThunk => {
   return (dispatch, getState) => {
     const { snippets: { current, list } } = getState();
 
+    if (!current) {
+      return;
+    }
+
     const toUpdateIndex = list.findIndex(element => element.id === current.id);
-    const updatedSnippet = new Snippet({ ...snippet, lastUpdated: new Date() });
+    const updatedSnippet = new Snippet({ ...snippet, lastUpdated: (new Date()).toISOString() });
     const updatedList = [...list];
     updatedList[toUpdateIndex] = updatedSnippet;
 
@@ -89,9 +108,13 @@ export const updateSnippet = (snippet) => {
   };
 };
 
-export const deleteSnippet = () => {
+export const deleteSnippet = (): AppThunk => {
   return (dispatch, getState) => {
     const { snippets: { current, list } } = getState();
+
+    if (!current) {
+      return;
+    }
 
     const updatedList = list.filter(element => element.id !== current.id);
 
@@ -100,13 +123,16 @@ export const deleteSnippet = () => {
   };
 };
 
-export const setSearchSnippets = (query) => {
+export const setSearchSnippets = (query: string): AppThunk => {
   return (dispatch) => {
     dispatch(setSearchSnippetsAction(query));
   };
 };
 
-const getGist = (authToken, backupGistId) => {
+const getGist = (
+  authToken: string,
+  backupGistId: string
+): Promise<Octokit.Response<Octokit.GistsGetResponse>> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
     octokit.gists.get({
@@ -120,7 +146,11 @@ const getGist = (authToken, backupGistId) => {
   });
 };
 
-const updateGist = (authToken, backupGistId, snippets) => {
+const updateGist = (
+  authToken: string,
+  backupGistId: string,
+  snippets: Array<Snippet>
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
     const fileName = (new Date()).toISOString();
@@ -141,7 +171,11 @@ const updateGist = (authToken, backupGistId, snippets) => {
   });
 };
 
-const createGist = (authToken, gistDescription, snippets) => {
+const createGist = (
+  authToken: string,
+  gistDescription: string,
+  snippets: Array<Snippet>
+): Promise<Octokit.Response<Octokit.GistsCreateResponse>> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
     const fileName = (new Date()).toISOString();
@@ -165,7 +199,11 @@ const createGist = (authToken, gistDescription, snippets) => {
   });
 };
 
-export const synchronizeGist = (backupLocalSnippets, authToken, backupGistId) => {
+export const synchronizeGist = (
+  backupLocalSnippets: boolean,
+  authToken: string,
+  backupGistId: string
+): AppThunk<Promise<{}>> => {
   return (dispatch, getState, ipcRenderer) => {
     const { snippets: { lastId, list }, auth: { lastSychronizedGistDate } } = getState();
 
@@ -181,24 +219,24 @@ export const synchronizeGist = (backupLocalSnippets, authToken, backupGistId) =>
         const gistDate = new Date(lastGist[0]);
         const gistTime = gistDate.getTime();
 
-        const gistSourceSnippets = list.filter(snippet => snippet.source === sourceType.GIST);
+        const gistSourceSnippets = list.filter((snippet: Snippet) => snippet.source === sourceType.GIST);
 
         let id = lastId;
 
         if (!lastSynchronizedGistTime || gistTime > lastSynchronizedGistTime) {
           snippetsDb.removeQuery({ source: sourceType.GIST });
 
-          const synchronized = gistContent.map(snippet => new Snippet({
-            ...snippet, id: id++, lastUpdated: gistDate
+          const synchronized = gistContent.map((snippet: ISnippet) => new Snippet({
+            ...snippet, id: id++, lastUpdated: gistDate.toISOString()
           })).sort(sortById);
           snippetsDb.add(synchronized);
 
           ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
-          dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
+          dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate: gistDate.toISOString() }));
           dispatch(loadSnippetsAction(synchronized, synchronized[0], id));
         } else {
           const lastUpdatedTime = Math.max.apply(
-            Math, gistSourceSnippets.map(snippet => new Date(snippet.lastUpdated))
+            Math, gistSourceSnippets.map((snippet: Snippet) => new Date(snippet.lastUpdated).getTime())
           );
 
           if (lastUpdatedTime > lastSynchronizedGistTime) {
@@ -227,7 +265,10 @@ export const synchronizeGist = (backupLocalSnippets, authToken, backupGistId) =>
   };
 };
 
-export const createBackupGist = (description, authToken) => {
+export const createBackupGist = (
+  description: string,
+  authToken: string
+): AppThunk<Promise<{}>> => {
   return (dispatch, getState, ipcRenderer) => {
     const { snippets: { list, lastId } } = getState();
 
@@ -242,13 +283,13 @@ export const createBackupGist = (description, authToken) => {
         description,
         snippets
       ).then(response => {
-        const gistId = response.data.id;
+        const backupGistId = response.data.id;
         const gistDate = response.data.updated_at;
 
-        ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId: gistId, gistDate });
+        ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
         snippetsDb.updateAll({ source: sourceType.GIST });
 
-        dispatch(setGitHubDataAction({ token: authToken, gistId, gistDate }));
+        dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
         dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
         dispatch(setLoading(false));
         resolve();

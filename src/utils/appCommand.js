@@ -1,4 +1,4 @@
-import { switchTheme } from '../actions/ui';
+import { switchTheme } from 'store/ui/actions';
 
 export const APP_COMMAND = 'APP_COMMAND';
 

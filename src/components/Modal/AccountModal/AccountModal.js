@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { showModal } from 'actions/modal';
+import { showModal } from 'store/modal/actions';
 import { ERROR_MODAL } from 'components/Modal/ModalOverlay/constants';
 
 import AuthTokenPanel from './AuthTokenPanel';

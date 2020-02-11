@@ -1,17 +1,22 @@
 import {
   SET_GH_DATA,
   SET_GISTS,
-  CLEAR_GH_DATA
-} from '../actions/auth';
+  CLEAR_GH_DATA,
+  AuthState,
+  AuthActionTypes
+} from './types';
 
-const initial = {
+const initialState: AuthState = {
   token: '',
   gists: [],
   backupGistId: '',
   lastSychronizedGistDate: ''
 };
 
-export default (state = initial, action) => {
+export const authReducer = (
+  state = initialState,
+  action: AuthActionTypes
+): AuthState => {
   switch (action.type) {
     case SET_GH_DATA:
       return {
@@ -21,14 +26,14 @@ export default (state = initial, action) => {
         lastSychronizedGistDate: action.lastSychronizedGistDate
       };
 
-    case CLEAR_GH_DATA:
-      return initial;
-
     case SET_GISTS:
       return {
         ...state,
         gists: action.gists
       };
+
+    case CLEAR_GH_DATA:
+      return initialState;
 
     default:
       return state;

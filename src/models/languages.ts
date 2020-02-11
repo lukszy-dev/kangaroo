@@ -11,7 +11,7 @@ export const JSON_MODE = 'json';
 export const HTML = 'html';
 export const CSHARP = 'csharp';
 
-const languages = {
+const languages: any = {
   [TEXT]: {
     label: 'Text',
     extension: ''

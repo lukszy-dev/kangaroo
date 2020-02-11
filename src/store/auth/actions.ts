@@ -1,31 +1,31 @@
-import Octokit from '@octokit/rest';
-import Gist from '../models/Gist';
+import Octokit, { GistsListResponseItem } from "@octokit/rest";
+import { AppThunk } from "store/types";
+import { setLoading } from "store/ui/actions";
 
-import { setLoading } from './ui';
+import {
+  SET_GH_DATA, SET_GISTS, CLEAR_GH_DATA,
+  AuthActionTypes
+} from "./types";
 
-const namespace = name => `AUTH_${name}`;
-
-export const SET_GH_DATA = namespace('SET_GH_DATA');
-export const SET_GISTS = namespace('SET_GISTS');
-export const CLEAR_GH_DATA = namespace('CLEAR_GH_DATA');
-
-export const setGitHubDataAction = (data) => ({
+export const setGitHubDataAction = (
+  data: { token: string, backupGistId: string, gistDate: string }
+): AuthActionTypes => ({
   type: SET_GH_DATA,
   token: data.token,
   backupGistId: data.backupGistId,
   lastSychronizedGistDate: data.gistDate
 });
 
-const setGistsAction = (gists) => ({
+const setGistsAction = (gists: Array<GistsListResponseItem>): AuthActionTypes => ({
   type: SET_GISTS,
   gists
 });
 
-const clearAuthDataAction = () => ({
+const clearAuthDataAction = (): AuthActionTypes => ({
   type: CLEAR_GH_DATA
 });
 
-export const loadAuthData = () => {
+export const loadAuthData = (): AppThunk => {
   return (dispatch, _, ipcRenderer) => {
     ipcRenderer.send('LOAD_GH_DATA');
     ipcRenderer.once('LOAD_GH_DATA_REPLY', (_, data) => {
@@ -34,7 +34,7 @@ export const loadAuthData = () => {
   };
 };
 
-export const setAuthToken = (token) => {
+export const setAuthToken = (token: string): AppThunk<Promise<{}>> => {
   return (dispatch, getState) => {
     const { auth: { backupGistId } } = getState();
 
@@ -46,7 +46,7 @@ export const setAuthToken = (token) => {
       octokit.gists.list({
         headers: { 'If-None-Match': '' }
       }).then(response => {
-        const gists = response.data.map(gist => new Gist(gist));
+        const gists = response.data.map((gist: GistsListResponseItem) => gist);
         const current = gists.find(gist => gist.id === backupGistId);
 
         dispatch(setGistsAction(current ? [current] : gists));
@@ -60,7 +60,7 @@ export const setAuthToken = (token) => {
   };
 };
 
-export const deleteAuthData = () => {
+export const deleteAuthData = (): AppThunk => {
   return (dispatch, _, ipcRenderer) => {
     dispatch(clearAuthDataAction());
     ipcRenderer.send('DELETE_GH_DATA');
