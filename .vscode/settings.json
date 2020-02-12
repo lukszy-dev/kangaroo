@@ -2,5 +2,9 @@
   "eslint.alwaysShowStatus": true,
 
   "typescript.preferences.quoteStyle": "single",
-  "javascript.preferences.quoteStyle": "single"
+  "javascript.preferences.quoteStyle": "single",
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
