@@ -1,13 +1,10 @@
 import Datastore from 'nedb';
-
-const { remote } = require('electron');
+import { remote } from 'electron';
 
 const dbFactory = (name: string) => {
   const db = new Datastore({
-    filename: `${process.env.NODE_ENV === 'development' ?
-    '.' :
-    remote.app.getPath('userData')}/data/${name}.db`,
-    autoload: true
+    filename: `${process.env.NODE_ENV === 'development' ? '.' : remote.app.getPath('userData')}/data/${name}.db`,
+    autoload: true,
   });
 
   db.ensureIndex({ fieldName: 'id', unique: true });
@@ -27,7 +24,7 @@ const dbUpdate = (db: Datastore, obj: { id: number }) => {
   });
 };
 
-const dbUpdateAll = (db: Datastore, changes: any) => {
+const dbUpdateAll = (db: Datastore, changes: {}) => {
   db.update({}, { $set: changes }, { multi: true }, err => {
     if (err) throw new Error(err.message);
   });
@@ -39,32 +36,23 @@ const dbRemove = (db: Datastore, id: number) => {
   });
 };
 
-const dbRemoveQuery = (db: Datastore, query: any) => {
+const dbRemoveQuery = (db: Datastore, query: {}) => {
   db.remove(query, { multi: true }, err => {
     if (err) throw new Error(err.message);
   });
 };
 
 const dbFind = (db: Datastore, id: number) => {
-  db.find({ id: id }, (err: any) => {
+  db.find({ id: id }, {}, err => {
     if (err) throw new Error(err.message);
   });
 };
 
 const dbFindAll = (db: Datastore, callback: (items: any) => void) => {
-  db.find({}, (err: any, items: any) => {
+  db.find({}, {}, (err, items) => {
     if (err) throw new Error(err.message);
     callback(items);
   });
 };
 
-export {
-  dbFactory,
-  dbAdd,
-  dbUpdate,
-  dbRemove,
-  dbRemoveQuery,
-  dbFind,
-  dbFindAll,
-  dbUpdateAll
-};
+export { dbFactory, dbAdd, dbUpdate, dbRemove, dbRemoveQuery, dbFind, dbFindAll, dbUpdateAll };

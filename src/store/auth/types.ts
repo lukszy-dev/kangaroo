@@ -1,4 +1,4 @@
-import { GistsListResponseItem } from "@octokit/rest";
+import { GistsListResponseItem } from '@octokit/rest';
 
 export const SET_GH_DATA = 'AUTH_SET_GH_DATA';
 export const SET_GISTS = 'AUTH_SET_GISTS';
@@ -27,6 +27,4 @@ interface ClearAuthDataAction {
   type: typeof CLEAR_GH_DATA;
 }
 
-export type AuthActionTypes =
-  SetGitHubDataAction | SetGistsAction |
-  ClearAuthDataAction;
+export type AuthActionTypes = SetGitHubDataAction | SetGistsAction | ClearAuthDataAction;

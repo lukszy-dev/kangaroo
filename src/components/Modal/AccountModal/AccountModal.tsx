@@ -11,7 +11,7 @@ import GistSelectorPanel from './GistSelectorPanel';
 
 const STEPS = {
   AUTH_TOKEN: 0,
-  GIST_SELECTOR: 1
+  GIST_SELECTOR: 1,
 };
 
 type AccountModalProps = {
@@ -20,14 +20,14 @@ type AccountModalProps = {
   onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<{}>;
   onCreateBackupGist: (description: string, token: string) => Promise<{}>;
   onDeleteAuthData: () => void;
-}
+};
 
 const AccountModal = ({
   onHideModal,
   onSetAuthToken,
   onSynchronizeGist,
   onCreateBackupGist,
-  onDeleteAuthData
+  onDeleteAuthData,
 }: AccountModalProps) => {
   const dispatch = useDispatch();
   const { token, backupGistId, gists } = useSelector((state: RootState) => state.auth);
@@ -57,7 +57,7 @@ const AccountModal = ({
 
   const handleAuthToken = () => {
     onSetAuthToken(authToken).then(gists => {
-      setGistId(gists.length > 0 ? gists[0].id : '')
+      setGistId(gists.length > 0 ? gists[0].id : '');
       nextStep();
     });
   };
@@ -69,12 +69,14 @@ const AccountModal = ({
   };
 
   const handleSynchronizeGist = () => {
-    onSynchronizeGist(backupLocalSnippets, authToken, gistId).then(() => {
-      handleClose();
-    }).catch(error => {
-      handleClose();
-      dispatch(showModal(ERROR_MODAL, { error }));
-    });
+    onSynchronizeGist(backupLocalSnippets, authToken, gistId)
+      .then(() => {
+        handleClose();
+      })
+      .catch(error => {
+        handleClose();
+        dispatch(showModal(ERROR_MODAL, { error }));
+      });
   };
 
   const handleDeleteAuthData = () => {
@@ -98,35 +100,36 @@ const AccountModal = ({
     return panel ? panel.component(panel.props) : null;
   };
 
-  const panels: Array<{ component: any, props: any }> = [{
-    component: AuthTokenPanel,
-    props: {
-      authToken: authToken,
-      onAuthTokenChange: handleAuthTokenChange,
-      onAccept: handleAuthToken,
-      loading
-    }
-  }, {
-    component: GistSelectorPanel,
-    props: {
-      remoteGists: gists,
-      gistDescription: gistDescription,
-      gistId: gistId,
-      backupGistId: backupGistId,
-      overwriteSnippets: backupLocalSnippets,
-      onGistSelect: handleGistSelect,
-      onGistDescriptionChange: handleGistDescriptionChange,
-      onBackupLocalSnippetsChange: handleBackupLocalSnippetsChange,
-      onSynchronizeGist: handleSynchronizeGist,
-      onCreateGist: handleCreateGist,
-      onDeleteAuthData: handleDeleteAuthData,
-      loading
-    }
-  }];
+  const panels: Array<{ component: any; props: any }> = [
+    {
+      component: AuthTokenPanel,
+      props: {
+        authToken: authToken,
+        onAuthTokenChange: handleAuthTokenChange,
+        onAccept: handleAuthToken,
+        loading,
+      },
+    },
+    {
+      component: GistSelectorPanel,
+      props: {
+        remoteGists: gists,
+        gistDescription: gistDescription,
+        gistId: gistId,
+        backupGistId: backupGistId,
+        overwriteSnippets: backupLocalSnippets,
+        onGistSelect: handleGistSelect,
+        onGistDescriptionChange: handleGistDescriptionChange,
+        onBackupLocalSnippetsChange: handleBackupLocalSnippetsChange,
+        onSynchronizeGist: handleSynchronizeGist,
+        onCreateGist: handleCreateGist,
+        onDeleteAuthData: handleDeleteAuthData,
+        loading,
+      },
+    },
+  ];
 
-  return (
-    <>{renderPanel()}</>
-  );
+  return <>{renderPanel()}</>;
 };
 
 export default AccountModal;

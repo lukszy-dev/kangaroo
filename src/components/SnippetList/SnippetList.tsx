@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { remote } from 'electron';
 
 import SnippetListHeader from './SnippetListHeader/SnippetListHeader';
 import SnippetListElement from './SnippetListElement/SnippetListElement';
@@ -11,13 +12,15 @@ import { AppDispatch, RootState } from 'store/types';
 import { resizeLeftPanel } from 'store/ui/actions';
 import { setAuthToken, deleteAuthData } from 'store/auth/actions';
 import {
-  synchronizeGist, createBackupGist, setCurrentSnippet,
-  addSnippet, deleteSnippet, setSearchSnippets
+  synchronizeGist,
+  createBackupGist,
+  setCurrentSnippet,
+  addSnippet,
+  deleteSnippet,
+  setSearchSnippets,
 } from 'store/snippets/actions';
 
 import './SnippetList.scss';
-
-const { remote } = require('electron');
 
 const SnippetList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,9 +34,9 @@ const SnippetList = () => {
   const menu = new remote.Menu();
   const menuItem = new remote.MenuItem({
     label: 'Delete',
-    click: () => handleDeleteSnippet()
+    click: () => handleDeleteSnippet(),
   });
-  menu.append(menuItem)
+  menu.append(menuItem);
 
   const handleOnMouseDown = (event: React.MouseEvent) => {
     resizerXPosition.current = event.clientX;
@@ -41,7 +44,7 @@ const SnippetList = () => {
   };
 
   const handleElementContextMenu = () => {
-    menu.popup(remote.getCurrentWindow());
+    menu.popup({ window: remote.getCurrentWindow() });
   };
 
   const handleChangeSnippet = (id: number) => {
@@ -79,7 +82,7 @@ const SnippetList = () => {
   useEffect(() => {
     const mouseUp = () => {
       resizerXPosition.current = null;
-    }
+    };
 
     const mouseMove = (event: MouseEvent) => {
       if (!resizerXPosition.current || !panelWidth.current) {
@@ -91,7 +94,7 @@ const SnippetList = () => {
       if (newPosition <= 600) {
         dispatch(resizeLeftPanel(Math.max(200, newPosition)));
       }
-    }
+    };
 
     document.addEventListener('mouseup', mouseUp);
     document.addEventListener('mousemove', mouseMove);
@@ -99,21 +102,15 @@ const SnippetList = () => {
     return () => {
       document.removeEventListener('mouseup', mouseUp);
       document.removeEventListener('mousemove', mouseMove);
-    }
+    };
   }, [dispatch]);
 
   const renderElements = () => {
-    const filtered = list.filter((element) =>
-      element.title.toLowerCase().includes(query.toLowerCase())
-    );
+    const filtered = list.filter(element => element.title.toLowerCase().includes(query.toLowerCase()));
 
-    return filtered.map((element) => {
+    return filtered.map(element => {
       return (
-        <CSSTransition
-          key={element.id}
-          classNames="SnippetList--element"
-          timeout={{ enter: 350, exit: 350 }}
-        >
+        <CSSTransition key={element.id} classNames="SnippetList--element" timeout={{ enter: 350, exit: 350 }}>
           <SnippetListElement
             element={element}
             currentlySelectedId={current ? current.id : null}
@@ -126,10 +123,7 @@ const SnippetList = () => {
   };
 
   return (
-    <div
-      style={{ width: leftPanelWidth, minWidth: 200 }}
-      className="SnippetList--container"
-    >
+    <div style={{ width: leftPanelWidth, minWidth: 200 }} className="SnippetList--container">
       <SnippetListHeader
         query={query}
         onAddSnippet={handleAddSnippet}
@@ -140,15 +134,9 @@ const SnippetList = () => {
         onDeleteAuthData={handleDeleteAuthData}
       />
 
-      { list && (
-        <ScrollableWrapper
-          topShadow={false}
-          bottomShadow={false}
-          alwaysOn={true}
-        >
-          <TransitionGroup>
-            { renderElements() }
-          </TransitionGroup>
+      {list && (
+        <ScrollableWrapper topShadow={false} bottomShadow={false} alwaysOn={true}>
+          <TransitionGroup>{renderElements()}</TransitionGroup>
         </ScrollableWrapper>
       )}
 

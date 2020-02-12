@@ -1,12 +1,6 @@
 import Datastore from 'nedb';
 
-import {
-  dbFactory,
-  dbAdd,
-  dbUpdate,
-  dbRemove,
-  dbFind
-} from './db';
+import { dbFactory, dbAdd, dbUpdate, dbRemove, dbFind } from './db';
 
 import { DB_APP } from './constants';
 
@@ -37,5 +31,5 @@ export const appDb = {
   add,
   update,
   remove,
-  find
+  find,
 };

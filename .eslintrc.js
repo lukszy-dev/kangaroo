@@ -17,5 +17,17 @@ module.exports = {
     react: {
       version: "detect"
     }
-  }
+  },
+  rules: {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-use-before-define": "off"
+  },
+  overrides: [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ]
 };

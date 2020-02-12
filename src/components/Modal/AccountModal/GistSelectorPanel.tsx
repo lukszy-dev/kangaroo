@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { GistsListResponseItem } from "@octokit/rest";
+import { GistsListResponseItem } from '@octokit/rest';
 
 import {
   InputGroup,
@@ -13,7 +13,7 @@ import {
   H5,
   Intent,
   Checkbox,
-  AnchorButton
+  AnchorButton,
 } from '@blueprintjs/core';
 
 import '../Panel.scss';
@@ -45,12 +45,12 @@ const GistSelectorPanel = ({
   onSynchronizeGist,
   onCreateGist,
   onDeleteAuthData,
-  loading
+  loading,
 }: GistSelectorPanelProps) => {
   const gistItems = remoteGists.map(gist => {
     const keys = Object.keys(gist.files);
     const title = keys[keys.length - 1];
-    return ({ label: title, value: gist.id })
+    return { label: title, value: gist.id };
   });
 
   const renderGistCreator = () => {
@@ -63,11 +63,7 @@ const GistSelectorPanel = ({
         <H5>Create new gist</H5>
 
         <FormGroup label="Description">
-          <InputGroup
-            placeholder="Description"
-            onChange={onGistDescriptionChange}
-            value={gistDescription}
-          />
+          <InputGroup placeholder="Description" onChange={onGistDescriptionChange} value={gistDescription} />
         </FormGroup>
 
         <FormGroup>
@@ -80,7 +76,9 @@ const GistSelectorPanel = ({
           />
         </FormGroup>
 
-        <FormGroup><Divider /></FormGroup>
+        <FormGroup>
+          <Divider />
+        </FormGroup>
       </>
     );
   };
@@ -98,21 +96,11 @@ const GistSelectorPanel = ({
           {backupGistId ? (
             <Callout>{gistItems[0].label}</Callout>
           ) : (
-            <HTMLSelect
-              value={gistId}
-              options={gistItems}
-              large={true}
-              onChange={onGistSelect}
-              fill={true}
-            />
+            <HTMLSelect value={gistId} options={gistItems} large={true} onChange={onGistSelect} fill={true} />
           )}
         </FormGroup>
 
-        <Checkbox
-          checked={backupLocalSnippets}
-          label="Backup local snippets"
-          onChange={onBackupLocalSnippetsChange}
-        />
+        <Checkbox checked={backupLocalSnippets} label="Backup local snippets" onChange={onBackupLocalSnippetsChange} />
 
         <FormGroup>
           <Button
@@ -134,7 +122,9 @@ const GistSelectorPanel = ({
 
     return (
       <>
-        <FormGroup><Divider /></FormGroup>
+        <FormGroup>
+          <Divider />
+        </FormGroup>
         <AnchorButton
           icon="log-out"
           minimal={true}

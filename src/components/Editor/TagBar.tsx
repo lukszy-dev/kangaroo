@@ -4,14 +4,11 @@ import { Tag } from '@blueprintjs/core';
 import './TagBar.scss';
 
 type TagBarProps = {
-  tags: string[];
+  tags: Array<string>;
   onEditTag: () => void;
-}
+};
 
-const TagBar = ({
-  tags,
-  onEditTag
-}: TagBarProps) => {
+const TagBar = ({ tags, onEditTag }: TagBarProps): React.ReactElement => {
   const renderTags = () => {
     if (!tags || tags.length < 1) {
       return null;
@@ -37,14 +34,7 @@ const TagBar = ({
       return null;
     }
 
-    return (
-      <Tag
-        minimal={true}
-        interactive={true}
-        icon="more"
-        style={{ marginRight: '3px' }}
-      />
-    );
+    return <Tag minimal={true} interactive={true} icon="more" style={{ marginRight: '3px' }} />;
   };
 
   return (
@@ -52,13 +42,7 @@ const TagBar = ({
       {renderTags()}
       {renderTagOverflowButton()}
 
-      <Tag
-        minimal={true}
-        interactive={true}
-        icon="tag"
-        style={{ marginLeft: tags ? '20px' : '' }}
-        onClick={onEditTag}
-      >
+      <Tag minimal={true} interactive={true} icon="tag" style={{ marginLeft: tags ? '20px' : '' }} onClick={onEditTag}>
         Edit tags...
       </Tag>
     </div>

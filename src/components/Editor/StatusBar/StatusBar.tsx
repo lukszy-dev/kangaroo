@@ -10,16 +10,10 @@ type StatusBarProps = {
   snippet: Snippet | null;
   onShowGutter: () => void;
   onLanguageChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-}
+};
 
-const StatusBar = ({
-  snippet,
-  onShowGutter,
-  onLanguageChange
-}: StatusBarProps) => {
-  const languageItems = Object.entries(languages).map(([key, value]) =>
-    ({ label: value.label, value: key })
-  );
+const StatusBar = ({ snippet, onShowGutter, onLanguageChange }: StatusBarProps) => {
+  const languageItems = Object.entries(languages).map(([key, value]) => ({ label: value.label, value: key }));
 
   return (
     <div className="StatusBar--container">
@@ -28,12 +22,12 @@ const StatusBar = ({
           small={true}
           icon="list-detail-view"
           minimal={true}
-          style={{ marginLeft: "3px" }}
+          style={{ marginLeft: '3px' }}
           onClick={onShowGutter}
         />
       </Tooltip>
 
-      { snippet ?
+      {snippet ? (
         <HTMLSelect
           value={snippet.language}
           minimal={true}
@@ -41,13 +35,10 @@ const StatusBar = ({
           style={{ textTransform: 'capitalize' }}
           onChange={onLanguageChange}
           options={languageItems}
-        /> :
-        <HTMLSelect
-          minimal={true}
-          iconProps={{ icon: 'caret-down' }}
-          disabled={true}
         />
-      }
+      ) : (
+        <HTMLSelect minimal={true} iconProps={{ icon: 'caret-down' }} disabled={true} />
+      )}
     </div>
   );
 };

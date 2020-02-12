@@ -1,4 +1,4 @@
-import Snippet from "models/Snippet";
+import Snippet from 'models/Snippet';
 
 export const ADD_SNIPPET = 'SNIPPETS_ADD_SNIPPET';
 export const UPDATE_SNIPPET = 'SNIPPETS_UPDATE_SNIPPET';
@@ -50,6 +50,9 @@ interface SetCurrentSnippetAction {
 }
 
 export type SnippetsActionTypes =
-  LoadSnippetsAction | AddSnippetAction |
-  UpdateSnippetAction | DeleteSnippetAction |
-  SetSearchSnippetsAction | SetCurrentSnippetAction;
+  | LoadSnippetsAction
+  | AddSnippetAction
+  | UpdateSnippetAction
+  | DeleteSnippetAction
+  | SetSearchSnippetsAction
+  | SetCurrentSnippetAction;

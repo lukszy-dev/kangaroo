@@ -7,13 +7,13 @@ type ScrollableWrapperProps = {
   topShadow: boolean;
   bottomShadow: boolean;
   alwaysOn: boolean;
-}
+};
 
 const ScrollableWrapper = ({
   children,
   topShadow = true,
   bottomShadow = true,
-  alwaysOn = false
+  alwaysOn = false,
 }: ScrollableWrapperProps) => {
   const [top, setActiveTop] = useState(alwaysOn);
   const [bottom, setActiveBottom] = useState(alwaysOn);
@@ -22,7 +22,9 @@ const ScrollableWrapper = ({
 
   useEffect(() => {
     if (bottomShadow && contentRef.current) {
-      const { current: { scrollHeight, clientHeight } } = contentRef;
+      const {
+        current: { scrollHeight, clientHeight },
+      } = contentRef;
 
       if (scrollHeight > clientHeight) {
         setActiveBottom(true);
@@ -58,11 +60,11 @@ const ScrollableWrapper = ({
   return (
     <div className="ScrollableWrapper">
       <div className="ScrollableWrapper--content" onScroll={handleScroll} ref={contentRef}>
-        { topShadow && <div className={`ScrollableWrapper--shadow top ${top ? 'active': ''}`} /> }
+        {topShadow && <div className={`ScrollableWrapper--shadow top ${top ? 'active' : ''}`} />}
 
-        { children }
+        {children}
 
-        { bottomShadow && <div className={`ScrollableWrapper--shadow bottom ${bottom ? 'active': ''}`} /> }
+        {bottomShadow && <div className={`ScrollableWrapper--shadow bottom ${bottom ? 'active' : ''}`} />}
       </div>
     </div>
   );

@@ -1,39 +1,36 @@
-import { AppThunk } from "store/types";
+import { AppThunk } from 'store/types';
 
-import {
-  APP_INIT, RESIZE_LEFT_PANEL, SET_LOADING, SET_ERROR, SWITCH_THEME,
-  UIActionTypes
-} from "./types";
+import { APP_INIT, RESIZE_LEFT_PANEL, SET_LOADING, SET_ERROR, SWITCH_THEME, UIActionTypes } from './types';
 
 export const appInit = (init: boolean): UIActionTypes => {
   return {
     type: APP_INIT,
-    init
+    init,
   };
 };
 
 export const resizeLeftPanel = (leftPanelWidth: number): UIActionTypes => {
   return {
     type: RESIZE_LEFT_PANEL,
-    leftPanelWidth
+    leftPanelWidth,
   };
 };
 
 export const setLoading = (loading: boolean): UIActionTypes => {
   return {
     type: SET_LOADING,
-    loading
-  }
+    loading,
+  };
 };
 
 export const setError = (error: string): UIActionTypes => ({
   type: SET_ERROR,
-  error
+  error,
 });
 
 const switchThemeAction = (): UIActionTypes => {
   return {
-    type: SWITCH_THEME
+    type: SWITCH_THEME,
   };
 };
 

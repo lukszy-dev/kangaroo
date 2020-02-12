@@ -10,10 +10,10 @@ configure({ adapter: new Adapter() });
 
 describe('<SnippetListElement />', () => {
   const mockProps = {
-    element: new Snippet({ id: 1 }),
+    element: new Snippet({ id: 1, title: 'Test' }),
     currentlySelectedId: 1,
     onChangeSnippet: jest.fn(),
-    onContextMenu: jest.fn()
+    onContextMenu: jest.fn(),
   };
 
   it('renders without crashing', () => {

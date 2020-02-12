@@ -1,7 +1,7 @@
 const { Menu } = require('electron');
 const { sendCommand } = require('./utils');
 
-const generateMenu = (window) => {
+const generateMenu = window => {
   const template = [
     {
       label: 'App',
@@ -9,9 +9,9 @@ const generateMenu = (window) => {
         { role: 'about' },
         {
           label: 'Switch theme',
-          click: () => sendCommand(window, { action: 'SWITCH_THEME' })
+          click: () => sendCommand(window, { action: 'SWITCH_THEME' }),
         },
-        { role: 'quit' }
+        { role: 'quit' },
       ],
     },
     {
@@ -20,7 +20,7 @@ const generateMenu = (window) => {
         {
           label: 'New',
           accelerator: 'CommandOrControl+N',
-          click: () => sendCommand(window, { action: 'ADD_SNIPPET' })
+          click: () => sendCommand(window, { action: 'ADD_SNIPPET' }),
         },
         { role: 'undo' },
         { role: 'redo' },
@@ -30,12 +30,12 @@ const generateMenu = (window) => {
         { role: 'paste' },
         { role: 'delete' },
         { role: 'selectall' },
-      ]
+      ],
     },
     {
       role: 'window',
       submenu: [{ role: 'minimize' }, { role: 'close' }],
-    }
+    },
   ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));

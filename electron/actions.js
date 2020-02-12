@@ -5,7 +5,7 @@ const { GH_AUTH_TOKEN, BACKUP_GIST_ID, LAST_SYNCHRONIZED_GIST_DATE } = require('
 
 const store = new Store();
 
-ipcMain.on('LOAD_GH_DATA', (event) => {
+ipcMain.on('LOAD_GH_DATA', event => {
   const token = store.get(GH_AUTH_TOKEN);
   const backupGistId = store.get(BACKUP_GIST_ID);
   const gistDate = store.get(LAST_SYNCHRONIZED_GIST_DATE);
@@ -13,7 +13,7 @@ ipcMain.on('LOAD_GH_DATA', (event) => {
   event.sender.send('LOAD_GH_DATA_REPLY', {
     token,
     backupGistId,
-    gistDate
+    gistDate,
   });
 });
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import configureStore from 'redux-mock-store'
+import configureStore from 'redux-mock-store';
 
 import SnippetListHeader from './SnippetListHeader';
 
@@ -16,13 +16,18 @@ describe('<SnippetListHeader />', () => {
     onSearchChange: jest.fn(),
     onSetAuthToken: jest.fn(),
     onSynchronizeGist: jest.fn(),
-    onCreateBackupGist: jest.fn()
+    onCreateBackupGist: jest.fn(),
+    onDeleteAuthData: jest.fn(),
   };
 
   let store;
 
   it('renders without crashing', () => {
-    store = mockStore({})
-    shallow(<Provider store={store}><SnippetListHeader {...mockProps} /></Provider>);
+    store = mockStore({});
+    shallow(
+      <Provider store={store}>
+        <SnippetListHeader {...mockProps} />
+      </Provider>,
+    );
   });
 });

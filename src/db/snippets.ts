@@ -1,16 +1,8 @@
 import Datastore from 'nedb';
 
-import {
-  dbFactory,
-  dbAdd,
-  dbUpdate,
-  dbRemove,
-  dbRemoveQuery,
-  dbFindAll,
-  dbUpdateAll
-} from './db';
-
+import { dbFactory, dbAdd, dbUpdate, dbRemove, dbRemoveQuery, dbFindAll, dbUpdateAll } from './db';
 import { DB_SNIPPETS } from './constants';
+import { SnippetInterface } from 'models/Snippet';
 
 let db: Datastore;
 
@@ -30,15 +22,15 @@ const remove = (id: number) => {
   dbRemove(db, id);
 };
 
-const findAll = (callback: (items: any) => void) => {
+const findAll = (callback: (items: Array<SnippetInterface>) => void) => {
   dbFindAll(db, callback);
 };
 
-const updateAll = (changes: any) => {
+const updateAll = (changes: {}) => {
   dbUpdateAll(db, changes);
 };
 
-const removeQuery = (query: any) => {
+const removeQuery = (query: {}) => {
   dbRemoveQuery(db, query);
 };
 
@@ -49,5 +41,5 @@ export const snippetsDb = {
   remove,
   removeQuery,
   findAll,
-  updateAll
+  updateAll,
 };

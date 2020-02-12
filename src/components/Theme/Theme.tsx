@@ -7,7 +7,7 @@ type ThemeProps = {
   mode: string;
   children: any;
   className: string;
-}
+};
 
 const Theme = ({ mode, children, className }: ThemeProps) => {
   const variables = mode === 'dark' ? Dark : Light;
@@ -25,19 +25,22 @@ const Theme = ({ mode, children, className }: ThemeProps) => {
           node.style.setProperty(prop, value);
         }
       });
-    }
+    };
 
     updateCSSVariables();
   }, [containerRef, variables]);
 
-  const containerClassNames = classNames({
-    'bp3-dark': mode === 'dark',
-    'bp3-focus-disabled': true
-  }, className);
+  const containerClassNames = classNames(
+    {
+      'bp3-dark': mode === 'dark',
+      'bp3-focus-disabled': true,
+    },
+    className,
+  );
 
   return (
     <div className={containerClassNames} ref={containerRef}>
-      { children }
+      {children}
     </div>
   );
 };
