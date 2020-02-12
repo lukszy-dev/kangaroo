@@ -6,7 +6,7 @@ export const CLEAR_GH_DATA = 'AUTH_CLEAR_GH_DATA';
 
 export interface AuthState {
   token: string;
-  gists: Array<any>;
+  gists: GistsListResponseItem[];
   backupGistId: string;
   lastSychronizedGistDate: string;
 }
@@ -20,7 +20,7 @@ interface SetGitHubDataAction {
 
 interface SetGistsAction {
   type: typeof SET_GISTS;
-  gists: Array<GistsListResponseItem>;
+  gists: GistsListResponseItem[];
 }
 
 interface ClearAuthDataAction {

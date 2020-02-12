@@ -17,26 +17,26 @@ import {
   SnippetsActionTypes,
 } from './types';
 
-const loadSnippetsAction = (list: Array<Snippet>, current: Snippet, lastId: number): SnippetsActionTypes => ({
+const loadSnippetsAction = (list: Snippet[], current: Snippet, lastId: number): SnippetsActionTypes => ({
   type: LOAD_SNIPPETS,
   list,
   current,
   lastId,
 });
 
-const addSnippetAction = (snippet: Snippet, list: Array<Snippet>): SnippetsActionTypes => ({
+const addSnippetAction = (snippet: Snippet, list: Snippet[]): SnippetsActionTypes => ({
   type: ADD_SNIPPET,
   snippet,
   list,
 });
 
-const updateSnippetAction = (snippet: Snippet, list: Array<Snippet>): SnippetsActionTypes => ({
+const updateSnippetAction = (snippet: Snippet, list: Snippet[]): SnippetsActionTypes => ({
   type: UPDATE_SNIPPET,
   snippet,
   list,
 });
 
-const deleteSnippetAction = (current: Snippet, list: Array<Snippet>): SnippetsActionTypes => ({
+const deleteSnippetAction = (current: Snippet, list: Snippet[]): SnippetsActionTypes => ({
   type: DELETE_SNIPPET,
   current,
   list,
@@ -55,7 +55,7 @@ export const setCurrentSnippet = (id: number): SnippetsActionTypes => ({
 export const initSnippets = (): AppThunk<Promise<{}>> => {
   return dispatch => {
     return new Promise(resolve => {
-      snippetsDb.findAll((data: Array<SnippetInterface>) => {
+      snippetsDb.findAll((data: SnippetInterface[]) => {
         const snippets = data.sort(sortById).map((entry: SnippetInterface) => new Snippet({ ...entry }));
         const lastId = Math.max(...snippets.map((entry: Snippet) => entry.id)) | 0;
 
@@ -141,7 +141,7 @@ const getGist = (authToken: string, backupGistId: string): Promise<Octokit.Respo
   });
 };
 
-const updateGist = (authToken: string, backupGistId: string, snippets: Array<Snippet>): Promise<string> => {
+const updateGist = (authToken: string, backupGistId: string, snippets: Snippet[]): Promise<string> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
     const fileName = new Date().toISOString();
@@ -169,7 +169,7 @@ const updateGist = (authToken: string, backupGistId: string, snippets: Array<Sni
 const createGist = (
   authToken: string,
   gistDescription: string,
-  snippets: Array<Snippet>,
+  snippets: Snippet[],
 ): Promise<Octokit.Response<GistsCreateResponse>> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });

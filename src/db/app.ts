@@ -10,7 +10,7 @@ const loadDatabase = () => {
   db = dbFactory(DB_APP);
 };
 
-const add = (objArray: {} | Array<{}>) => {
+const add = (objArray: {} | {}[]) => {
   dbAdd(db, objArray);
 };
 

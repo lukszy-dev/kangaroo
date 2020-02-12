@@ -19,7 +19,7 @@ import {
 import '../Panel.scss';
 
 type GistSelectorPanelProps = {
-  remoteGists: Array<GistsListResponseItem>;
+  remoteGists: GistsListResponseItem[];
   gistDescription: string;
   gistId: string;
   backupGistId: string;

@@ -12,7 +12,7 @@ const dbFactory = (name: string) => {
   return db;
 };
 
-const dbAdd = (db: Datastore, objArray: {} | Array<{}>) => {
+const dbAdd = (db: Datastore, objArray: {} | {}[]) => {
   db.insert(objArray, err => {
     if (err) throw new Error(err.message);
   });

@@ -15,7 +15,7 @@ export const setGitHubDataAction = (data: {
   lastSychronizedGistDate: data.gistDate,
 });
 
-const setGistsAction = (gists: Array<GistsListResponseItem>): AuthActionTypes => ({
+const setGistsAction = (gists: GistsListResponseItem[]): AuthActionTypes => ({
   type: SET_GISTS,
   gists,
 });

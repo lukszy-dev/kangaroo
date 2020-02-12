@@ -9,14 +9,14 @@ export const SET_SEARCH_SNIPPETS = 'SNIPPETS_SET_SEARCH_SNIPPETS';
 
 export interface SnippetsState {
   current: Snippet | null;
-  list: Array<Snippet> | [];
+  list: Snippet[];
   query: string;
   lastId: number;
 }
 
 interface LoadSnippetsAction {
   type: typeof LOAD_SNIPPETS;
-  list: Array<Snippet>;
+  list: Snippet[];
   current: Snippet;
   lastId: number;
 }
@@ -24,19 +24,19 @@ interface LoadSnippetsAction {
 interface AddSnippetAction {
   type: typeof ADD_SNIPPET;
   snippet: Snippet;
-  list: Array<Snippet>;
+  list: Snippet[];
 }
 
 interface UpdateSnippetAction {
   type: typeof UPDATE_SNIPPET;
   snippet: Snippet;
-  list: Array<Snippet>;
+  list: Snippet[];
 }
 
 interface DeleteSnippetAction {
   type: typeof DELETE_SNIPPET;
   current: Snippet;
-  list: Array<Snippet>;
+  list: Snippet[];
 }
 
 interface SetSearchSnippetsAction {

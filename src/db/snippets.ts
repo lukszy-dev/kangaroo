@@ -10,7 +10,7 @@ const loadDatabase = () => {
   db = dbFactory(DB_SNIPPETS);
 };
 
-const add = (objArray: {} | Array<{}>) => {
+const add = (objArray: {} | {}[]) => {
   dbAdd(db, objArray);
 };
 
@@ -22,7 +22,7 @@ const remove = (id: number) => {
   dbRemove(db, id);
 };
 
-const findAll = (callback: (items: Array<SnippetInterface>) => void) => {
+const findAll = (callback: (items: SnippetInterface[]) => void) => {
   dbFindAll(db, callback);
 };
 

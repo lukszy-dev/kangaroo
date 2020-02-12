@@ -100,7 +100,8 @@ const AccountModal = ({
     return panel ? panel.component(panel.props) : null;
   };
 
-  const panels: Array<{ component: any; props: any }> = [
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const panels: { component: any; props: any }[] = [
     {
       component: AuthTokenPanel,
       props: {

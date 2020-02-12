@@ -4,7 +4,7 @@ import { Tag } from '@blueprintjs/core';
 import './TagBar.scss';
 
 type TagBarProps = {
-  tags: Array<string>;
+  tags: string[];
   onEditTag: () => void;
 };
 
