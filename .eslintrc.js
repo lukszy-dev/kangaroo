@@ -28,6 +28,12 @@ module.exports = {
       "rules": {
         "react/prop-types": "off"
       }
+    },
+    {
+      "files": ["electron/**/*"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
     }
   ]
 };
