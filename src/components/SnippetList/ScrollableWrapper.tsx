@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ScrollableWrapper.scss';
 
 type ScrollableWrapperProps = {
-  children: any;
+  children: React.ReactElement;
   topShadow: boolean;
   bottomShadow: boolean;
   alwaysOn: boolean;
@@ -32,6 +32,7 @@ const ScrollableWrapper = ({
     }
   }, [bottomShadow]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleScroll = ({ target }: any) => {
     if (alwaysOn) {
       return;

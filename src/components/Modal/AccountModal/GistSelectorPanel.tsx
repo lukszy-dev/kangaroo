@@ -24,9 +24,9 @@ type GistSelectorPanelProps = {
   gistId: string;
   backupGistId: string;
   backupLocalSnippets: boolean;
-  onGistSelect: () => void;
-  onGistDescriptionChange: () => void;
-  onBackupLocalSnippetsChange: () => void;
+  onGistSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onGistDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBackupLocalSnippetsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSynchronizeGist: () => void;
   onCreateGist: () => void;
   onDeleteAuthData: () => void;

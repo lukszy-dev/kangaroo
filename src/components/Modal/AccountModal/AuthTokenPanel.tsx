@@ -6,7 +6,7 @@ import '../Panel.scss';
 
 type AuthTokenPanelProps = {
   authToken: string;
-  onAuthTokenChange: () => void;
+  onAuthTokenChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onAccept: () => void;
   loading: boolean;
 };

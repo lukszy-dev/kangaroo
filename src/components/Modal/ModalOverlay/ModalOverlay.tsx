@@ -10,7 +10,7 @@ import { hideModal } from 'store/modal/actions';
 import { ACCOUNT_MODAL, ERROR_MODAL } from './constants';
 
 interface ModalComponents {
-  [key: string]: { title: string; component: any };
+  [key: string]: { title: string; component: React.ElementType };
 }
 
 const MODAL_COMPONENTS: ModalComponents = {

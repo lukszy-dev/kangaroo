@@ -5,7 +5,7 @@ import { Light, Dark } from './themes';
 
 type ThemeProps = {
   mode: string;
-  children: any;
+  children: React.ReactElement;
   className: string;
 };
 

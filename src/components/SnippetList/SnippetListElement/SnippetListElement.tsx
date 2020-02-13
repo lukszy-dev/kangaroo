@@ -39,7 +39,7 @@ const SnippetListElement = ({
   return (
     <div key={element.id} className={listElementClass} onClick={handleClick} onContextMenu={handleContextMenu}>
       <div className="SnippetListElement--content">
-        {element.title}
+        <span className="bp3-text-overflow-ellipsis">{element.title}</span>
         {element.source === sourceType.GIST && <Icon className="SnippetListElement--source-icon" icon="cloud" />}
       </div>
     </div>

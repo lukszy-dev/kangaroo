@@ -71,7 +71,6 @@ const Editor = () => {
           mode={snippet ? snippet.language : TEXT}
           value={snippet ? snippet.content : ''}
           onChange={handleOnChange}
-          onCursorChange={() => console.log('test1')}
           editorProps={{ $blockScrolling: true }}
           showGutter={gutter}
           showPrintMargin={false}

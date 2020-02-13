@@ -48,6 +48,7 @@ const dbFind = (db: Datastore, id: number) => {
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const dbFindAll = (db: Datastore, callback: (items: any) => void) => {
   db.find({}, {}, (err, items) => {
     if (err) throw new Error(err.message);

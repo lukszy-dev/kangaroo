@@ -30,6 +30,7 @@ const AccountModal = ({
   onDeleteAuthData,
 }: AccountModalProps) => {
   const dispatch = useDispatch();
+
   const { token, backupGistId, gists } = useSelector((state: RootState) => state.auth);
   const { loading } = useSelector((state: RootState) => state.ui);
 
@@ -39,20 +40,20 @@ const AccountModal = ({
   const [backupLocalSnippets, setBackupLocalSnippets] = useState(false);
   const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
 
-  const handleAuthTokenChange = ({ target: { value } }: any) => {
-    setAuthToken(value);
+  const handleAuthTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAuthToken(event.target.value);
   };
 
-  const handleGistDescriptionChange = ({ target: { value } }: any) => {
-    setGistDescription(value);
+  const handleGistDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGistDescription(event.target.value);
   };
 
-  const handleBackupLocalSnippetsChange = ({ target: { checked } }: any) => {
-    setBackupLocalSnippets(checked);
+  const handleBackupLocalSnippetsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBackupLocalSnippets(event.target.checked);
   };
 
-  const handleGistSelect = ({ currentTarget: { value } }: any) => {
-    setGistId(value);
+  const handleGistSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGistId(event.currentTarget.value);
   };
 
   const handleAuthToken = () => {
@@ -96,12 +97,19 @@ const AccountModal = ({
   };
 
   const renderPanel = () => {
-    const panel = panels[step];
-    return panel ? panel.component(panel.props) : null;
+    const panelConfig = panels[step];
+
+    if (!panelConfig) {
+      return null;
+    }
+
+    const Panel = panelConfig.component;
+    const panelProps = panelConfig.props;
+
+    return Panel ? <Panel {...panelProps} /> : null;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const panels: { component: any; props: any }[] = [
+  const panels: { component: React.ElementType; props: {} }[] = [
     {
       component: AuthTokenPanel,
       props: {
