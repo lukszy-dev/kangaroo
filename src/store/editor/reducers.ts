@@ -1,22 +1,15 @@
-import {
-  SHOW_GUTTER,
-  EditorState,
-  EditorActionTypes
-} from "./types";
+import { SHOW_GUTTER, EditorState, EditorActionTypes } from './types';
 
 const initialState: EditorState = {
-  gutter: true
+  gutter: true,
 };
 
-export const editorReducer = (
-  state = initialState,
-  action: EditorActionTypes
-): EditorState => {
+export const editorReducer = (state = initialState, action: EditorActionTypes): EditorState => {
   switch (action.type) {
     case SHOW_GUTTER:
       return {
         ...state,
-        gutter: !state.gutter
+        gutter: !state.gutter,
       };
 
     default:

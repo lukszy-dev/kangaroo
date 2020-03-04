@@ -11,13 +11,13 @@ type SnippetListElementProps = {
   currentlySelectedId: number | null;
   onChangeSnippet: (id: number) => void;
   onContextMenu: (id: number) => void;
-}
+};
 
 const SnippetListElement = ({
   element,
   currentlySelectedId,
   onChangeSnippet,
-  onContextMenu
+  onContextMenu,
 }: SnippetListElementProps) => {
   const handleClick = () => {
     if (currentlySelectedId !== element.id) {
@@ -31,23 +31,16 @@ const SnippetListElement = ({
   };
 
   const listElementClass = classNames({
-    'SnippetListElement': true,
-    'active': currentlySelectedId === element.id,
-    'bp3-text-muted': currentlySelectedId !== element.id
+    SnippetListElement: true,
+    active: currentlySelectedId === element.id,
+    'bp3-text-muted': currentlySelectedId !== element.id,
   });
 
   return (
-    <div
-      key={element.id}
-      className={listElementClass}
-      onClick={handleClick}
-      onContextMenu={handleContextMenu}
-    >
+    <div key={element.id} className={listElementClass} onClick={handleClick} onContextMenu={handleContextMenu}>
       <div className="SnippetListElement--content">
-        {element.title}
-        {element.source === sourceType.GIST && (
-          <Icon className="SnippetListElement--source-icon" icon="cloud" />
-        )}
+        <span className="bp3-text-overflow-ellipsis">{element.title}</span>
+        {element.source === sourceType.GIST && <Icon className="SnippetListElement--source-icon" icon="cloud" />}
       </div>
     </div>
   );

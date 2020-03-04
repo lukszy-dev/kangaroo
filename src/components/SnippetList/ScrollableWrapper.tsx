@@ -3,17 +3,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ScrollableWrapper.scss';
 
 type ScrollableWrapperProps = {
-  children: any;
+  children: React.ReactElement;
   topShadow: boolean;
   bottomShadow: boolean;
   alwaysOn: boolean;
-}
+};
 
 const ScrollableWrapper = ({
   children,
   topShadow = true,
   bottomShadow = true,
-  alwaysOn = false
+  alwaysOn = false,
 }: ScrollableWrapperProps) => {
   const [top, setActiveTop] = useState(alwaysOn);
   const [bottom, setActiveBottom] = useState(alwaysOn);
@@ -22,7 +22,9 @@ const ScrollableWrapper = ({
 
   useEffect(() => {
     if (bottomShadow && contentRef.current) {
-      const { current: { scrollHeight, clientHeight } } = contentRef;
+      const {
+        current: { scrollHeight, clientHeight },
+      } = contentRef;
 
       if (scrollHeight > clientHeight) {
         setActiveBottom(true);
@@ -30,6 +32,7 @@ const ScrollableWrapper = ({
     }
   }, [bottomShadow]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleScroll = ({ target }: any) => {
     if (alwaysOn) {
       return;
@@ -58,11 +61,11 @@ const ScrollableWrapper = ({
   return (
     <div className="ScrollableWrapper">
       <div className="ScrollableWrapper--content" onScroll={handleScroll} ref={contentRef}>
-        { topShadow && <div className={`ScrollableWrapper--shadow top ${top ? 'active': ''}`} /> }
+        {topShadow && <div className={`ScrollableWrapper--shadow top ${top ? 'active' : ''}`} />}
 
-        { children }
+        {children}
 
-        { bottomShadow && <div className={`ScrollableWrapper--shadow bottom ${bottom ? 'active': ''}`} /> }
+        {bottomShadow && <div className={`ScrollableWrapper--shadow bottom ${bottom ? 'active' : ''}`} />}
       </div>
     </div>
   );

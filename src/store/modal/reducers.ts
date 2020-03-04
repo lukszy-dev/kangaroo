@@ -2,19 +2,16 @@ import { SHOW_MODAL, HIDE_MODAL, ModalState, ModalActionTypes } from './types';
 
 const initialState: ModalState = {
   modalType: '',
-  modalProps: {}
+  modalProps: {},
 };
 
-export const modalReducer = (
-  state = initialState,
-  action: ModalActionTypes
-): ModalState => {
+export const modalReducer = (state = initialState, action: ModalActionTypes): ModalState => {
   switch (action.type) {
     case SHOW_MODAL:
       return {
         ...state,
         modalType: action.modalType,
-        modalProps: action.modalProps
+        modalProps: action.modalProps,
       };
 
     case HIDE_MODAL:

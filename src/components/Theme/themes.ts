@@ -5,7 +5,7 @@ const root = {
   '--editor-header-height': '47px',
   '--snippet-list-element-height': '40px',
   '--status-bar-height': '30px',
-  '--color-selected': Colors.BLUE3
+  '--color-selected': Colors.BLUE3,
 };
 
 const light = {
@@ -24,7 +24,7 @@ const light = {
     90deg,
     rgba(167, 182, 194, 0) 0,
     rgba(167, 182, 194, .3) 40%
-  )`
+  )`,
 };
 
 const dark = {
@@ -44,7 +44,7 @@ const dark = {
     90deg,
     rgba(48, 64, 77, 0) 0,
     #30404d 40%
-  )`
+  )`,
 };
 
 export { root, light as Light, dark as Dark };

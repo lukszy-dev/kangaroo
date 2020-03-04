@@ -6,10 +6,7 @@ import './Loader.scss';
 const Loader = () => {
   return (
     <div className="Loader--container">
-      <Spinner
-        className="Loader--spinner"
-        size={150}
-      />
+      <Spinner className="Loader--spinner" size={150} />
     </div>
   );
 };

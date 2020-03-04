@@ -4,10 +4,10 @@ import { TEXT } from './languages';
 
 export const sourceType = {
   LOCAL: 'local',
-  GIST: 'gist'
-}
+  GIST: 'gist',
+};
 
-export interface ISnippet {
+export interface SnippetInterface {
   id: number;
   title: string;
   source?: string;
@@ -19,7 +19,7 @@ export interface ISnippet {
 }
 
 /** Class representing a snippet. */
-export default class Snippet implements ISnippet {
+export default class Snippet implements SnippetInterface {
   id: number;
   title: string;
   source: string;
@@ -28,12 +28,12 @@ export default class Snippet implements ISnippet {
   language: string;
   content: string;
   lastUpdated: string;
-  
+
   /**
    * Create a snippet.
    * @param {object} args
    */
-  constructor(args: ISnippet) {
+  constructor(args: SnippetInterface) {
     const {
       id,
       title,
@@ -42,7 +42,7 @@ export default class Snippet implements ISnippet {
       description = '',
       language = TEXT,
       content = '',
-      lastUpdated = new Date().toISOString()
+      lastUpdated = new Date().toISOString(),
     } = args;
 
     this.id = id;

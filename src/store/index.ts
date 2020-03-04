@@ -11,5 +11,5 @@ export default combineReducers({
   auth,
   modal,
   editor,
-  snippets
+  snippets,
 });

@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react';
 
 type ResizerProps = {
   onMouseDown: (event: React.MouseEvent) => void;
-}
+};
 
 const Resizer = ({ onMouseDown }: ResizerProps) => {
   const style: CSSProperties = {
@@ -12,15 +12,10 @@ const Resizer = ({ onMouseDown }: ResizerProps) => {
     right: '-2px',
     marginLeft: 'auto',
     position: 'absolute',
-    cursor: 'col-resize'
+    cursor: 'col-resize',
   };
 
-  return (
-    <span
-      style={style}
-      onMouseDown={onMouseDown}
-    />
-  );
+  return <span style={style} onMouseDown={onMouseDown} />;
 };
 
 export default Resizer;

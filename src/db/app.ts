@@ -1,12 +1,6 @@
 import Datastore from 'nedb';
 
-import {
-  dbFactory,
-  dbAdd,
-  dbUpdate,
-  dbRemove,
-  dbFind
-} from './db';
+import { dbFactory, dbAdd, dbUpdate, dbRemove, dbFind } from './db';
 
 import { DB_APP } from './constants';
 
@@ -16,7 +10,7 @@ const loadDatabase = () => {
   db = dbFactory(DB_APP);
 };
 
-const add = (objArray: {} | Array<{}>) => {
+const add = (objArray: {} | {}[]) => {
   dbAdd(db, objArray);
 };
 
@@ -37,5 +31,5 @@ export const appDb = {
   add,
   update,
   remove,
-  find
+  find,
 };

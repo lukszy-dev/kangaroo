@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IpcRenderer, IpcRendererEvent } from 'electron';
+import { ipcRenderer, IpcRenderer, IpcRendererEvent } from 'electron';
 
 import Loader from 'components/Loader/Loader';
 import Theme from 'components/Theme/Theme';
@@ -17,21 +17,16 @@ import appCommand, { APP_COMMAND, AppCommandMessage } from 'utils/appCommand';
 
 import './App.scss';
 
-const { ipcRenderer } = require('electron');
-
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { init, theme } = useSelector((state: RootState) => state.ui);
 
   useEffect(() => {
     dispatch(loadAuthData());
-    dispatch(initSnippets()).then(
-      () => dispatch(appInit(false))
-    );
+    dispatch(initSnippets()).then(() => dispatch(appInit(false)));
 
-    (ipcRenderer as IpcRenderer).on(
-      APP_COMMAND,
-      (_: IpcRendererEvent, message: AppCommandMessage) => appCommand(dispatch, message)
+    (ipcRenderer as IpcRenderer).on(APP_COMMAND, (_: IpcRendererEvent, message: AppCommandMessage) =>
+      appCommand(dispatch, message),
     );
 
     return () => {
@@ -41,7 +36,7 @@ const App = () => {
 
   return (
     <Theme mode={theme} className="App--content">
-      { init ? (
+      {init ? (
         <Loader />
       ) : (
         <>

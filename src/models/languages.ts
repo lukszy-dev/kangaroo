@@ -12,58 +12,58 @@ export const HTML = 'html';
 export const CSHARP = 'csharp';
 
 interface LanguageItem {
-  [key: string]: { label: string, extension: string }
+  [key: string]: { label: string; extension: string };
 }
 
 const languages: LanguageItem = {
   [TEXT]: {
     label: 'Text',
-    extension: ''
+    extension: '',
   },
   [JAVASCRIPT]: {
     label: 'JavaScript',
-    extension: 'js'
+    extension: 'js',
   },
   [TYPESCRIPT]: {
     label: 'TypeScript',
-    extension: 'ts'
+    extension: 'ts',
   },
   [JAVA]: {
     label: 'Java',
-    extension: 'java'
+    extension: 'java',
   },
   [XML]: {
     label: 'XML',
-    extension: 'xml'
+    extension: 'xml',
   },
   [CSS]: {
     label: 'CSS',
-    extension: 'css'
+    extension: 'css',
   },
   [SCSS]: {
     label: 'SCSS',
-    extension: 'scss'
+    extension: 'scss',
   },
   [MARKDOWN]: {
     label: 'Markdown',
-    extension: 'md'
+    extension: 'md',
   },
   [SQL]: {
     label: 'SQL',
-    extension: 'sql'
+    extension: 'sql',
   },
   [JSON_MODE]: {
     label: 'JSON',
-    extension: 'json'
+    extension: 'json',
   },
   [HTML]: {
     label: 'HTML',
-    extension: 'html'
+    extension: 'html',
   },
   [CSHARP]: {
     label: 'C#',
-    extension: 'cs'
-  }
+    extension: 'cs',
+  },
 };
 
 export { languages };

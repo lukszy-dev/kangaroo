@@ -4,8 +4,8 @@ import { switchTheme } from 'store/ui/actions';
 export const APP_COMMAND = 'APP_COMMAND';
 
 export type AppCommandMessage = {
-  action: {}
-}
+  action: {};
+};
 
 export default (dispatch: AppDispatch, message: AppCommandMessage) => {
   const { action } = message;

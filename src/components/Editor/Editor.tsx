@@ -31,11 +31,12 @@ const Editor = () => {
   const handleOnLoad = (editor: IEditorProps) => {
     editor.resize();
     editor.setShowFoldWidgets(false);
+    editor.renderer.scrollToRow(0);
 
     editor.commands.removeCommand('find');
   };
 
-  const handleOnChange = (value: any) => {
+  const handleOnChange = (value: string) => {
     if (snippet) {
       dispatch(updateSnippet({ ...snippet, content: value }));
     }
@@ -59,10 +60,7 @@ const Editor = () => {
 
   return (
     <div className="Editor--container">
-      <EditorHeader
-        snippet={snippet}
-        onTitleChange={handleTitleChange}
-      />
+      <EditorHeader snippet={snippet} onTitleChange={handleTitleChange} />
 
       <div className="Editor--editor">
         <AceEditor
@@ -85,11 +83,7 @@ const Editor = () => {
         />
       </div>
 
-      <StatusBar
-        snippet={snippet}
-        onShowGutter={handleShowGutter}
-        onLanguageChange={handleOnLanguageChange}
-      />
+      <StatusBar snippet={snippet} onShowGutter={handleShowGutter} onLanguageChange={handleOnLanguageChange} />
     </div>
   );
 };

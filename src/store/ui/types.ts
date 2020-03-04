@@ -37,6 +37,8 @@ interface SwitchThemeAction {
 }
 
 export type UIActionTypes =
-  AppInitAction | ResizeLeftPanelAction |
-  SetLoadingAction | SetErrorAction |
-  SwitchThemeAction;
+  | AppInitAction
+  | ResizeLeftPanelAction
+  | SetLoadingAction
+  | SetErrorAction
+  | SwitchThemeAction;

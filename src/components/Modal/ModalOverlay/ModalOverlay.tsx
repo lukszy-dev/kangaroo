@@ -10,18 +10,18 @@ import { hideModal } from 'store/modal/actions';
 import { ACCOUNT_MODAL, ERROR_MODAL } from './constants';
 
 interface ModalComponents {
-  [key: string]: { title: string, component: any }
+  [key: string]: { title: string; component: React.ElementType };
 }
 
 const MODAL_COMPONENTS: ModalComponents = {
   [ACCOUNT_MODAL]: {
     title: 'Connect to GitHub Gist',
-    component: AccountModal
+    component: AccountModal,
   },
   [ERROR_MODAL]: {
     title: 'Error',
-    component: ErrorModal
-  }
+    component: ErrorModal,
+  },
 };
 
 const ModalOverlay = () => {
@@ -52,13 +52,7 @@ const ModalOverlay = () => {
     const modalConfig = MODAL_COMPONENTS[modalType];
     const ModalComponent = modalConfig.component;
 
-    return (
-      <ModalComponent
-        loading={loading}
-        onHideModal={handleHideModal}
-        {...modalProps}
-      />
-    );
+    return <ModalComponent loading={loading} onHideModal={handleHideModal} {...modalProps} />;
   };
 
   return (

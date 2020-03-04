@@ -16,7 +16,7 @@ type SnippetListHeaderProps = {
   onCreateBackupGist: (description: string, token: string) => Promise<{}>;
   onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<{}>;
   onDeleteAuthData: () => void;
-}
+};
 
 const SnippetListHeader = ({
   query,
@@ -25,7 +25,7 @@ const SnippetListHeader = ({
   onSetAuthToken,
   onCreateBackupGist,
   onSynchronizeGist,
-  onDeleteAuthData
+  onDeleteAuthData,
 }: SnippetListHeaderProps) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
@@ -40,12 +40,14 @@ const SnippetListHeader = ({
 
   const handleAccountModalOpen = () => {
     const dispatchShowModalAction = () => {
-      dispatch(showModal(ACCOUNT_MODAL, {
-        onSetAuthToken,
-        onSynchronizeGist,
-        onCreateBackupGist,
-        onDeleteAuthData
-      }));
+      dispatch(
+        showModal(ACCOUNT_MODAL, {
+          onSetAuthToken,
+          onSynchronizeGist,
+          onCreateBackupGist,
+          onDeleteAuthData,
+        }),
+      );
     };
 
     if (!token) {
@@ -60,13 +62,7 @@ const SnippetListHeader = ({
 
   const renderClearSearchButton = () => {
     if (query) {
-      return (
-        <Button
-          icon="cross"
-          minimal={true}
-          onClick={handleClearSearch}
-        />
-      );
+      return <Button icon="cross" minimal={true} onClick={handleClearSearch} />;
     }
   };
 
@@ -74,15 +70,9 @@ const SnippetListHeader = ({
     <div className="SnippetListHeader">
       <div className="SnippetListHeader--container">
         <ButtonGroup minimal={true}>
-          <Button
-            icon="person"
-            onClick={handleAccountModalOpen}
-          />
+          <Button icon="person" onClick={handleAccountModalOpen} />
 
-          <Button
-            icon="add-to-artifact"
-            onClick={onAddSnippet}
-          />
+          <Button icon="add-to-artifact" onClick={onAddSnippet} />
         </ButtonGroup>
       </div>
 

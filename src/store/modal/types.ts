@@ -3,7 +3,7 @@ export const HIDE_MODAL = 'MODAL_HIDE_MODAL';
 
 export interface ModalState {
   modalType: string;
-  modalProps: {}
+  modalProps: {};
 }
 
 interface ShowModalAction {
@@ -16,5 +16,4 @@ interface HideModalAction {
   type: typeof HIDE_MODAL;
 }
 
-export type ModalActionTypes =
-  ShowModalAction | HideModalAction;
+export type ModalActionTypes = ShowModalAction | HideModalAction;

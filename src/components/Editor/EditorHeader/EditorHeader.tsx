@@ -8,12 +8,9 @@ import './EditorHeader.scss';
 type EditorHeaderProps = {
   snippet: Snippet | null;
   onTitleChange: (value: string) => void;
-}
+};
 
-const EditorHeader = ({
-  snippet,
-  onTitleChange
-}: EditorHeaderProps) => {
+const EditorHeader = ({ snippet, onTitleChange }: EditorHeaderProps) => {
   return (
     <div className="Editor--header">
       <H3>
