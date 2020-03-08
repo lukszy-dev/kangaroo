@@ -8,8 +8,8 @@ type TagBarProps = {
   onEditTag: () => void;
 };
 
-const TagBar = ({ tags, onEditTag }: TagBarProps): React.ReactElement => {
-  const renderTags = () => {
+const TagBar: React.FC<TagBarProps> = ({ tags, onEditTag }: TagBarProps): React.ReactElement => {
+  const renderTags = (): React.ReactElement[] | null => {
     if (!tags || tags.length < 1) {
       return null;
     }
@@ -18,7 +18,7 @@ const TagBar = ({ tags, onEditTag }: TagBarProps): React.ReactElement => {
       return (
         <Tag
           key={index}
-          onClick={() => console.log(item)}
+          onClick={(): void => console.log(item)}
           interactive={true}
           minimal={true}
           style={{ marginRight: '3px' }}
@@ -29,7 +29,7 @@ const TagBar = ({ tags, onEditTag }: TagBarProps): React.ReactElement => {
     });
   };
 
-  const renderTagOverflowButton = () => {
+  const renderTagOverflowButton = (): React.ReactElement | null => {
     if (!tags || tags.length < 4) {
       return null;
     }

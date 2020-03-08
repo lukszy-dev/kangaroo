@@ -22,7 +22,7 @@ type AccountModalProps = {
   onDeleteAuthData: () => void;
 };
 
-const AccountModal = ({
+const AccountModal: React.FC<AccountModalProps> = ({
   onHideModal,
   onSetAuthToken,
   onSynchronizeGist,
@@ -40,36 +40,36 @@ const AccountModal = ({
   const [backupLocalSnippets, setBackupLocalSnippets] = useState(false);
   const [step, setStep] = useState(token ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
 
-  const handleAuthTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAuthTokenChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setAuthToken(event.target.value);
   };
 
-  const handleGistDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGistDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setGistDescription(event.target.value);
   };
 
-  const handleBackupLocalSnippetsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBackupLocalSnippetsChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setBackupLocalSnippets(event.target.checked);
   };
 
-  const handleGistSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleGistSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setGistId(event.currentTarget.value);
   };
 
-  const handleAuthToken = () => {
+  const handleAuthToken = (): void => {
     onSetAuthToken(authToken).then(gists => {
       setGistId(gists.length > 0 ? gists[0].id : '');
       nextStep();
     });
   };
 
-  const handleCreateGist = () => {
+  const handleCreateGist = (): void => {
     onCreateBackupGist(gistDescription, authToken).then(() => {
       handleClose();
     });
   };
 
-  const handleSynchronizeGist = () => {
+  const handleSynchronizeGist = (): void => {
     onSynchronizeGist(backupLocalSnippets, authToken, gistId)
       .then(() => {
         handleClose();
@@ -80,23 +80,23 @@ const AccountModal = ({
       });
   };
 
-  const handleDeleteAuthData = () => {
+  const handleDeleteAuthData = (): void => {
     onDeleteAuthData();
     handleClose();
   };
 
-  const nextStep = () => {
+  const nextStep = (): void => {
     if (step < panels.length - 1) {
       setStep(step + 1);
     }
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setStep(authToken ? STEPS.GIST_SELECTOR : STEPS.AUTH_TOKEN);
     onHideModal();
   };
 
-  const renderPanel = () => {
+  const renderPanel = (): React.ReactElement | null => {
     const panelConfig = panels[step];
 
     if (!panelConfig) {

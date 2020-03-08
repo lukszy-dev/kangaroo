@@ -6,7 +6,7 @@ const showGutterAction = (): EditorActionTypes => ({
 });
 
 export const showGutter = (): AppThunk => {
-  return dispatch => {
+  return (dispatch): void => {
     dispatch(showGutterAction());
   };
 };

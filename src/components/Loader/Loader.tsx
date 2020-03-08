@@ -3,7 +3,7 @@ import { Spinner } from '@blueprintjs/core';
 
 import './Loader.scss';
 
-const Loader = () => {
+const Loader: React.FC = () => {
   return (
     <div className="Loader--container">
       <Spinner className="Loader--spinner" size={150} />

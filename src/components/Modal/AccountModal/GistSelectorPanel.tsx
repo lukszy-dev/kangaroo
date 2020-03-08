@@ -33,7 +33,7 @@ type GistSelectorPanelProps = {
   loading: boolean;
 };
 
-const GistSelectorPanel = ({
+const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
   remoteGists,
   gistDescription,
   gistId,
@@ -53,7 +53,7 @@ const GistSelectorPanel = ({
     return { label: title, value: gist.id };
   });
 
-  const renderGistCreator = () => {
+  const renderGistCreator = (): React.ReactElement | null => {
     if (backupGistId) {
       return null;
     }
@@ -83,7 +83,7 @@ const GistSelectorPanel = ({
     );
   };
 
-  const renderGistSelector = () => {
+  const renderGistSelector = (): React.ReactElement | null => {
     if (remoteGists.length === 0) {
       return null;
     }
@@ -115,7 +115,7 @@ const GistSelectorPanel = ({
     );
   };
 
-  const renderUnlinkAccountButton = () => {
+  const renderUnlinkAccountButton = (): React.ReactElement | null => {
     if (!backupGistId || remoteGists.length === 0) {
       return null;
     }

@@ -6,23 +6,23 @@ import { DB_APP } from './constants';
 
 let db: Datastore;
 
-const loadDatabase = () => {
+const loadDatabase = (): void => {
   db = dbFactory(DB_APP);
 };
 
-const add = (objArray: {} | {}[]) => {
+const add = (objArray: {} | {}[]): void => {
   dbAdd(db, objArray);
 };
 
-const update = (obj: { id: number }) => {
+const update = (obj: { id: number }): void => {
   dbUpdate(db, obj);
 };
 
-const remove = (id: number) => {
+const remove = (id: number): void => {
   dbRemove(db, id);
 };
 
-const find = (id: number) => {
+const find = (id: number): void => {
   dbFind(db, id);
 };
 

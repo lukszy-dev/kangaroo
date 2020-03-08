@@ -18,7 +18,7 @@ type SnippetListHeaderProps = {
   onDeleteAuthData: () => void;
 };
 
-const SnippetListHeader = ({
+const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
   query,
   onAddSnippet,
   onSearchChange,
@@ -30,16 +30,16 @@ const SnippetListHeader = ({
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
 
-  const handleSearchOnChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchOnChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
     onSearchChange(value);
   };
 
-  const handleClearSearch = () => {
+  const handleClearSearch = (): void => {
     onSearchChange('');
   };
 
-  const handleAccountModalOpen = () => {
-    const dispatchShowModalAction = () => {
+  const handleAccountModalOpen = (): void => {
+    const dispatchShowModalAction = (): void => {
       dispatch(
         showModal(ACCOUNT_MODAL, {
           onSetAuthToken,
@@ -60,7 +60,7 @@ const SnippetListHeader = ({
     });
   };
 
-  const renderClearSearchButton = () => {
+  const renderClearSearchButton = (): React.ReactElement | undefined => {
     if (query) {
       return <Button icon="cross" minimal={true} onClick={handleClearSearch} />;
     }

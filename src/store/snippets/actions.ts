@@ -53,7 +53,7 @@ export const setCurrentSnippet = (id: number): SnippetsActionTypes => ({
 });
 
 export const initSnippets = (): AppThunk<Promise<{}>> => {
-  return dispatch => {
+  return (dispatch): Promise<{}> => {
     return new Promise(resolve => {
       snippetsDb.findAll((data: SnippetInterface[]) => {
         const snippets = data.sort(sortById).map((entry: SnippetInterface) => new Snippet({ ...entry }));
@@ -67,7 +67,7 @@ export const initSnippets = (): AppThunk<Promise<{}>> => {
 };
 
 export const addSnippet = (): AppThunk => {
-  return (dispatch, getState) => {
+  return (dispatch, getState): void => {
     const {
       snippets: { lastId, list },
     } = getState();
@@ -81,7 +81,7 @@ export const addSnippet = (): AppThunk => {
 };
 
 export const updateSnippet = (snippet: SnippetInterface): AppThunk => {
-  return (dispatch, getState) => {
+  return (dispatch, getState): void => {
     const {
       snippets: { current, list },
     } = getState();
@@ -101,7 +101,7 @@ export const updateSnippet = (snippet: SnippetInterface): AppThunk => {
 };
 
 export const deleteSnippet = (): AppThunk => {
-  return (dispatch, getState) => {
+  return (dispatch, getState): void => {
     const {
       snippets: { current, list },
     } = getState();
@@ -118,7 +118,7 @@ export const deleteSnippet = (): AppThunk => {
 };
 
 export const setSearchSnippets = (query: string): AppThunk => {
-  return dispatch => {
+  return (dispatch): void => {
     dispatch(setSearchSnippetsAction(query));
   };
 };
@@ -200,7 +200,7 @@ export const synchronizeGist = (
   authToken: string,
   backupGistId: string,
 ): AppThunk<Promise<{}>> => {
-  return (dispatch, getState, ipcRenderer) => {
+  return (dispatch, getState, ipcRenderer): Promise<string> => {
     const {
       snippets: { lastId, list },
       auth: { lastSychronizedGistDate },
@@ -277,7 +277,7 @@ export const synchronizeGist = (
 };
 
 export const createBackupGist = (description: string, authToken: string): AppThunk<Promise<{}>> => {
-  return (dispatch, getState, ipcRenderer) => {
+  return (dispatch, getState, ipcRenderer): Promise<string> => {
     const {
       snippets: { list, lastId },
     } = getState();

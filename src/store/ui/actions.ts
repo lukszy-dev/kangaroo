@@ -35,7 +35,7 @@ const switchThemeAction = (): UIActionTypes => {
 };
 
 export const switchTheme = (): AppThunk => {
-  return (dispatch, _, ipcRenderer) => {
+  return (dispatch, _, ipcRenderer): void => {
     ipcRenderer.send('SWITCH_THEME');
     dispatch(switchThemeAction());
   };

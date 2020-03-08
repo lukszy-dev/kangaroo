@@ -9,12 +9,12 @@ type ThemeProps = {
   className: string;
 };
 
-const Theme = ({ mode, children, className }: ThemeProps) => {
+const Theme: React.FC<ThemeProps> = ({ mode, children, className }: ThemeProps) => {
   const variables = mode === 'dark' ? Dark : Light;
   const containerRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
-    const updateCSSVariables = () => {
+    const updateCSSVariables = (): void => {
       if (!variables) {
         return;
       }
@@ -44,8 +44,5 @@ const Theme = ({ mode, children, className }: ThemeProps) => {
     </div>
   );
 };
-
-Theme.Light = Light;
-Theme.Dark = Dark;
 
 export default Theme;

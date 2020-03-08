@@ -9,7 +9,7 @@ type ScrollableWrapperProps = {
   alwaysOn: boolean;
 };
 
-const ScrollableWrapper = ({
+const ScrollableWrapper: React.FC<ScrollableWrapperProps> = ({
   children,
   topShadow = true,
   bottomShadow = true,
@@ -33,7 +33,7 @@ const ScrollableWrapper = ({
   }, [bottomShadow]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleScroll = ({ target }: any) => {
+  const handleScroll = ({ target }: any): void => {
     if (alwaysOn) {
       return;
     }

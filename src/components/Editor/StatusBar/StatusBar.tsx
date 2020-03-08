@@ -12,7 +12,7 @@ type StatusBarProps = {
   onLanguageChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const StatusBar = ({ snippet, onShowGutter, onLanguageChange }: StatusBarProps) => {
+const StatusBar: React.FC<StatusBarProps> = ({ snippet, onShowGutter, onLanguageChange }: StatusBarProps) => {
   const languageItems = Object.entries(languages).map(([key, value]) => ({ label: value.label, value: key }));
 
   return (

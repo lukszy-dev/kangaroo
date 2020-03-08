@@ -10,7 +10,7 @@ type EditorHeaderProps = {
   onTitleChange: (value: string) => void;
 };
 
-const EditorHeader = ({ snippet, onTitleChange }: EditorHeaderProps) => {
+const EditorHeader: React.FC<EditorHeaderProps> = ({ snippet, onTitleChange }: EditorHeaderProps) => {
   return (
     <div className="Editor--header">
       <H3>
