@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SnippetListElement /> matches snapshot 1`] = `
+<div
+  className="SnippetListElement active"
+  onClick={[Function]}
+  onContextMenu={[Function]}
+>
+  <div
+    className="SnippetListElement--content"
+  >
+    <span
+      className="bp3-text-overflow-ellipsis"
+    >
+      Test
+    </span>
+  </div>
+</div>
+`;

@@ -60,7 +60,7 @@ app.allowRendererProcessReuse = true;
 app.setAboutPanelOptions({
   applicationName: 'Kangaroo',
   version: 'App Store',
-  applicationVersion: '0.0.1',
+  applicationVersion: process.env.npm_package_version,
 });
 
 app.on('ready', () => {
