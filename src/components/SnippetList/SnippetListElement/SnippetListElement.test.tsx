@@ -1,6 +1,7 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import renderer from 'react-test-renderer';
 
 import { Button } from '@blueprintjs/core';
 import SnippetListElement from './SnippetListElement';
@@ -23,5 +24,10 @@ describe('<SnippetListElement />', () => {
   it('renders with <Button /> if sourceType is GIST', () => {
     const wrapper = shallow(<SnippetListElement {...mockProps} />);
     wrapper.contains(<Button />);
+  });
+
+  it('matches snapshot', () => {
+    const wrapper = renderer.create(<SnippetListElement {...mockProps} />);
+    expect(wrapper).toMatchSnapshot();
   });
 });
