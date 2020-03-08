@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { GistsListResponseItem } from '@octokit/rest';
 import { remote } from 'electron';
 
 import SnippetListHeader from './SnippetListHeader/SnippetListHeader';
@@ -22,7 +23,7 @@ import {
 
 import './SnippetList.scss';
 
-const SnippetList = () => {
+const SnippetList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { leftPanelWidth } = useSelector((state: RootState) => state.ui);
@@ -34,57 +35,57 @@ const SnippetList = () => {
   const menu = new remote.Menu();
   const menuItem = new remote.MenuItem({
     label: 'Delete',
-    click: () => handleDeleteSnippet(),
+    click: (): void => handleDeleteSnippet(),
   });
   menu.append(menuItem);
 
-  const handleOnMouseDown = (event: React.MouseEvent) => {
+  const handleOnMouseDown = (event: React.MouseEvent): void => {
     resizerXPosition.current = event.clientX;
     panelWidth.current = event.clientX;
   };
 
-  const handleElementContextMenu = () => {
+  const handleElementContextMenu = (): void => {
     menu.popup({ window: remote.getCurrentWindow() });
   };
 
-  const handleChangeSnippet = (id: number) => {
+  const handleChangeSnippet = (id: number): void => {
     dispatch(setCurrentSnippet(id));
   };
 
-  const handleAddSnippet = () => {
+  const handleAddSnippet = (): void => {
     dispatch(addSnippet());
   };
 
-  const handleDeleteSnippet = () => {
+  const handleDeleteSnippet = (): void => {
     dispatch(deleteSnippet());
   };
 
-  const handleSearchChange = (value: string) => {
+  const handleSearchChange = (value: string): void => {
     dispatch(setSearchSnippets(value));
   };
 
-  const handleDeleteAuthData = () => {
+  const handleDeleteAuthData = (): void => {
     dispatch(deleteAuthData());
   };
 
-  const handleSetAuthToken = (token: string) => {
+  const handleSetAuthToken = (token: string): Promise<GistsListResponseItem[]> => {
     return dispatch(setAuthToken(token));
   };
 
-  const handleCreateBackupGist = (description: string, token: string) => {
+  const handleCreateBackupGist = (description: string, token: string): Promise<{}> => {
     return dispatch(createBackupGist(description, token));
   };
 
-  const handleSynchronizeGist = (backupLocalSnippets: boolean, token: string, id: string) => {
+  const handleSynchronizeGist = (backupLocalSnippets: boolean, token: string, id: string): Promise<{}> => {
     return dispatch(synchronizeGist(backupLocalSnippets, token, id));
   };
 
   useEffect(() => {
-    const mouseUp = () => {
+    const mouseUp = (): void => {
       resizerXPosition.current = null;
     };
 
-    const mouseMove = (event: MouseEvent) => {
+    const mouseMove = (event: MouseEvent): void => {
       if (!resizerXPosition.current || !panelWidth.current) {
         return;
       }
@@ -99,13 +100,13 @@ const SnippetList = () => {
     document.addEventListener('mouseup', mouseUp);
     document.addEventListener('mousemove', mouseMove);
 
-    return () => {
+    return (): void => {
       document.removeEventListener('mouseup', mouseUp);
       document.removeEventListener('mousemove', mouseMove);
     };
   }, [dispatch]);
 
-  const renderElements = () => {
+  const renderElements = (): React.ReactElement[] => {
     const filtered = list.filter(element => element.title.toLowerCase().includes(query.toLowerCase()));
 
     return filtered.map(element => {

@@ -9,7 +9,7 @@ type ErrorModalProps = {
   error: { status?: string };
 };
 
-const ErrorModal = ({ error }: ErrorModalProps) => {
+const ErrorModal: React.FC<ErrorModalProps> = ({ error }: ErrorModalProps) => {
   return (
     <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
       <FormGroup>

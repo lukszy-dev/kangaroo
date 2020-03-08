@@ -7,7 +7,7 @@ export type AppCommandMessage = {
   action: {};
 };
 
-export default (dispatch: AppDispatch, message: AppCommandMessage) => {
+export default (dispatch: AppDispatch, message: AppCommandMessage): void => {
   const { action } = message;
 
   switch (action) {

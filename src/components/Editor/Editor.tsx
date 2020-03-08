@@ -20,7 +20,7 @@ Object.keys(languages).forEach(lang => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
 });
 
-const Editor = () => {
+const Editor: React.FC = () => {
   const dispatch = useDispatch();
   const { theme, leftPanelWidth } = useSelector((state: RootState) => state.ui);
   const { gutter } = useSelector((state: RootState) => state.editor);
@@ -28,7 +28,7 @@ const Editor = () => {
 
   const { height, width } = useWindowDimensions();
 
-  const handleOnLoad = (editor: IEditorProps) => {
+  const handleOnLoad = (editor: IEditorProps): void => {
     editor.resize();
     editor.setShowFoldWidgets(false);
     editor.renderer.scrollToRow(0);
@@ -36,25 +36,25 @@ const Editor = () => {
     editor.commands.removeCommand('find');
   };
 
-  const handleOnChange = (value: string) => {
+  const handleOnChange = (value: string): void => {
     if (snippet) {
       dispatch(updateSnippet({ ...snippet, content: value }));
     }
   };
 
-  const handleOnLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleOnLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     if (snippet) {
       dispatch(updateSnippet({ ...snippet, language: event.currentTarget.value }));
     }
   };
 
-  const handleTitleChange = (value: string) => {
+  const handleTitleChange = (value: string): void => {
     if (snippet) {
       dispatch(updateSnippet({ ...snippet, title: value }));
     }
   };
 
-  const handleShowGutter = () => {
+  const handleShowGutter = (): void => {
     dispatch(showGutter());
   };
 

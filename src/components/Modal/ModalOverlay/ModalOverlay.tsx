@@ -24,16 +24,16 @@ const MODAL_COMPONENTS: ModalComponents = {
   },
 };
 
-const ModalOverlay = () => {
+const ModalOverlay: React.FC = () => {
   const dispatch = useDispatch();
   const { modalType, modalProps } = useSelector((state: RootState) => state.modal);
   const { loading, theme } = useSelector((state: RootState) => state.ui);
 
-  const handleHideModal = () => {
+  const handleHideModal = (): void => {
     dispatch(hideModal());
   };
 
-  const modalTitle = () => {
+  const modalTitle = (): string => {
     if (!modalType) {
       return '';
     }
@@ -44,7 +44,7 @@ const ModalOverlay = () => {
     return modalTitle;
   };
 
-  const renderModalComponent = () => {
+  const renderModalComponent = (): null | React.ReactElement => {
     if (!modalType) {
       return null;
     }

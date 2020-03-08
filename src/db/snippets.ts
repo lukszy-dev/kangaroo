@@ -6,31 +6,31 @@ import { SnippetInterface } from 'models/Snippet';
 
 let db: Datastore;
 
-const loadDatabase = () => {
+const loadDatabase = (): void => {
   db = dbFactory(DB_SNIPPETS);
 };
 
-const add = (objArray: {} | {}[]) => {
+const add = (objArray: {} | {}[]): void => {
   dbAdd(db, objArray);
 };
 
-const update = (obj: { id: number }) => {
+const update = (obj: { id: number }): void => {
   dbUpdate(db, obj);
 };
 
-const remove = (id: number) => {
+const remove = (id: number): void => {
   dbRemove(db, id);
 };
 
-const findAll = (callback: (items: SnippetInterface[]) => void) => {
+const findAll = (callback: (items: SnippetInterface[]) => void): void => {
   dbFindAll(db, callback);
 };
 
-const updateAll = (changes: {}) => {
+const updateAll = (changes: {}): void => {
   dbUpdateAll(db, changes);
 };
 
-const removeQuery = (query: {}) => {
+const removeQuery = (query: {}): void => {
   dbRemoveQuery(db, query);
 };
 

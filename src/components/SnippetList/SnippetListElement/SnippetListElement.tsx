@@ -13,19 +13,19 @@ type SnippetListElementProps = {
   onContextMenu: (id: number) => void;
 };
 
-const SnippetListElement = ({
+const SnippetListElement: React.FC<SnippetListElementProps> = ({
   element,
   currentlySelectedId,
   onChangeSnippet,
   onContextMenu,
 }: SnippetListElementProps) => {
-  const handleClick = () => {
+  const handleClick = (): void => {
     if (currentlySelectedId !== element.id) {
       onChangeSnippet(element.id);
     }
   };
 
-  const handleContextMenu = () => {
+  const handleContextMenu = (): void => {
     handleClick();
     onContextMenu(element.id);
   };

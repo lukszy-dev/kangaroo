@@ -17,7 +17,7 @@ import appCommand, { APP_COMMAND, AppCommandMessage } from 'utils/appCommand';
 
 import './App.scss';
 
-const App = () => {
+const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { init, theme } = useSelector((state: RootState) => state.ui);
 
@@ -29,7 +29,7 @@ const App = () => {
       appCommand(dispatch, message),
     );
 
-    return () => {
+    return (): void => {
       ipcRenderer.removeAllListeners(APP_COMMAND);
     };
   }, [dispatch]);

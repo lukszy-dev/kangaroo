@@ -4,7 +4,7 @@ type ResizerProps = {
   onMouseDown: (event: React.MouseEvent) => void;
 };
 
-const Resizer = ({ onMouseDown }: ResizerProps) => {
+const Resizer: React.FC<ResizerProps> = ({ onMouseDown }: ResizerProps) => {
   const style: CSSProperties = {
     width: '4px',
     height: '100%',

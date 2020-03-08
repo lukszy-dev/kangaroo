@@ -19,7 +19,6 @@ module.exports = {
     }
   },
   rules: {
-    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-use-before-define": "off"
   },
   overrides: [
@@ -32,7 +31,8 @@ module.exports = {
     {
       "files": ["electron/**/*"],
       "rules": {
-        "@typescript-eslint/no-var-requires": "off"
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
       }
     }
   ]
