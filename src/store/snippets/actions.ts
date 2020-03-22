@@ -5,7 +5,7 @@ import Snippet, { SnippetInterface, sourceType } from 'models/Snippet';
 import { setLoading } from 'store/ui/actions';
 import { setGitHubDataAction } from 'store/auth/actions';
 import { sortById } from 'utils/utils';
-import { snippetsDb } from 'db';
+import { snippetsDb } from 'db/snippets';
 
 import {
   LOAD_SNIPPETS,
@@ -54,14 +54,18 @@ export const setCurrentSnippet = (id: number): SnippetsActionTypes => ({
 
 export const initSnippets = (): AppThunk<Promise<{}>> => {
   return (dispatch): Promise<{}> => {
-    return new Promise(resolve => {
-      snippetsDb.findAll((data: SnippetInterface[]) => {
-        const snippets = data.sort(sortById).map((entry: SnippetInterface) => new Snippet({ ...entry }));
-        const lastId = Math.max(...snippets.map((entry: Snippet) => entry.id)) | 0;
+    return new Promise((resolve, reject) => {
+      try {
+        snippetsDb.findAll((data: SnippetInterface[]) => {
+          const snippets = data.sort(sortById).map((entry: SnippetInterface) => new Snippet({ ...entry }));
+          const lastId = Math.max(...snippets.map((entry: Snippet) => entry.id)) | 0;
 
-        dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
-        resolve();
-      });
+          dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
+          resolve();
+        });
+      } catch (error) {
+        reject(error);
+      }
     });
   };
 };
@@ -124,20 +128,11 @@ export const setSearchSnippets = (query: string): AppThunk => {
 };
 
 const getGist = (authToken: string, backupGistId: string): Promise<Octokit.Response<GistsGetResponse>> => {
-  return new Promise((resolve, reject) => {
-    const octokit = new Octokit({ auth: authToken });
-    octokit.gists
-      .get({
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        gist_id: backupGistId,
-        headers: { 'If-None-Match': '' },
-      })
-      .then(response => {
-        resolve(response);
-      })
-      .catch(error => {
-        reject(error);
-      });
+  const octokit = new Octokit({ auth: authToken });
+  return octokit.gists.get({
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    gist_id: backupGistId,
+    headers: { 'If-None-Match': '' },
   });
 };
 
@@ -171,35 +166,26 @@ const createGist = (
   gistDescription: string,
   snippets: Snippet[],
 ): Promise<Octokit.Response<GistsCreateResponse>> => {
-  return new Promise((resolve, reject) => {
-    const octokit = new Octokit({ auth: authToken });
-    const fileName = new Date().toISOString();
-    const request = {
-      description: gistDescription,
-      public: false,
-      files: {
-        [fileName]: {
-          content: JSON.stringify(snippets),
-        },
+  const octokit = new Octokit({ auth: authToken });
+  const fileName = new Date().toISOString();
+  const request = {
+    description: gistDescription,
+    public: false,
+    files: {
+      [fileName]: {
+        content: JSON.stringify(snippets),
       },
-    };
+    },
+  };
 
-    octokit.gists
-      .create(request)
-      .then(response => {
-        resolve(response);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
+  return octokit.gists.create(request);
 };
 
 export const synchronizeGist = (
   backupLocalSnippets: boolean,
   authToken: string,
   backupGistId: string,
-): AppThunk<Promise<{}>> => {
+): AppThunk<Promise<string>> => {
   return (dispatch, getState, ipcRenderer): Promise<string> => {
     const {
       snippets: { lastId, list },
@@ -252,16 +238,13 @@ export const synchronizeGist = (
               const snippets = backupLocalSnippets ? list.slice(0) : gistSourceSnippets;
               snippets.forEach(snippet => (snippet.source = sourceType.GIST));
 
-              updateGist(authToken, backupGistId, snippets)
-                .then(gistDate => {
-                  snippetsDb.updateAll({ source: sourceType.GIST });
-                  ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
-                  dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
-                })
-                .catch(error => {
-                  dispatch(setLoading(false));
-                  reject(error);
-                });
+              updateGist(authToken, backupGistId, snippets).then(gistDate => {
+                snippetsDb.updateAll({ source: sourceType.GIST });
+                ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
+                dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
+              });
+            } else {
+              // TODO nothing do synchronize
             }
           }
 

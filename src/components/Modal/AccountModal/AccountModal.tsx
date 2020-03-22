@@ -31,7 +31,7 @@ const AccountModal: React.FC<AccountModalProps> = ({
 }: AccountModalProps) => {
   const dispatch = useDispatch();
 
-  const { token, backupGistId, gists } = useSelector((state: RootState) => state.auth);
+  const { token, backupGistId, gists, lastSychronizedGistDate } = useSelector((state: RootState) => state.auth);
   const { loading } = useSelector((state: RootState) => state.ui);
 
   const [authToken, setAuthToken] = useState(token);
@@ -126,7 +126,8 @@ const AccountModal: React.FC<AccountModalProps> = ({
         gistDescription: gistDescription,
         gistId: gistId,
         backupGistId: backupGistId,
-        overwriteSnippets: backupLocalSnippets,
+        backupLocalSnippets: backupLocalSnippets,
+        lastSychronizedGistDate: lastSychronizedGistDate,
         onGistSelect: handleGistSelect,
         onGistDescriptionChange: handleGistDescriptionChange,
         onBackupLocalSnippetsChange: handleBackupLocalSnippetsChange,

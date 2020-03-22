@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import configureStore from 'redux-mock-store';
+import { configureMockStore } from '@jedmao/redux-mock-store';
 import renderer from 'react-test-renderer';
 
 import SnippetListHeader from './SnippetListHeader';
@@ -10,7 +10,7 @@ import SnippetListHeader from './SnippetListHeader';
 configure({ adapter: new Adapter() });
 
 describe('<SnippetListHeader />', () => {
-  const mockStore = configureStore();
+  const mockStore = configureMockStore();
   const mockProps = {
     query: '',
     onAddSnippet: jest.fn(),

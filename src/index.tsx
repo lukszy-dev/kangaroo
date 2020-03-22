@@ -7,12 +7,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import App from 'App';
 import rootReducer from 'store/index';
-import { appDb, snippetsDb } from 'db';
+import { appDb } from 'db/app';
+import { snippetsDb } from 'db/snippets';
+import { ipcRenderer } from 'electron';
 import * as serviceWorker from 'serviceWorker';
 
 import './index.scss';
 
-const { ipcRenderer } = window.require('electron');
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk.withExtraArgument(ipcRenderer))));
 
 appDb.loadDatabase();
