@@ -4,3 +4,15 @@
   align-items: center;
   height: var(--status-bar-height);
 }
+
+.StatusBar--show-gutter {
+  margin-left: 3px;
+}
+
+.StatusBar--tag-bar {
+  margin-right: 10px;
+}
+
+.StatusBar--language-selector {
+  text-transform: capitalize;
+}

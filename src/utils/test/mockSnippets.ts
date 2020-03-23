@@ -11,9 +11,11 @@ export const mockSnippet = (): Snippet => {
     title: MOCK_TITLE,
     source: sourceType.LOCAL,
     uuid: 'uuid',
+    tags: '#F29D49',
     description: MOCK_DESCRIPTION,
     content: MOCK_CONTENT,
     language: TEXT,
     lastUpdated: new Date().toISOString(),
+    getColorTags: jest.fn(),
   };
 };

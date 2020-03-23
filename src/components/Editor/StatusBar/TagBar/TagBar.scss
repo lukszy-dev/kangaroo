@@ -1,0 +1,34 @@
+.TagBar--container {
+  display: flex;
+  margin-left: auto;
+}
+
+.ColorTag--wrapper {
+  width: 24px;
+  height: 30px;
+  padding: 7px 4px;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    background: rgba(138, 155, 168, 0.15);
+
+    .ColorTag--action-icon {
+      display: unset !important;
+    }
+  }
+}
+
+.ColorTag--tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: solid 1px hsla(0, 0%, 100%, .2);
+}
+
+.ColorTag--action-icon {
+  display: none !important;
+}

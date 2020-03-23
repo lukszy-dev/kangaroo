@@ -42,6 +42,26 @@ const Editor: React.FC = () => {
     }
   };
 
+  const handleOnTagChange = (tag: string, remove: boolean): void => {
+    if (snippet) {
+      const { tags } = snippet;
+      const tagElements = tags.split(',');
+
+      let updated = tagElements;
+      if (remove) {
+        tagElements.splice(
+          tagElements.findIndex(element => element === tag),
+          1,
+        );
+        updated = tagElements;
+      } else {
+        updated.push(tag);
+      }
+
+      dispatch(updateSnippet({ ...snippet, tags: updated.join(',') }));
+    }
+  };
+
   const handleOnLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     if (snippet) {
       dispatch(updateSnippet({ ...snippet, language: event.currentTarget.value }));
@@ -83,7 +103,12 @@ const Editor: React.FC = () => {
         />
       </div>
 
-      <StatusBar snippet={snippet} onShowGutter={handleShowGutter} onLanguageChange={handleOnLanguageChange} />
+      <StatusBar
+        snippet={snippet}
+        onShowGutter={handleShowGutter}
+        onTagChange={handleOnTagChange}
+        onLanguageChange={handleOnLanguageChange}
+      />
     </div>
   );
 };

@@ -33,11 +33,11 @@ const SnippetList: React.FC = () => {
   const panelWidth = useRef<number | null>(null);
 
   const menu = new remote.Menu();
-  const menuItem = new remote.MenuItem({
+  const deleteMenuItem = new remote.MenuItem({
     label: 'Delete',
     click: (): void => handleDeleteSnippet(),
   });
-  menu.append(menuItem);
+  menu.append(deleteMenuItem);
 
   const handleOnMouseDown = (event: React.MouseEvent): void => {
     resizerXPosition.current = event.clientX;

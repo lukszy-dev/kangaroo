@@ -30,6 +30,16 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
     onContextMenu(element.id);
   };
 
+  const renderTags = () => {
+    if (!element.tags) {
+      return;
+    }
+
+    return element.getColorTags().map((tag, index) => {
+      return <div key={index} style={{ background: `${tag}` }} className="SnippetListElement--accent" />;
+    });
+  };
+
   const listElementClass = classNames({
     SnippetListElement: true,
     active: currentlySelectedId === element.id,
@@ -41,6 +51,7 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
       <div className="SnippetListElement--content">
         <span className="bp3-text-overflow-ellipsis">{element.title}</span>
         {element.source === sourceType.GIST && <Icon className="SnippetListElement--source-icon" icon="cloud" />}
+        {renderTags()}
       </div>
     </div>
   );
