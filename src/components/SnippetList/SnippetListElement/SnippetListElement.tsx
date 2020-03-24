@@ -30,13 +30,22 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
     onContextMenu(element.id);
   };
 
-  const renderTags = () => {
+  const renderTags = (): React.ReactElement[] | null => {
     if (!element.tags) {
-      return;
+      return null;
     }
 
-    return element.getColorTags().map((tag, index) => {
-      return <div key={index} style={{ background: `${tag}` }} className="SnippetListElement--accent" />;
+    const tags = element.getColorTags();
+    const recent = tags.slice(Math.max(tags.length - 3, 0));
+
+    return recent.map((tag, index) => {
+      return (
+        <div
+          key={index}
+          style={{ background: `${tag}`, right: `${4 * index}px` }}
+          className="SnippetListElement--accent"
+        />
+      );
     });
   };
 
