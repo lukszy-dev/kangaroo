@@ -5,7 +5,9 @@ export const MOCK_TITLE = 'mockTitle';
 export const MOCK_DESCRIPTION = 'mockDescription';
 export const MOCK_CONTENT = 'mockContent';
 
-export const mockSnippet = (): Snippet => {
+export const MOCK_LAST_SYNCHRONIZED_GIST_DATE = 'lastSychronizedGistDate';
+
+export const mockSnippet = (lastUpdated?: string): Snippet => {
   return {
     id: 0,
     title: MOCK_TITLE,
@@ -15,7 +17,7 @@ export const mockSnippet = (): Snippet => {
     description: MOCK_DESCRIPTION,
     content: MOCK_CONTENT,
     language: TEXT,
-    lastUpdated: new Date().toISOString(),
+    lastUpdated: lastUpdated || new Date().toISOString(),
     getColorTags: jest.fn(),
   };
 };

@@ -35,15 +35,16 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
       return null;
     }
 
+    const MAX_TAG_COUNT = 3;
     const tags = element.getColorTags();
-    const recent = tags.slice(Math.max(tags.length - 3, 0));
+    const recent = tags.slice(Math.max(tags.length - MAX_TAG_COUNT, 0));
 
     return recent.map((tag, index) => {
       return (
         <div
           key={index}
-          style={{ background: `${tag}`, right: `${4 * index}px` }}
-          className="SnippetListElement--accent"
+          style={{ background: `${tag}`, top: `${6 + 8 * index}px` }}
+          className="SnippetListElement--tag"
         />
       );
     });
@@ -59,7 +60,7 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
     <div key={element.id} className={listElementClass} onClick={handleClick} onContextMenu={handleContextMenu}>
       <div className="SnippetListElement--content">
         <span className="bp3-text-overflow-ellipsis">{element.title}</span>
-        {element.source === sourceType.GIST && <Icon className="SnippetListElement--source-icon" icon="cloud" />}
+        {/* {element.source === sourceType.GIST && <Icon className="SnippetListElement--source-icon" icon="cloud" />} */}
         {renderTags()}
       </div>
     </div>

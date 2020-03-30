@@ -14,6 +14,7 @@ const mockSnippets = [
 export const snippetsDb = {
   add: jest.fn(),
   update: jest.fn(),
+  updateAll: jest.fn(),
   remove: jest.fn(),
   removeQuery: jest.fn(),
   findAll: (callback: (items: SnippetInterface[]) => void): void => {
