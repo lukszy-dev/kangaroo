@@ -14,37 +14,37 @@ const dbFactory = (name: string): Datastore => {
 };
 
 const dbAdd = (db: Datastore, objArray: {} | {}[]): void => {
-  db.insert(objArray, err => {
+  db.insert(objArray, (err) => {
     if (err) throw new Error(err.message);
   });
 };
 
 const dbUpdate = (db: Datastore, obj: { id: number }): void => {
-  db.update({ id: obj.id }, { ...obj }, {}, err => {
+  db.update({ id: obj.id }, { ...obj }, {}, (err) => {
     if (err) throw new Error(err.message);
   });
 };
 
 const dbUpdateAll = (db: Datastore, changes: {}): void => {
-  db.update({}, { $set: changes }, { multi: true }, err => {
+  db.update({}, { $set: changes }, { multi: true }, (err) => {
     if (err) throw new Error(err.message);
   });
 };
 
 const dbRemove = (db: Datastore, id: number): void => {
-  db.remove({ id }, err => {
+  db.remove({ id }, (err) => {
     if (err) throw new Error(err.message);
   });
 };
 
 const dbRemoveQuery = (db: Datastore, query: {}): void => {
-  db.remove(query, { multi: true }, err => {
+  db.remove(query, { multi: true }, (err) => {
     if (err) throw new Error(err.message);
   });
 };
 
 const dbFind = (db: Datastore, id: number): void => {
-  db.find({ id: id }, {}, err => {
+  db.find({ id: id }, {}, (err) => {
     if (err) throw new Error(err.message);
   });
 };

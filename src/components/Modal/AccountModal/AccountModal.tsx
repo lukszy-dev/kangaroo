@@ -57,7 +57,7 @@ const AccountModal: React.FC<AccountModalProps> = ({
   };
 
   const handleAuthToken = (): void => {
-    onSetAuthToken(authToken).then(gists => {
+    onSetAuthToken(authToken).then((gists) => {
       setGistId(gists.length > 0 ? gists[0].id : '');
       nextStep();
     });
@@ -74,7 +74,7 @@ const AccountModal: React.FC<AccountModalProps> = ({
       .then(() => {
         handleClose();
       })
-      .catch(error => {
+      .catch((error) => {
         handleClose();
         dispatch(showModal(ERROR_MODAL, { error }));
       });

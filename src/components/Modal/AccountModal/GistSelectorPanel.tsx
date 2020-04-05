@@ -49,7 +49,7 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
   onDeleteAuthData,
   loading,
 }) => {
-  const gistItems = remoteGists.map(gist => {
+  const gistItems = remoteGists.map((gist) => {
     const keys = Object.keys(gist.files);
     const title = keys[keys.length - 1];
     return { label: title, value: gist.id };

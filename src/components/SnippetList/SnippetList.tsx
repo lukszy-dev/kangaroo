@@ -107,9 +107,9 @@ const SnippetList: React.FC = () => {
   }, [dispatch]);
 
   const renderElements = (): React.ReactElement[] => {
-    const filtered = list.filter(element => element.title.toLowerCase().includes(query.toLowerCase()));
+    const filtered = list.filter((element) => element.title.toLowerCase().includes(query.toLowerCase()));
 
-    return filtered.map(element => {
+    return filtered.map((element) => {
       return (
         <CSSTransition key={element.id} classNames="SnippetList--element" timeout={{ enter: 350, exit: 350 }}>
           <SnippetListElement

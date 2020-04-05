@@ -63,8 +63,8 @@ export default class Snippet implements SnippetInterface {
   getColorTags = (): string[] => {
     const colorTags: string[] = [];
     const elements = this.tags.split(',');
-    elements.forEach(snippetTag => {
-      const tag = TAGS.find(tag => tag.key === snippetTag);
+    elements.forEach((snippetTag) => {
+      const tag = TAGS.find((tag) => tag.key === snippetTag);
       if (tag) {
         colorTags.push(tag.color);
       }

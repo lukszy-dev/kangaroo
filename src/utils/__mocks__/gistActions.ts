@@ -20,13 +20,13 @@ const getResponse = {
 const updateResponse = MOCK_LAST_SYNCHRONIZED_GIST_DATE;
 
 export const getGist = jest.fn(() => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve(getResponse);
   });
 });
 
 export const updateGist = jest.fn(() => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve(updateResponse);
   });
 });

@@ -93,7 +93,7 @@ export const updateSnippet = (snippet: SnippetInterface): AppThunk => {
       return;
     }
 
-    const toUpdateIndex = list.findIndex(element => element.id === current.id);
+    const toUpdateIndex = list.findIndex((element) => element.id === current.id);
     const updatedSnippet = new Snippet({ ...snippet, lastUpdated: new Date().toISOString() });
     const updatedList = [...list];
     updatedList[toUpdateIndex] = updatedSnippet;
@@ -113,7 +113,7 @@ export const deleteSnippet = (): AppThunk => {
       return;
     }
 
-    const updatedList = list.filter(element => element.id !== current.id);
+    const updatedList = list.filter((element) => element.id !== current.id);
 
     snippetsDb.remove(current.id);
     dispatch(deleteSnippetAction(updatedList[0], updatedList));
@@ -141,7 +141,7 @@ export const synchronizeGist = (
       dispatch(setLoading(true));
 
       getGist(authToken, backupGistId)
-        .then(async response => {
+        .then(async (response) => {
           const files = Object.entries(response.data.files);
           const lastGist = files[files.length - 1];
 
@@ -182,9 +182,9 @@ export const synchronizeGist = (
 
             if (lastUpdatedTime > lastSynchronizedGistTime || allowBackupLocalSnippets) {
               const snippets = backupLocalSnippets ? list.slice(0) : gistSourceSnippets;
-              snippets.forEach(snippet => (snippet.source = sourceType.GIST));
+              snippets.forEach((snippet) => (snippet.source = sourceType.GIST));
 
-              await updateGist(authToken, backupGistId, snippets).then(gistDate => {
+              await updateGist(authToken, backupGistId, snippets).then((gistDate) => {
                 snippetsDb.updateAll({ source: sourceType.GIST });
                 dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
                 ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
@@ -197,7 +197,7 @@ export const synchronizeGist = (
           dispatch(setLoading(false));
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           dispatch(setLoading(false));
           reject(error);
         });
@@ -215,10 +215,10 @@ export const createBackupGist = (description: string, authToken: string): AppThu
       dispatch(setLoading(true));
 
       const snippets = list.slice(0);
-      snippets.forEach(snippet => (snippet.source = sourceType.GIST));
+      snippets.forEach((snippet) => (snippet.source = sourceType.GIST));
 
       createGist(authToken, description, snippets)
-        .then(response => {
+        .then((response) => {
           const backupGistId = response.data.id;
           const gistDate = response.data.updated_at;
 
@@ -230,7 +230,7 @@ export const createBackupGist = (description: string, authToken: string): AppThu
           dispatch(setLoading(false));
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           dispatch(setLoading(false));
           reject(error);
         });

@@ -48,15 +48,15 @@ export const setAuthToken = (token: string): AppThunk<Promise<GistsListResponseI
         .list({
           headers: { 'If-None-Match': '' },
         })
-        .then(response => {
+        .then((response) => {
           const gists = response.data.map((gist: GistsListResponseItem) => gist);
-          const current = gists.find(gist => gist.id === backupGistId);
+          const current = gists.find((gist) => gist.id === backupGistId);
 
           dispatch(setGistsAction(current ? [current] : gists));
           dispatch(setLoading(false));
           resolve(gists);
         })
-        .catch(error => {
+        .catch((error) => {
           dispatch(setLoading(false));
           reject(error);
         });

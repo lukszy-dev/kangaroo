@@ -29,7 +29,7 @@ const updateGist = (authToken: string, backupGistId: string, snippets: Snippet[]
       .then(() => {
         resolve(fileName);
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });

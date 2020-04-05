@@ -43,7 +43,7 @@ export const snippetsReducer = (state = initialState, action: SnippetsActionType
     case SET_CURRENT_SNIPPET:
       return {
         ...state,
-        current: state.list.find(element => element.id === action.id) || null,
+        current: state.list.find((element) => element.id === action.id) || null,
       };
 
     case LOAD_SNIPPETS:

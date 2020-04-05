@@ -32,7 +32,7 @@ const TagBar: React.FC<TagBarProps> = ({ selected, className, onSelect }) => {
 
   const styles = classNames('TagBar--container', className);
 
-  return <div className={styles}>{TAGS.map(tag => renderColorTag(tag))}</div>;
+  return <div className={styles}>{TAGS.map((tag) => renderColorTag(tag))}</div>;
 };
 
 export default TagBar;

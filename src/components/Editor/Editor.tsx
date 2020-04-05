@@ -16,7 +16,7 @@ import './Editor.scss';
 import 'ace-builds/webpack-resolver';
 import './ace-themes';
 
-Object.keys(languages).forEach(lang => {
+Object.keys(languages).forEach((lang) => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
 });
 
@@ -50,7 +50,7 @@ const Editor: React.FC = () => {
       let updated = tagElements;
       if (remove) {
         tagElements.splice(
-          tagElements.findIndex(element => element === tag),
+          tagElements.findIndex((element) => element === tag),
           1,
         );
         updated = tagElements;
