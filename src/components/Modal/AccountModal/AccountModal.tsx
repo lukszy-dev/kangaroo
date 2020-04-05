@@ -28,7 +28,7 @@ const AccountModal: React.FC<AccountModalProps> = ({
   onSynchronizeGist,
   onCreateBackupGist,
   onDeleteAuthData,
-}: AccountModalProps) => {
+}) => {
   const dispatch = useDispatch();
 
   const { token, backupGistId, gists, lastSychronizedGistDate } = useSelector((state: RootState) => state.auth);

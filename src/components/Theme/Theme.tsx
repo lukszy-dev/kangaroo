@@ -9,7 +9,7 @@ type ThemeProps = {
   className: string;
 };
 
-const Theme: React.FC<ThemeProps> = ({ mode, children, className }: ThemeProps) => {
+const Theme: React.FC<ThemeProps> = ({ mode, children, className }) => {
   const variables = mode === 'dark' ? Dark : Light;
   const containerRef = createRef<HTMLDivElement>();
 

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { Tooltip, Button, HTMLSelect, Position } from '@blueprintjs/core';
+import { Tooltip, Button, HTMLSelect, Position, Icon, Navbar } from '@blueprintjs/core';
+import classNames from 'classnames';
 
 import TagBar from 'components/Editor/StatusBar/TagBar/TagBar';
 
@@ -15,12 +16,7 @@ type StatusBarProps = {
   onLanguageChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const StatusBar: React.FC<StatusBarProps> = ({
-  snippet,
-  onShowGutter,
-  onTagChange,
-  onLanguageChange,
-}: StatusBarProps) => {
+const StatusBar: React.FC<StatusBarProps> = ({ snippet, onShowGutter, onTagChange, onLanguageChange }) => {
   const languageItems = Object.entries(languages).map(([key, value]) => ({ label: value.label, value: key }));
 
   return (
@@ -38,6 +34,13 @@ const StatusBar: React.FC<StatusBarProps> = ({
       {snippet ? (
         <Fragment>
           <TagBar selected={snippet.tags} onSelect={onTagChange} className="StatusBar--tag-bar" />
+
+          <Navbar.Divider />
+          <div className="StatusBar--synchronization-icon-container">
+            <Icon icon="cloud" className="StatusBar--synchronization-icon" />
+            <div className={classNames('StatusBar--synchronization-icon-status', snippet.source)} />
+          </div>
+          <Navbar.Divider />
 
           <HTMLSelect
             value={snippet.language}

@@ -48,7 +48,7 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
   onCreateGist,
   onDeleteAuthData,
   loading,
-}: GistSelectorPanelProps) => {
+}) => {
   const gistItems = remoteGists.map(gist => {
     const keys = Object.keys(gist.files);
     const title = keys[keys.length - 1];

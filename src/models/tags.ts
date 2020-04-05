@@ -24,8 +24,4 @@ export const TAGS: Tag[] = [
     key: '5',
     color: '#2B95D6',
   },
-  {
-    key: '0',
-    color: '#00000000',
-  },
 ];

@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Icon } from '@blueprintjs/core';
 
-import Snippet, { sourceType } from '../../../models/Snippet';
+import Snippet from 'models/Snippet';
 
 import './SnippetListElement.scss';
 
@@ -18,7 +17,7 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
   currentlySelectedId,
   onChangeSnippet,
   onContextMenu,
-}: SnippetListElementProps) => {
+}) => {
   const handleClick = (): void => {
     if (currentlySelectedId !== element.id) {
       onChangeSnippet(element.id);
@@ -60,7 +59,6 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
     <div key={element.id} className={listElementClass} onClick={handleClick} onContextMenu={handleContextMenu}>
       <div className="SnippetListElement--content">
         <span className="bp3-text-overflow-ellipsis">{element.title}</span>
-        {/* {element.source === sourceType.GIST && <Icon className="SnippetListElement--source-icon" icon="cloud" />} */}
         {renderTags()}
       </div>
     </div>

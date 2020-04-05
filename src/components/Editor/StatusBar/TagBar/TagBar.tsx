@@ -12,7 +12,7 @@ type TagBarProps = {
   onSelect: (tag: string, remove: boolean) => void;
 };
 
-const TagBar: React.FC<TagBarProps> = ({ selected, className, onSelect }: TagBarProps) => {
+const TagBar: React.FC<TagBarProps> = ({ selected, className, onSelect }) => {
   const handleOnSelect = (tag: string, remove: boolean) => (): void => {
     onSelect(tag, remove);
   };
