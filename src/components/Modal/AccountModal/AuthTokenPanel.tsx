@@ -11,12 +11,7 @@ type AuthTokenPanelProps = {
   loading: boolean;
 };
 
-const AuthTokenPanel: React.FC<AuthTokenPanelProps> = ({
-  authToken,
-  onAuthTokenChange,
-  onAccept,
-  loading,
-}: AuthTokenPanelProps) => {
+const AuthTokenPanel: React.FC<AuthTokenPanelProps> = ({ authToken, onAuthTokenChange, onAccept, loading }) => {
   return (
     <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
       <FormGroup label="GitHub personal access token">

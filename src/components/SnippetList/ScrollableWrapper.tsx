@@ -14,7 +14,7 @@ const ScrollableWrapper: React.FC<ScrollableWrapperProps> = ({
   topShadow = true,
   bottomShadow = true,
   alwaysOn = false,
-}: ScrollableWrapperProps) => {
+}) => {
   const [top, setActiveTop] = useState(alwaysOn);
   const [bottom, setActiveBottom] = useState(alwaysOn);
 

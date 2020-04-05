@@ -1,21 +1,37 @@
+@import "@blueprintjs/core/lib/scss/variables";
+
 .SnippetListElement {
   height: var(--snippet-list-element-height);
 
   &.active {
     background-image: var(--active-snippet);
+
+    .SnippetListElement--tag {
+      box-shadow: 0 -0.5px 0px 1px rgb(48, 64, 77);
+    }
   }
 }
 
 .SnippetListElement--content {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 5px 5px 5px 15px;
+  padding: 5px 15px 5px 15px;
   border-image: var(--divider) 1;
   border-bottom-style: solid;
   border-bottom-width: 1px;
+}
+
+.SnippetListElement--tag {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: 5px;
+  border-radius: 50%;
+  box-shadow: 0 -0.5px 0px 1px var(--background-color-secondary);
 }
 
 .SnippetListElement--source-icon {

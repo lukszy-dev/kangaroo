@@ -26,7 +26,7 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
   onCreateBackupGist,
   onSynchronizeGist,
   onDeleteAuthData,
-}: SnippetListHeaderProps) => {
+}) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
 

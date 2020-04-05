@@ -24,6 +24,7 @@ type GistSelectorPanelProps = {
   gistId: string;
   backupGistId: string;
   backupLocalSnippets: boolean;
+  lastSychronizedGistDate: string;
   onGistSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   onGistDescriptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBackupLocalSnippetsChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -39,6 +40,7 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
   gistId,
   backupGistId,
   backupLocalSnippets,
+  lastSychronizedGistDate,
   onGistSelect,
   onGistDescriptionChange,
   onBackupLocalSnippetsChange,
@@ -46,7 +48,7 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
   onCreateGist,
   onDeleteAuthData,
   loading,
-}: GistSelectorPanelProps) => {
+}) => {
   const gistItems = remoteGists.map(gist => {
     const keys = Object.keys(gist.files);
     const title = keys[keys.length - 1];
@@ -110,6 +112,11 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
             icon="cloud-download"
             text="Synchronize"
           />
+          {lastSychronizedGistDate && (
+            <span className={classNames('GistSelectorPanel--synchronization-date', 'bp3-text-muted', 'bp3-text-small')}>
+              Last synchronized gist: {new Date(lastSychronizedGistDate).toISOString()}
+            </span>
+          )}
         </FormGroup>
       </>
     );

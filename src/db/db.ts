@@ -2,8 +2,9 @@ import Datastore from 'nedb';
 import { remote } from 'electron';
 
 const dbFactory = (name: string): Datastore => {
+  const filename = `${process.env.NODE_ENV === 'development' ? '.' : remote.app.getPath('userData')}/data/${name}.db`;
   const db = new Datastore({
-    filename: `${process.env.NODE_ENV === 'development' ? '.' : remote.app.getPath('userData')}/data/${name}.db`,
+    filename,
     autoload: true,
   });
 

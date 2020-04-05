@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { TEXT } from './languages';
+import { TAGS } from './tags';
 
 export const sourceType = {
   LOCAL: 'local',
@@ -12,6 +13,7 @@ export interface SnippetInterface {
   title: string;
   source?: string;
   uuid?: string;
+  tags?: string;
   description?: string;
   language?: string;
   content?: string;
@@ -24,6 +26,7 @@ export default class Snippet implements SnippetInterface {
   title: string;
   source: string;
   uuid: string;
+  tags: string;
   description: string;
   language: string;
   content: string;
@@ -39,6 +42,7 @@ export default class Snippet implements SnippetInterface {
       title,
       source = sourceType.LOCAL,
       uuid = uuidv4(),
+      tags = '',
       description = '',
       language = TEXT,
       content = '',
@@ -48,10 +52,23 @@ export default class Snippet implements SnippetInterface {
     this.id = id;
     this.source = source;
     this.uuid = uuid;
+    this.tags = tags;
     this.title = title;
     this.description = description;
     this.language = language;
     this.content = content;
     this.lastUpdated = lastUpdated;
   }
+
+  getColorTags = (): string[] => {
+    const colorTags: string[] = [];
+    const elements = this.tags.split(',');
+    elements.forEach(snippetTag => {
+      const tag = TAGS.find(tag => tag.key === snippetTag);
+      if (tag) {
+        colorTags.push(tag.color);
+      }
+    });
+    return colorTags;
+  };
 }

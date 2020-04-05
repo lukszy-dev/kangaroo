@@ -12,6 +12,7 @@ describe('<StatusBar />', () => {
   const mockProps = {
     snippet: new Snippet({ id: 0, title: 'TEST' }),
     onShowGutter: jest.fn(),
+    onTagChange: jest.fn(),
     onLanguageChange: jest.fn(),
   };
 

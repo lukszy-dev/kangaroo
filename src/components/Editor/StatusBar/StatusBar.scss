@@ -4,3 +4,38 @@
   align-items: center;
   height: var(--status-bar-height);
 }
+
+.StatusBar--show-gutter {
+  margin-left: 3px;
+}
+
+.StatusBar--synchronization-icon-container {
+  position: relative;
+}
+
+.StatusBar--synchronization-icon {
+  color: #a7b6c2;
+}
+
+.StatusBar--synchronization-icon-status {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  bottom: 0;
+  right: 0;
+  border: 1px solid var(--background-color-primary);
+  box-sizing: content-box;
+
+  &.local {
+    background-color: #BFCCD6;
+  }
+
+  &.gist {
+    background-color: #3DCC91;
+  }
+}
+
+.StatusBar--language-selector {
+  text-transform: capitalize;
+}
