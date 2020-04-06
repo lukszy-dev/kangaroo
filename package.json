@@ -17,7 +17,8 @@
     "build:electron": "mkdir build/src && cp -r electron/. build/electron",
     "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js --publish never",
     "lint": "tsc --noEmit && eslint 'src/*/**/*.{js,ts,tsx}' --quiet --fix",
-    "test": "craco test"
+    "test": "craco test",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.24.0",
@@ -36,6 +37,7 @@
     "react-transition-group": "^4.3.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "source-map-explorer": "^2.4.2",
     "uuid": "^7.0.1"
   },
   "devDependencies": {
