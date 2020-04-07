@@ -13,7 +13,11 @@ const light = {
   '--background-color-primary': Colors.WHITE,
   '--background-color-secondary': Colors.LIGHT_GRAY5,
 
+  '--icon-color': Colors.GRAY1,
+
   '--list-container-border': 'solid 1px rgba(16, 22, 26, .15)',
+  '--tag-border': 'solid 1px rgba(16, 22, 26, .2)',
+  '--tag-hover-background': 'rgba(167, 182, 194, 0.3)',
 
   '--divider': `linear-gradient(
     90deg,
@@ -25,6 +29,7 @@ const light = {
     rgba(167, 182, 194, 0) 0,
     rgba(167, 182, 194, .3) 40%
   )`,
+  '--active-snippet-tag-border': Colors.LIGHT_GRAY2,
 };
 
 const dark = {
@@ -32,7 +37,11 @@ const dark = {
   '--background-color-primary': Colors.DARK_GRAY3,
   '--background-color-secondary': Colors.DARK_GRAY5,
 
+  '--icon-color': Colors.GRAY4,
+
   '--list-container-border': 'solid 1px rgba(16, 22, 26, .5)',
+  '--tag-border': 'solid 1px hsla(0, 0%, 100%, .2)',
+  '--tag-hover-background': 'rgba(138, 155, 168, 0.15)',
 
   '--divider': `linear-gradient(
     90deg,
@@ -45,6 +54,7 @@ const dark = {
     rgba(48, 64, 77, 0) 0,
     #30404d 40%
   )`,
+  '--active-snippet-tag-border': Colors.DARK_GRAY4,
 };
 
 export { root, light as Light, dark as Dark };

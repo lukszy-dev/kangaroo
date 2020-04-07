@@ -7,7 +7,7 @@
     background-image: var(--active-snippet);
 
     .SnippetListElement--tag {
-      box-shadow: 0 -0.5px 0px 1px rgb(48, 64, 77);
+      box-shadow: 0 -0.5px 0px 1px var(--active-snippet-tag-border);
     }
   }
 }
