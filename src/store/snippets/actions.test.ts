@@ -5,6 +5,7 @@ import {
   deleteSnippet,
   setSearchSnippets,
   synchronizeGist,
+  createBackupGist,
 } from 'store/snippets/actions';
 import { LOAD_SNIPPETS, ADD_SNIPPET, UPDATE_SNIPPET, DELETE_SNIPPET, SET_SEARCH_SNIPPETS } from 'store/snippets/types';
 import { SET_GH_DATA } from 'store/auth/types';
@@ -13,7 +14,14 @@ import { SET_LOADING } from 'store/ui/types';
 import { sourceType } from 'models/Snippet';
 
 import mockStore from 'utils/test/mockStore';
-import { mockSnippet, MOCK_CONTENT, MOCK_LAST_SYNCHRONIZED_GIST_DATE } from 'utils/test/mockSnippets';
+import {
+  mockSnippet,
+  MOCK_CONTENT,
+  MOCK_LAST_SYNCHRONIZED_GIST_DATE,
+  UPDATED_AT,
+  GIST_ID,
+  MOCK_TOKEN,
+} from 'utils/test/mockSnippets';
 
 jest.mock('db/snippets');
 jest.mock('utils/gistActions');
@@ -25,7 +33,7 @@ jest.mock('electron', () => {
   };
 });
 
-describe('actions', () => {
+describe('snippets actions', () => {
   let store: ReturnType<typeof mockStore>;
 
   beforeEach(() => {
@@ -81,15 +89,15 @@ describe('actions', () => {
     expect(actions[0]).toEqual({ type: SET_SEARCH_SNIPPETS, query });
   });
 
-  it('nothing to synchronize', () => {
-    return store.dispatch(synchronizeGist(false, 'token', 'gistId')).then(() => {
+  it('should not synchronize', () => {
+    return store.dispatch(synchronizeGist(false, MOCK_TOKEN, GIST_ID)).then(() => {
       const actions = store.getActions();
       expect(actions[0]).toEqual({ type: SET_LOADING, loading: true });
       expect(actions[1]).toEqual({ type: SET_LOADING, loading: false });
     });
   });
 
-  it('should synchronize with gist', () => {
+  it('should synchronize with gist (fetch from gist)', () => {
     const currentSnippetMock = mockSnippet();
     store = mockStore({
       snippets: {
@@ -102,14 +110,14 @@ describe('actions', () => {
       },
     });
 
-    return store.dispatch(synchronizeGist(false, 'token', 'gistId')).then(() => {
+    return store.dispatch(synchronizeGist(false, MOCK_TOKEN, GIST_ID)).then(() => {
       const actions = store.getActions();
 
       expect(actions[0]).toEqual({ type: SET_LOADING, loading: true });
       expect(actions[1]).toEqual({
         type: SET_GH_DATA,
-        token: 'token',
-        backupGistId: 'gistId',
+        token: MOCK_TOKEN,
+        backupGistId: GIST_ID,
         lastSychronizedGistDate: '2020-02-01T18:00:00.000Z',
       });
       expect(actions[2]).toHaveProperty('type', LOAD_SNIPPETS);
@@ -118,7 +126,7 @@ describe('actions', () => {
     });
   });
 
-  it('should synchronize with gist (update w/ backing up local snippets)', () => {
+  it('should synchronize with gist (update gist without backing up local snippets)', () => {
     const currentSnippetMock = mockSnippet('2020-03-01T18:00:00.000Z');
     currentSnippetMock.source = sourceType.GIST;
     store = mockStore({
@@ -132,16 +140,32 @@ describe('actions', () => {
       },
     });
 
-    return store.dispatch(synchronizeGist(false, 'token', 'gistId')).then(() => {
+    return store.dispatch(synchronizeGist(false, MOCK_TOKEN, GIST_ID)).then(() => {
       const actions = store.getActions();
       expect(actions[0]).toEqual({ type: SET_LOADING, loading: true });
       expect(actions[1]).toEqual({
         type: SET_GH_DATA,
-        token: 'token',
-        backupGistId: 'gistId',
+        token: MOCK_TOKEN,
+        backupGistId: GIST_ID,
         lastSychronizedGistDate: MOCK_LAST_SYNCHRONIZED_GIST_DATE,
       });
       expect(actions[2]).toEqual({ type: SET_LOADING, loading: false });
+    });
+  });
+
+  it('should create backup gist', () => {
+    return store.dispatch(createBackupGist('description', MOCK_TOKEN)).then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({ type: SET_LOADING, loading: true });
+      expect(actions[1]).toEqual({
+        type: SET_GH_DATA,
+        token: MOCK_TOKEN,
+        backupGistId: GIST_ID,
+        lastSychronizedGistDate: UPDATED_AT,
+      });
+      expect(actions[2]).toHaveProperty('type', LOAD_SNIPPETS);
+      expect(actions[2]).toHaveProperty('current.content', MOCK_CONTENT);
+      expect(actions[3]).toEqual({ type: SET_LOADING, loading: false });
     });
   });
 });

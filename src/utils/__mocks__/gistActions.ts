@@ -1,4 +1,23 @@
-import { MOCK_CONTENT, MOCK_TITLE, MOCK_DESCRIPTION, MOCK_LAST_SYNCHRONIZED_GIST_DATE } from 'utils/test/mockSnippets';
+import {
+  MOCK_CONTENT,
+  MOCK_TITLE,
+  MOCK_DESCRIPTION,
+  MOCK_LAST_SYNCHRONIZED_GIST_DATE,
+  UPDATED_AT,
+  GIST_ID,
+  MOCK_INVALID_TOKEN,
+} from 'utils/test/mockSnippets';
+
+// Example octokit responses
+// https://developer.github.com/v3/gists/
+
+const listResponse = {
+  data: [
+    {
+      id: GIST_ID,
+    },
+  ],
+};
 
 const getResponse = {
   data: {
@@ -17,7 +36,26 @@ const getResponse = {
   },
 };
 
+const createResponse = {
+  data: {
+    id: GIST_ID,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    updated_at: UPDATED_AT,
+  },
+};
+
 const updateResponse = MOCK_LAST_SYNCHRONIZED_GIST_DATE;
+
+const errorResponse = 'ERROR';
+
+export const listGists = jest.fn((token) => {
+  return new Promise((resolve, reject) => {
+    if (token === MOCK_INVALID_TOKEN) {
+      reject(errorResponse);
+    }
+    resolve(listResponse);
+  });
+});
 
 export const getGist = jest.fn(() => {
   return new Promise((resolve) => {
@@ -28,5 +66,11 @@ export const getGist = jest.fn(() => {
 export const updateGist = jest.fn(() => {
   return new Promise((resolve) => {
     resolve(updateResponse);
+  });
+});
+
+export const createGist = jest.fn(() => {
+  return new Promise((resolve) => {
+    resolve(createResponse);
   });
 });

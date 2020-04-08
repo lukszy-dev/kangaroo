@@ -1,5 +1,12 @@
-import Octokit, { GistsGetResponse, GistsCreateResponse } from '@octokit/rest';
+import Octokit, { GistsGetResponse, GistsCreateResponse, GistsListResponse } from '@octokit/rest';
 import Snippet from 'models/Snippet';
+
+const listGists = (authToken: string): Promise<Octokit.Response<GistsListResponse>> => {
+  const octokit = new Octokit({ auth: authToken });
+  return octokit.gists.list({
+    headers: { 'If-None-Match': '' },
+  });
+};
 
 const getGist = (authToken: string, backupGistId: string): Promise<Octokit.Response<GistsGetResponse>> => {
   const octokit = new Octokit({ auth: authToken });
@@ -55,4 +62,4 @@ const createGist = (
   return octokit.gists.create(request);
 };
 
-export { getGist, updateGist, createGist };
+export { listGists, getGist, updateGist, createGist };

@@ -1,8 +1,9 @@
-import Octokit, { GistsListResponseItem } from '@octokit/rest';
+import { GistsListResponseItem } from '@octokit/rest';
 import { AppThunk } from 'store/types';
 import { setLoading } from 'store/ui/actions';
 
 import { SET_GH_DATA, SET_GISTS, CLEAR_GH_DATA, AuthActionTypes } from './types';
+import { listGists } from 'utils/gistActions';
 
 export const setGitHubDataAction = (data: {
   token: string;
@@ -42,14 +43,9 @@ export const setAuthToken = (token: string): AppThunk<Promise<GistsListResponseI
     return new Promise((resolve, reject) => {
       dispatch(setLoading(true));
 
-      const octokit = new Octokit({ auth: token });
-
-      octokit.gists
-        .list({
-          headers: { 'If-None-Match': '' },
-        })
+      listGists(token)
         .then((response) => {
-          const gists = response.data.map((gist: GistsListResponseItem) => gist);
+          const gists = response.data as GistsListResponseItem[];
           const current = gists.find((gist) => gist.id === backupGistId);
 
           dispatch(setGistsAction(current ? [current] : gists));
