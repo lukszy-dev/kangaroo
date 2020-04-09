@@ -28,7 +28,7 @@
     "electron-is-dev": "^1.1.0",
     "electron-store": "^5.1.1",
     "nedb": "^1.8.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "react": "^16.13.0",
     "react-ace": "^8.0.0",
