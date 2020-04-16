@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
@@ -29,6 +29,7 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
 }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = useState(false);
 
   const handleSearchOnChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
     onSearchChange(value);
@@ -48,7 +49,10 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
           onDeleteAuthData,
         }),
       );
+      setLoading(false);
     };
+
+    setLoading(true);
 
     if (!token) {
       dispatchShowModalAction();
@@ -70,7 +74,7 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
     <div className="SnippetListHeader">
       <div className="SnippetListHeader--container">
         <ButtonGroup minimal={true}>
-          <Button icon="person" onClick={handleAccountModalOpen} />
+          <Button icon="person" loading={loading} onClick={handleAccountModalOpen} />
 
           <Button icon="add-to-artifact" onClick={onAddSnippet} />
         </ButtonGroup>

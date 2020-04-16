@@ -11,7 +11,7 @@ import ModalOverlay from 'components/Modal/ModalOverlay/ModalOverlay';
 import { RootState, AppDispatch } from 'store/types';
 import { initSnippets } from 'store/snippets/actions';
 import { loadAuthData } from 'store/auth/actions';
-import { appInit } from 'store/ui/actions';
+import { appInit, loadTheme } from 'store/ui/actions';
 
 import appCommand, { APP_COMMAND, AppCommandMessage } from 'utils/appCommand';
 
@@ -22,6 +22,7 @@ const App: React.FC = () => {
   const { init, theme } = useSelector((state: RootState) => state.ui);
 
   useEffect(() => {
+    dispatch(loadTheme());
     dispatch(loadAuthData());
     dispatch(initSnippets()).then(() => dispatch(appInit(false)));
 
