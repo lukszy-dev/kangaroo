@@ -1,6 +1,6 @@
 {
   "name": "kangaroo",
-  "version": "0.5.0",
+  "version": "0.9.0",
   "private": true,
   "main": "electron/main.js",
   "description": "Snippet manager",
@@ -15,7 +15,8 @@
     "build": "npm run build:web && npm run build:electron",
     "build:web": "craco build",
     "build:electron": "mkdir build/src && cp -r electron/. build/electron",
-    "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js --publish never",
+    "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
+    "release": "npm run package --publish always",
     "lint": "tsc --noEmit && eslint 'src/*/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "craco test",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
