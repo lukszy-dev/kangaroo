@@ -15,8 +15,7 @@
     "build": "npm run build:web && npm run build:electron",
     "build:web": "craco build",
     "build:electron": "mkdir build/src && cp -r electron/. build/electron",
-    "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
-    "release": "npm run package --publish always",
+    "package:mac": "PUBLIC_URL=./ npm run build && electron-builder --mac",
     "lint": "tsc --noEmit && eslint 'src/*/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "craco test",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
@@ -99,6 +98,9 @@
     "compression": "normal",
     "productName": "Kangaroo",
     "copyright": "Copyright © 2020 ${author}",
+    "extraMetadata": {
+      "main": "build/electron/main.js"
+    },
     "directories": {
       "buildResources": "build",
       "output": "dist"
