@@ -1,41 +1,45 @@
-import React from 'react';
+import React, { memo } from 'react';
 import classNames from 'classnames';
 
-import Snippet from 'models/Snippet';
+import { getColorTags } from 'models/Snippet';
 
 import './SnippetListElement.scss';
 
 type SnippetListElementProps = {
-  element: Snippet;
+  snippetId: number;
+  snippetTags: string;
+  snippetTitle: string;
   currentlySelectedId: number | null;
   onChangeSnippet: (id: number) => void;
   onContextMenu: (id: number) => void;
 };
 
 const SnippetListElement: React.FC<SnippetListElementProps> = ({
-  element,
+  snippetId,
+  snippetTags,
+  snippetTitle,
   currentlySelectedId,
   onChangeSnippet,
   onContextMenu,
 }) => {
   const handleClick = (): void => {
-    if (currentlySelectedId !== element.id) {
-      onChangeSnippet(element.id);
+    if (currentlySelectedId !== snippetId) {
+      onChangeSnippet(snippetId);
     }
   };
 
   const handleContextMenu = (): void => {
     handleClick();
-    onContextMenu(element.id);
+    onContextMenu(snippetId);
   };
 
   const renderTags = (): React.ReactElement[] | null => {
-    if (!element.tags) {
+    if (!snippetTags) {
       return null;
     }
 
     const MAX_TAG_COUNT = 3;
-    const tags = element.getColorTags();
+    const tags = getColorTags(snippetTags);
     const recent = tags.slice(Math.max(tags.length - MAX_TAG_COUNT, 0));
 
     return recent.map((tag, index) => {
@@ -51,18 +55,18 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
 
   const listElementClass = classNames({
     SnippetListElement: true,
-    active: currentlySelectedId === element.id,
-    'bp3-text-muted': currentlySelectedId !== element.id,
+    active: currentlySelectedId === snippetId,
+    'bp3-text-muted': currentlySelectedId !== snippetId,
   });
 
   return (
-    <div key={element.id} className={listElementClass} onClick={handleClick} onContextMenu={handleContextMenu}>
+    <div key={snippetId} className={listElementClass} onClick={handleClick} onContextMenu={handleContextMenu}>
       <div className="SnippetListElement--content">
-        <span className="bp3-text-overflow-ellipsis">{element.title}</span>
+        <span className="bp3-text-overflow-ellipsis">{snippetTitle}</span>
         {renderTags()}
       </div>
     </div>
   );
 };
 
-export default SnippetListElement;
+export default memo(SnippetListElement);

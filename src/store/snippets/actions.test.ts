@@ -3,11 +3,10 @@ import {
   addSnippet,
   updateSnippet,
   deleteSnippet,
-  setSearchSnippets,
   synchronizeGist,
   createBackupGist,
 } from 'store/snippets/actions';
-import { LOAD_SNIPPETS, ADD_SNIPPET, UPDATE_SNIPPET, DELETE_SNIPPET, SET_SEARCH_SNIPPETS } from 'store/snippets/types';
+import { LOAD_SNIPPETS, ADD_SNIPPET, UPDATE_SNIPPET, DELETE_SNIPPET } from 'store/snippets/types';
 import { SET_GH_DATA } from 'store/auth/types';
 import { SET_LOADING } from 'store/ui/types';
 
@@ -79,22 +78,6 @@ describe('snippets actions', () => {
     store.dispatch(deleteSnippet());
     const actions = store.getActions();
     expect(actions[0]).toEqual({ type: DELETE_SNIPPET, current: undefined, list: [] });
-  });
-
-  it('should set search query', () => {
-    const query = 'query';
-
-    store.dispatch(setSearchSnippets(query));
-    const actions = store.getActions();
-    expect(actions[0]).toEqual({ type: SET_SEARCH_SNIPPETS, query });
-  });
-
-  it('should not synchronize', () => {
-    return store.dispatch(synchronizeGist(false, MOCK_TOKEN, GIST_ID)).then(() => {
-      const actions = store.getActions();
-      expect(actions[0]).toEqual({ type: SET_LOADING, loading: true });
-      expect(actions[1]).toEqual({ type: SET_LOADING, loading: false });
-    });
   });
 
   it('should synchronize with gist (fetch from gist)', () => {

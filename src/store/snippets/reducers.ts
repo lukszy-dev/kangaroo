@@ -4,7 +4,6 @@ import {
   DELETE_SNIPPET,
   SET_CURRENT_SNIPPET,
   LOAD_SNIPPETS,
-  SET_SEARCH_SNIPPETS,
   SnippetsState,
   SnippetsActionTypes,
 } from './types';
@@ -12,7 +11,6 @@ import {
 const initialState: SnippetsState = {
   current: null,
   list: [],
-  query: '',
   lastId: 0,
 };
 
@@ -52,12 +50,6 @@ export const snippetsReducer = (state = initialState, action: SnippetsActionType
         list: action.list,
         current: action.current,
         lastId: action.lastId,
-      };
-
-    case SET_SEARCH_SNIPPETS:
-      return {
-        ...state,
-        query: action.query,
       };
 
     default:

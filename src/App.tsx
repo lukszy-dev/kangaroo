@@ -4,7 +4,7 @@ import { ipcRenderer, IpcRenderer, IpcRendererEvent } from 'electron';
 
 import Loader from 'components/Loader/Loader';
 import Theme from 'components/Theme/Theme';
-import Editor from 'components/Editor/Editor';
+import SnippetEditor from 'components/SnippetEditor/SnippetEditor';
 import SnippetList from 'components/SnippetList/SnippetList';
 import ModalOverlay from 'components/Modal/ModalOverlay/ModalOverlay';
 
@@ -42,7 +42,7 @@ const App: React.FC = () => {
       ) : (
         <>
           <SnippetList />
-          <Editor />
+          <SnippetEditor />
           <ModalOverlay />
         </>
       )}

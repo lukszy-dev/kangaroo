@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Editor /> matches snapshot 1`] = `
+<div
+  className="Editor--editor"
+>
+  <div
+    id="ace-editor"
+    style={
+      Object {
+        "height": "691px",
+        "width": "824px",
+      }
+    }
+  />
+</div>
+`;

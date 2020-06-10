@@ -14,6 +14,33 @@ exports[`<SnippetListElement /> matches snapshot 1`] = `
     >
       Test
     </span>
+    <div
+      className="SnippetListElement--tag"
+      style={
+        Object {
+          "background": "#F55656",
+          "top": "6px",
+        }
+      }
+    />
+    <div
+      className="SnippetListElement--tag"
+      style={
+        Object {
+          "background": "#F29D49",
+          "top": "14px",
+        }
+      }
+    />
+    <div
+      className="SnippetListElement--tag"
+      style={
+        Object {
+          "background": "#F2B824",
+          "top": "22px",
+        }
+      }
+    />
   </div>
 </div>
 `;

@@ -1,20 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import ReduxThunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 import App from 'App';
-import rootReducer from 'store/index';
+import store from 'store';
 import { appDb } from 'db/app';
 import { snippetsDb } from 'db/snippets';
-import { ipcRenderer } from 'electron';
 import * as serviceWorker from 'serviceWorker';
 
 import './index.scss';
-
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk.withExtraArgument(ipcRenderer))));
 
 appDb.loadDatabase();
 snippetsDb.loadDatabase();

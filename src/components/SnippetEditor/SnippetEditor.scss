@@ -1,12 +1,7 @@
-.Editor--container {
+.SnippetEditor--container {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   margin-left: auto;
   background-color: var(--background-color-primary);
-}
-
-.Editor--editor {
-  flex: 1;
-  isolation: isolate;
 }

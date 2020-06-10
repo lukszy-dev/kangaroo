@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EditorHeader /> matches snapshot 1`] = `
+<div
+  className="EditorHeader--container"
+>
+  <h3
+    className="bp3-heading"
+  >
+    <div
+      className="bp3-editable-text EditorHeader--snippet-title"
+      onFocus={[Function]}
+      tabIndex={null}
+    >
+      <input
+        className="bp3-editable-text-input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Edit title..."
+        type="text"
+        value="test"
+      />
+    </div>
+  </h3>
+</div>
+`;

@@ -16,6 +16,7 @@ export default (dispatch: AppDispatch, message: AppCommandMessage): void => {
       break;
 
     case 'ERROR':
+      console.log(message); // TODO
       break;
 
     default:
