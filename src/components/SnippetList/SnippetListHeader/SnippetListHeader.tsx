@@ -1,35 +1,45 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { GistsListResponseItem } from '@octokit/rest';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 
-import { RootState } from 'store/types';
+import { RootState, AppDispatch } from 'store/types';
 import { showModal } from 'store/modal/actions';
+import { setAuthToken, deleteAuthData } from 'store/auth/actions';
+import { synchronizeGist, createBackupGist, addSnippet } from 'store/snippets/actions';
 import { ACCOUNT_MODAL } from 'components/Modal/ModalOverlay/constants';
 
 import './SnippetListHeader.scss';
 
 type SnippetListHeaderProps = {
   query: string;
-  onAddSnippet: () => void;
   onSearchChange: (value: string) => void;
-  onSetAuthToken: (token: string) => Promise<{}>;
-  onCreateBackupGist: (description: string, token: string) => Promise<{}>;
-  onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<{}>;
-  onDeleteAuthData: () => void;
 };
 
-const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
-  query,
-  onAddSnippet,
-  onSearchChange,
-  onSetAuthToken,
-  onCreateBackupGist,
-  onSynchronizeGist,
-  onDeleteAuthData,
-}) => {
-  const dispatch = useDispatch();
+const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({ query, onSearchChange }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { token } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState(false);
+
+  const handleAddSnippet = (): void => {
+    dispatch(addSnippet());
+  };
+
+  const handleDeleteAuthData = (): void => {
+    dispatch(deleteAuthData());
+  };
+
+  const handleSetAuthToken = (token: string): Promise<GistsListResponseItem[]> => {
+    return dispatch(setAuthToken(token));
+  };
+
+  const handleCreateBackupGist = (description: string, token: string): Promise<{}> => {
+    return dispatch(createBackupGist(description, token));
+  };
+
+  const handleSynchronizeGist = (backupLocalSnippets: boolean, token: string, id: string): Promise<{}> => {
+    return dispatch(synchronizeGist(backupLocalSnippets, token, id));
+  };
 
   const handleSearchOnChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
     onSearchChange(value);
@@ -43,10 +53,10 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
     const dispatchShowModalAction = (): void => {
       dispatch(
         showModal(ACCOUNT_MODAL, {
-          onSetAuthToken,
-          onSynchronizeGist,
-          onCreateBackupGist,
-          onDeleteAuthData,
+          onSetAuthToken: handleSetAuthToken,
+          onSynchronizeGist: handleSynchronizeGist,
+          onCreateBackupGist: handleCreateBackupGist,
+          onDeleteAuthData: handleDeleteAuthData,
         }),
       );
       setLoading(false);
@@ -59,7 +69,7 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
       return;
     }
 
-    onSetAuthToken(token).then(() => {
+    handleSetAuthToken(token).then(() => {
       dispatchShowModalAction();
     });
   };
@@ -75,8 +85,7 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
       <div className="SnippetListHeader--container">
         <ButtonGroup minimal={true}>
           <Button icon="person" loading={loading} onClick={handleAccountModalOpen} />
-
-          <Button icon="add-to-artifact" onClick={onAddSnippet} />
+          <Button icon="add-to-artifact" onClick={handleAddSnippet} />
         </ButtonGroup>
       </div>
 
@@ -94,4 +103,4 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({
   );
 };
 
-export default SnippetListHeader;
+export default memo(SnippetListHeader);

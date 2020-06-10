@@ -1,29 +1,31 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import renderer from 'react-test-renderer';
 
-import SnippetListHeader from './SnippetListHeader';
+import Editor from './Editor';
+import { Provider } from 'react-redux';
+
+jest.mock('ace-builds/webpack-resolver', () => jest.fn());
 
 configure({ adapter: new Adapter() });
 
-describe('<SnippetListHeader />', () => {
+describe('<Editor />', () => {
   const mockStore = configureMockStore();
   const mockProps = {
-    query: '',
-    onSearchChange: jest.fn(),
+    gutter: true,
+    onChange: jest.fn(),
   };
-  const initialState = { auth: { token: 'TOKEN' } };
+  const initialState = { ui: { theme: 'dark', leftPanelWidth: 200 } };
 
   let store;
 
-  it('renders without crashing', () => {
+  it('render without crashing', () => {
     store = mockStore(initialState);
     shallow(
       <Provider store={store}>
-        <SnippetListHeader {...mockProps} />
+        <Editor {...mockProps} />
       </Provider>,
     );
   });
@@ -32,7 +34,7 @@ describe('<SnippetListHeader />', () => {
     store = mockStore(initialState);
     const wrapper = renderer.create(
       <Provider store={store}>
-        <SnippetListHeader {...mockProps} />
+        <Editor {...mockProps} />
       </Provider>,
     );
     expect(wrapper).toMatchSnapshot();

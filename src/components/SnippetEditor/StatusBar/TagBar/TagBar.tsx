@@ -7,18 +7,18 @@ import { Tag, TAGS } from 'models/tags';
 import './TagBar.scss';
 
 type TagBarProps = {
-  selected?: string;
+  tags?: string;
   className?: string;
   onSelect: (tag: string, remove: boolean) => void;
 };
 
-const TagBar: React.FC<TagBarProps> = ({ selected, className, onSelect }) => {
+const TagBar: React.FC<TagBarProps> = ({ tags, className, onSelect }) => {
   const handleOnSelect = (tag: string, remove: boolean) => (): void => {
     onSelect(tag, remove);
   };
 
   const renderColorTag = (tag: Tag): ReactElement => {
-    const selectedTags = selected?.split(',') || [];
+    const selectedTags = tags?.split(',') || [];
     const isSelected = selectedTags && selectedTags.includes(tag.key);
 
     return (

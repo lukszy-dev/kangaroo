@@ -1,4 +1,4 @@
-.Editor--header {
+.EditorHeader--container {
   display: flex;
   height: var(--editor-header-height);
   align-items: center;
@@ -11,6 +11,6 @@
   }
 }
 
-.Editor--snippet-title {
+.EditorHeader--snippet-title {
   width: 100%;
 }
