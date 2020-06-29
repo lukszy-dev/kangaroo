@@ -5,12 +5,10 @@ export const UPDATE_SNIPPET = 'SNIPPETS_UPDATE_SNIPPET';
 export const DELETE_SNIPPET = 'SNIPPETS_DELETE_SNIPPET';
 export const SET_CURRENT_SNIPPET = 'SNIPPETS_SET_CURRENT_SNIPPET';
 export const LOAD_SNIPPETS = 'SNIPPETS_LOAD_SNIPPETS';
-export const SET_SEARCH_SNIPPETS = 'SNIPPETS_SET_SEARCH_SNIPPETS';
 
 export interface SnippetsState {
   current: Snippet | null;
   list: Snippet[];
-  query: string;
   lastId: number;
 }
 
@@ -39,11 +37,6 @@ interface DeleteSnippetAction {
   list: Snippet[];
 }
 
-interface SetSearchSnippetsAction {
-  type: typeof SET_SEARCH_SNIPPETS;
-  query: string;
-}
-
 interface SetCurrentSnippetAction {
   type: typeof SET_CURRENT_SNIPPET;
   id: number;
@@ -54,5 +47,4 @@ export type SnippetsActionTypes =
   | AddSnippetAction
   | UpdateSnippetAction
   | DeleteSnippetAction
-  | SetSearchSnippetsAction
   | SetCurrentSnippetAction;

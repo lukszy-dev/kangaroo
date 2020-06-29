@@ -3,25 +3,23 @@ import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import renderer from 'react-test-renderer';
 
-import StatusBar from './StatusBar';
-import Snippet from 'models/Snippet';
+import EditorHeader from './EditorHeader';
 
 configure({ adapter: new Adapter() });
 
-describe('<StatusBar />', () => {
+describe('<EditorHeader />', () => {
   const mockProps = {
-    snippet: new Snippet({ id: 0, title: 'TEST' }),
-    onShowGutter: jest.fn(),
-    onTagChange: jest.fn(),
-    onLanguageChange: jest.fn(),
+    snippetId: 1,
+    snippetTitle: 'test',
+    onTitleChange: jest.fn(),
   };
 
   it('render without crashing', () => {
-    shallow(<StatusBar {...mockProps} />);
+    shallow(<EditorHeader {...mockProps} />);
   });
 
   it('matches snapshot', () => {
-    const wrapper = renderer.create(<StatusBar {...mockProps} />);
+    const wrapper = renderer.create(<EditorHeader {...mockProps} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

@@ -1,7 +1,7 @@
 const { Menu } = require('electron');
 const { sendCommand } = require('./utils');
 
-const generateMenu = window => {
+const generateMenu = (window) => {
   const template = [
     {
       label: 'App',

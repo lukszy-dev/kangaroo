@@ -59,16 +59,16 @@ export default class Snippet implements SnippetInterface {
     this.content = content;
     this.lastUpdated = lastUpdated;
   }
-
-  getColorTags = (): string[] => {
-    const colorTags: string[] = [];
-    const elements = this.tags.split(',');
-    elements.forEach((snippetTag) => {
-      const tag = TAGS.find((tag) => tag.key === snippetTag);
-      if (tag) {
-        colorTags.push(tag.color);
-      }
-    });
-    return colorTags;
-  };
 }
+
+export const getColorTags = (tags: string): string[] => {
+  const colorTags: string[] = [];
+  const elements = tags.split(',');
+  elements.forEach((snippetTag: string) => {
+    const tag = TAGS.find((tag) => tag.key === snippetTag);
+    if (tag) {
+      colorTags.push(tag.color);
+    }
+  });
+  return colorTags;
+};

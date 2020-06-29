@@ -23,6 +23,5 @@ export const mockSnippet = (lastUpdated?: string): Snippet => {
     content: MOCK_CONTENT,
     language: TEXT,
     lastUpdated: lastUpdated || new Date().toISOString(),
-    getColorTags: jest.fn(),
   };
 };

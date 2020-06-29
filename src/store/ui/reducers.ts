@@ -25,7 +25,7 @@ export const uiReducer = (state = initialState, action: UIActionTypes): UIState 
     case SWITCH_THEME:
       return {
         ...state,
-        theme: state.theme === 'dark' ? 'light' : 'dark',
+        theme: action.theme,
       };
 
     case SET_LOADING:

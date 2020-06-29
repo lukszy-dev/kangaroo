@@ -11,7 +11,6 @@ import {
   ADD_SNIPPET,
   UPDATE_SNIPPET,
   DELETE_SNIPPET,
-  SET_SEARCH_SNIPPETS,
   SET_CURRENT_SNIPPET,
   SnippetsActionTypes,
 } from './types';
@@ -39,11 +38,6 @@ const deleteSnippetAction = (current: Snippet, list: Snippet[]): SnippetsActionT
   type: DELETE_SNIPPET,
   current,
   list,
-});
-
-const setSearchSnippetsAction = (query: string): SnippetsActionTypes => ({
-  type: SET_SEARCH_SNIPPETS,
-  query,
 });
 
 export const setCurrentSnippet = (id: number): SnippetsActionTypes => ({
@@ -83,7 +77,7 @@ export const addSnippet = (): AppThunk => {
   };
 };
 
-export const updateSnippet = (snippet: SnippetInterface): AppThunk => {
+export const updateSnippet = (properties: { [key: string]: unknown }): AppThunk => {
   return (dispatch, getState): void => {
     const {
       snippets: { current, list },
@@ -94,7 +88,7 @@ export const updateSnippet = (snippet: SnippetInterface): AppThunk => {
     }
 
     const toUpdateIndex = list.findIndex((element) => element.id === current.id);
-    const updatedSnippet = new Snippet({ ...snippet, lastUpdated: new Date().toISOString() });
+    const updatedSnippet = new Snippet({ ...current, ...properties, lastUpdated: new Date().toISOString() });
     const updatedList = [...list];
     updatedList[toUpdateIndex] = updatedSnippet;
 
@@ -117,12 +111,6 @@ export const deleteSnippet = (): AppThunk => {
 
     snippetsDb.remove(current.id);
     dispatch(deleteSnippetAction(updatedList[0], updatedList));
-  };
-};
-
-export const setSearchSnippets = (query: string): AppThunk => {
-  return (dispatch): void => {
-    dispatch(setSearchSnippetsAction(query));
   };
 };
 
@@ -172,26 +160,15 @@ export const synchronizeGist = (
             ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
           } else {
             const gistSourceSnippets = list.filter((snippet: Snippet) => snippet.source === sourceType.GIST);
-            const localSourceSnippets = list.filter((snippet: Snippet) => snippet.source === sourceType.LOCAL);
+            const snippets = backupLocalSnippets ? list.slice(0) : gistSourceSnippets;
 
-            const lastUpdatedTime = Math.max(
-              ...gistSourceSnippets.map((snippet: Snippet) => new Date(snippet.lastUpdated).getTime()),
-            );
+            snippets.forEach((snippet) => (snippet.source = sourceType.GIST));
 
-            const allowBackupLocalSnippets = backupLocalSnippets && localSourceSnippets.length > 0;
-
-            if (lastUpdatedTime > lastSynchronizedGistTime || allowBackupLocalSnippets) {
-              const snippets = backupLocalSnippets ? list.slice(0) : gistSourceSnippets;
-              snippets.forEach((snippet) => (snippet.source = sourceType.GIST));
-
-              await updateGist(authToken, backupGistId, snippets).then((gistDate) => {
-                snippetsDb.updateAll({ source: sourceType.GIST });
-                dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
-                ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
-              });
-            } else {
-              // TODO nothing do synchronize
-            }
+            await updateGist(authToken, backupGistId, snippets).then((gistDate) => {
+              snippetsDb.updateAll({ source: sourceType.GIST });
+              dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
+              ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
+            });
           }
 
           dispatch(setLoading(false));

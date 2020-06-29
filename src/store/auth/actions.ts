@@ -26,9 +26,9 @@ const clearAuthDataAction = (): AuthActionTypes => ({
 });
 
 export const loadAuthData = (): AppThunk => {
-  return (dispatch, _, ipcRenderer): void => {
+  return (dispatch, _getState, ipcRenderer): void => {
     ipcRenderer.send('LOAD_GH_DATA');
-    ipcRenderer.once('LOAD_GH_DATA_REPLY', (_, data) => {
+    ipcRenderer.once('LOAD_GH_DATA_REPLY', (_event, data) => {
       dispatch(setGitHubDataAction(data));
     });
   };
@@ -61,7 +61,7 @@ export const setAuthToken = (token: string): AppThunk<Promise<GistsListResponseI
 };
 
 export const deleteAuthData = (): AppThunk => {
-  return (dispatch, _, ipcRenderer): void => {
+  return (dispatch, _getState, ipcRenderer): void => {
     dispatch(clearAuthDataAction());
     ipcRenderer.send('DELETE_GH_DATA');
   };
