@@ -1,9 +1,10 @@
-import { GistsListResponseItem } from '@octokit/rest';
+import { GistsListResponseData } from '@octokit/types';
+
 import { AppThunk } from 'store/types';
 import { setLoading } from 'store/ui/actions';
+import { listGists } from 'utils/gistActions';
 
 import { SET_GH_DATA, SET_GISTS, CLEAR_GH_DATA, AuthActionTypes } from './types';
-import { listGists } from 'utils/gistActions';
 
 export const setGitHubDataAction = (data: {
   token: string;
@@ -16,7 +17,7 @@ export const setGitHubDataAction = (data: {
   lastSychronizedGistDate: data.gistDate,
 });
 
-const setGistsAction = (gists: GistsListResponseItem[]): AuthActionTypes => ({
+const setGistsAction = (gists: GistsListResponseData): AuthActionTypes => ({
   type: SET_GISTS,
   gists,
 });
@@ -34,8 +35,8 @@ export const loadAuthData = (): AppThunk => {
   };
 };
 
-export const setAuthToken = (token: string): AppThunk<Promise<GistsListResponseItem[]>> => {
-  return (dispatch, getState): Promise<GistsListResponseItem[]> => {
+export const setAuthToken = (token: string): AppThunk<Promise<GistsListResponseData>> => {
+  return (dispatch, getState): Promise<GistsListResponseData> => {
     const {
       auth: { backupGistId },
     } = getState();
@@ -45,7 +46,7 @@ export const setAuthToken = (token: string): AppThunk<Promise<GistsListResponseI
 
       listGists(token)
         .then((response) => {
-          const gists = response.data as GistsListResponseItem[];
+          const gists = response.data;
           const current = gists.find((gist) => gist.id === backupGistId);
 
           dispatch(setGistsAction(current ? [current] : gists));
