@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { GistsListResponseItem } from '@octokit/rest';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
+import { GistsListResponseData } from '@octokit/types';
 
 import { RootState, AppDispatch } from 'store/types';
 import { showModal } from 'store/modal/actions';
@@ -29,7 +29,7 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({ query, onSearchCh
     dispatch(deleteAuthData());
   };
 
-  const handleSetAuthToken = (token: string): Promise<GistsListResponseItem[]> => {
+  const handleSetAuthToken = (token: string): Promise<GistsListResponseData> => {
     return dispatch(setAuthToken(token));
   };
 

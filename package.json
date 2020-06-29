@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.24.0",
-    "@octokit/rest": "^16.35.2",
+    "@octokit/rest": "^18.0.0",
+    "@octokit/types": "^5.0.1",
     "ace-builds": "^1.4.9",
     "classnames": "^2.2.6",
     "electron-is-dev": "^1.1.0",
@@ -39,6 +40,7 @@
     "react-transition-group": "^4.3.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "snyk": "^1.316.1",
     "source-map-explorer": "^2.4.2",
     "uuid": "^7.0.3",
     "snyk": "^1.316.1"

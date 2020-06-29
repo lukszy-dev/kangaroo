@@ -1,14 +1,15 @@
-import Octokit, { GistsGetResponse, GistsCreateResponse, GistsListResponse } from '@octokit/rest';
+import { Octokit } from '@octokit/rest';
+import { OctokitResponse, GistsListResponseData, GistsGetResponseData, GistsCreateResponseData } from '@octokit/types';
 import Snippet from 'models/Snippet';
 
-const listGists = (authToken: string): Promise<Octokit.Response<GistsListResponse>> => {
+const listGists = (authToken: string): Promise<OctokitResponse<GistsListResponseData>> => {
   const octokit = new Octokit({ auth: authToken });
   return octokit.gists.list({
     headers: { 'If-None-Match': '' },
   });
 };
 
-const getGist = (authToken: string, backupGistId: string): Promise<Octokit.Response<GistsGetResponse>> => {
+const getGist = (authToken: string, backupGistId: string): Promise<OctokitResponse<GistsGetResponseData>> => {
   const octokit = new Octokit({ auth: authToken });
   return octokit.gists.get({
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -20,12 +21,13 @@ const getGist = (authToken: string, backupGistId: string): Promise<Octokit.Respo
 const updateGist = (authToken: string, backupGistId: string, snippets: Snippet[]): Promise<string> => {
   return new Promise((resolve, reject) => {
     const octokit = new Octokit({ auth: authToken });
-    const fileName = new Date().toISOString();
+    const filename = new Date().toISOString();
     const request = {
       // eslint-disable-next-line @typescript-eslint/camelcase
       gist_id: backupGistId,
       files: {
-        [fileName]: {
+        [filename]: {
+          filename,
           content: JSON.stringify(snippets),
         },
       },
@@ -34,7 +36,7 @@ const updateGist = (authToken: string, backupGistId: string, snippets: Snippet[]
     octokit.gists
       .update(request)
       .then(() => {
-        resolve(fileName);
+        resolve(filename);
       })
       .catch((error) => {
         reject(error);
@@ -46,7 +48,7 @@ const createGist = (
   authToken: string,
   gistDescription: string,
   snippets: Snippet[],
-): Promise<Octokit.Response<GistsCreateResponse>> => {
+): Promise<OctokitResponse<GistsCreateResponseData>> => {
   const octokit = new Octokit({ auth: authToken });
   const fileName = new Date().toISOString();
   const request = {

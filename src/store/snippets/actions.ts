@@ -139,7 +139,7 @@ export const synchronizeGist = (
           if (!lastSynchronizedGistTime || gistDate.getTime() > lastSynchronizedGistTime) {
             let id = lastId;
 
-            const gistContent = JSON.parse(lastGist[1].content);
+            const gistContent = JSON.parse(lastGist[1].content || '');
             const synchronized = gistContent
               .map(
                 (snippet: SnippetInterface) =>

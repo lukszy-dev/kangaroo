@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { GistsListResponseItem } from '@octokit/rest';
+import { GistsListResponseData } from '@octokit/types';
 
 import { RootState } from 'store/types';
 import { showModal } from 'store/modal/actions';
@@ -16,7 +16,7 @@ const STEPS = {
 
 type AccountModalProps = {
   onHideModal: () => void;
-  onSetAuthToken: (token: string) => Promise<GistsListResponseItem[]>;
+  onSetAuthToken: (token: string) => Promise<GistsListResponseData>;
   onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<{}>;
   onCreateBackupGist: (description: string, token: string) => Promise<{}>;
   onDeleteAuthData: () => void;

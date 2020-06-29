@@ -1,4 +1,4 @@
-import { GistsListResponseItem } from '@octokit/rest';
+import { GistsListResponseData } from '@octokit/types';
 
 export const SET_GH_DATA = 'AUTH_SET_GH_DATA';
 export const SET_GISTS = 'AUTH_SET_GISTS';
@@ -6,7 +6,7 @@ export const CLEAR_GH_DATA = 'AUTH_CLEAR_GH_DATA';
 
 export interface AuthState {
   token: string;
-  gists: GistsListResponseItem[];
+  gists: GistsListResponseData;
   backupGistId: string;
   lastSychronizedGistDate: string;
 }
@@ -20,7 +20,7 @@ interface SetGitHubDataAction {
 
 interface SetGistsAction {
   type: typeof SET_GISTS;
-  gists: GistsListResponseItem[];
+  gists: GistsListResponseData;
 }
 
 interface ClearAuthDataAction {

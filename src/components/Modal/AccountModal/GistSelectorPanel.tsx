@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { GistsListResponseItem } from '@octokit/rest';
+import { GistsListResponseData } from '@octokit/types';
 
 import {
   InputGroup,
@@ -19,7 +19,7 @@ import {
 import '../Panel.scss';
 
 type GistSelectorPanelProps = {
-  remoteGists: GistsListResponseItem[];
+  remoteGists: GistsListResponseData;
   gistDescription: string;
   gistId: string;
   backupGistId: string;
