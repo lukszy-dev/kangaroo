@@ -28,15 +28,31 @@ export const setError = (error: string): UIActionTypes => ({
   error,
 });
 
-const switchThemeAction = (): UIActionTypes => {
+const switchThemeAction = (theme: string): UIActionTypes => {
   return {
     type: SWITCH_THEME,
+    theme,
   };
 };
 
 export const switchTheme = (): AppThunk => {
-  return (dispatch, _, ipcRenderer): void => {
-    ipcRenderer.send('SWITCH_THEME');
-    dispatch(switchThemeAction());
+  return (dispatch, getState, ipcRenderer): void => {
+    const {
+      ui: { theme },
+    } = getState();
+
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+
+    ipcRenderer.send('SWITCH_THEME', newTheme);
+    dispatch(switchThemeAction(newTheme));
+  };
+};
+
+export const loadTheme = (): AppThunk => {
+  return (dispatch, _getState, ipcRenderer): void => {
+    ipcRenderer.send('GET_THEME');
+    ipcRenderer.once('GET_THEME_REPLY', (_event, theme) => {
+      dispatch(switchThemeAction(theme));
+    });
   };
 };

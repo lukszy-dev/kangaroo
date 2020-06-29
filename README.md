@@ -1,7 +1,7 @@
-# Kangaroo [![Build Status](https://api.travis-ci.com/WilsonDev/kangaroo.svg?branch=master)](https://travis-ci.com/WilsonDev/kangaroo) [![Greenkeeper badge](https://badges.greenkeeper.io/WilsonDev/kangaroo.svg)](https://greenkeeper.io/)
+# Kangaroo [![Build Status](https://api.travis-ci.com/WilsonDev/kangaroo.svg?branch=master)](https://travis-ci.com/WilsonDev/kangaroo) [![Known Vulnerabilities](https://snyk.io/test/github/WilsonDev/kangaroo/badge.svg)](https://snyk.io/test/github/WilsonDev/kangaroo/badge.svg/)
 ### Snippet manager
 
-![kangaroo](https://user-images.githubusercontent.com/5923943/72289262-04406e80-364b-11ea-8b7a-dca666ad5ee9.png)
+![kangaroo](https://user-images.githubusercontent.com/5923943/79024494-62fe8100-7b83-11ea-9402-27a02005d211.png)
 
 ## Available Scripts
 

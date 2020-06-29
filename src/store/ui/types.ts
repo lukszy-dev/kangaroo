@@ -34,6 +34,7 @@ interface SetErrorAction {
 
 interface SwitchThemeAction {
   type: typeof SWITCH_THEME;
+  theme: string;
 }
 
 export type UIActionTypes =

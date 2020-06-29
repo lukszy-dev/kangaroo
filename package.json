@@ -1,6 +1,6 @@
 {
   "name": "kangaroo",
-  "version": "0.5.0",
+  "version": "0.9.0",
   "private": true,
   "main": "electron/main.js",
   "description": "Snippet manager",
@@ -15,15 +15,17 @@
     "build": "npm run build:web && npm run build:electron",
     "build:web": "craco build",
     "build:electron": "mkdir build/src && cp -r electron/. build/electron",
-    "package": "PUBLIC_URL=./ npm run build && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js --publish never",
+    "package:mac": "PUBLIC_URL=./ npm run build && electron-builder --mac",
     "lint": "tsc --noEmit && eslint 'src/*/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "craco test",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.24.0",
     "@octokit/rest": "^16.35.2",
-    "ace-builds": "^1.4.8",
+    "ace-builds": "^1.4.9",
     "classnames": "^2.2.6",
     "electron-is-dev": "^1.1.0",
     "electron-store": "^5.1.1",
@@ -31,14 +33,15 @@
     "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "react": "^16.13.0",
-    "react-ace": "^8.0.0",
+    "react-ace": "^8.1.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-transition-group": "^4.3.0",
-    "redux": "^4.0.4",
+    "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "source-map-explorer": "^2.4.2",
-    "uuid": "^7.0.3"
+    "uuid": "^7.0.3",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "@craco/craco": "^5.6.3",
@@ -98,6 +101,9 @@
     "compression": "normal",
     "productName": "Kangaroo",
     "copyright": "Copyright © 2020 ${author}",
+    "extraMetadata": {
+      "main": "build/electron/main.js"
+    },
     "directories": {
       "buildResources": "build",
       "output": "dist"
@@ -114,5 +120,6 @@
       },
       "category": "public.app-category.developer-tools"
     }
-  }
+  },
+  "snyk": true
 }

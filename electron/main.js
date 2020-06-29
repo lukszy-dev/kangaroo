@@ -1,18 +1,21 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 const path = require('path');
 const isDev = require('electron-is-dev');
+const Store = require('electron-store');
 
 const { getMainWindow, setMainWindow } = require('./window');
 const { generateMenu } = require('./menu');
-
-require('./actions');
+const { initActions } = require('./actions');
+const { THEME, BACKGROUND_COLOR } = require('./constants');
 
 const createWindow = () => {
+  const store = new Store();
+  const theme = store.get(THEME);
+
   const mainWindow = new BrowserWindow({
     title: 'Kangaroo',
-    // #f5f8fa
-    backgroundColor: '#30404d',
+    backgroundColor: theme && theme === 'light' ? BACKGROUND_COLOR.LIGHT : BACKGROUND_COLOR.DARK,
     show: false,
     titleBarStyle: 'hiddenInset',
     webPreferences: {
@@ -28,10 +31,10 @@ const createWindow = () => {
   if (isDev) {
     const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
-    [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS].forEach(extension => {
+    [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS].forEach((extension) => {
       installExtension(extension)
-        .then(name => console.log(`Added Extension: ${name}`))
-        .catch(err => console.log('An error occurred: ', err));
+        .then((name) => console.log(`Added Extension: ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
     });
 
     mainWindow.webContents.on('did-frame-finish-load', () => {
@@ -45,6 +48,7 @@ const createWindow = () => {
   generateMenu(mainWindow);
 
   mainWindow.once('ready-to-show', () => {
+    initActions(ipcMain, store);
     mainWindow.show();
   });
 

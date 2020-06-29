@@ -12,6 +12,7 @@ exports[`<SnippetListHeader /> matches snapshot 1`] = `
     >
       <button
         className="bp3-button"
+        disabled={false}
         onClick={[Function]}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -39,7 +40,7 @@ exports[`<SnippetListHeader /> matches snapshot 1`] = `
       </button>
       <button
         className="bp3-button"
-        onClick={[MockFunction]}
+        onClick={[Function]}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
         type="button"

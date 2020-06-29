@@ -1,84 +1,49 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { GistsListResponseItem } from '@octokit/rest';
-import { remote } from 'electron';
 
 import SnippetListHeader from './SnippetListHeader/SnippetListHeader';
 import SnippetListElement from './SnippetListElement/SnippetListElement';
-import ScrollableWrapper from './ScrollableWrapper';
+import ScrollableWrapper from './ScrollableWrapper/ScrollableWrapper';
 import Resizer from './Resizer';
+import { menuOpen } from './contextMenu';
 
 import { AppDispatch, RootState } from 'store/types';
 import { resizeLeftPanel } from 'store/ui/actions';
-import { setAuthToken, deleteAuthData } from 'store/auth/actions';
-import {
-  synchronizeGist,
-  createBackupGist,
-  setCurrentSnippet,
-  addSnippet,
-  deleteSnippet,
-  setSearchSnippets,
-} from 'store/snippets/actions';
+import { setCurrentSnippet } from 'store/snippets/actions';
 
 import './SnippetList.scss';
 
 const SnippetList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
+  const [query, setQuery] = useState('');
+
   const { leftPanelWidth } = useSelector((state: RootState) => state.ui);
-  const { current, list, query } = useSelector((state: RootState) => state.snippets);
+  const { current, list } = useSelector((state: RootState) => state.snippets);
 
   const resizerXPosition = useRef<number | null>(null);
   const panelWidth = useRef<number | null>(null);
 
-  const menu = new remote.Menu();
-  const deleteMenuItem = new remote.MenuItem({
-    label: 'Delete',
-    click: (): void => handleDeleteSnippet(),
-  });
-  menu.append(deleteMenuItem);
+  const handleElementContextMenu = useCallback((): void => {
+    menuOpen();
+  }, []);
 
-  const handleOnMouseDown = (event: React.MouseEvent): void => {
+  const handleOnMouseDown = useCallback((event: React.MouseEvent): void => {
     resizerXPosition.current = event.clientX;
     panelWidth.current = event.clientX;
-  };
+  }, []);
 
-  const handleElementContextMenu = (): void => {
-    menu.popup({ window: remote.getCurrentWindow() });
-  };
+  const handleSearchChange = useCallback((value: string): void => {
+    setQuery(value);
+  }, []);
 
-  const handleChangeSnippet = (id: number): void => {
-    dispatch(setCurrentSnippet(id));
-  };
-
-  const handleAddSnippet = (): void => {
-    dispatch(addSnippet());
-  };
-
-  const handleDeleteSnippet = (): void => {
-    dispatch(deleteSnippet());
-  };
-
-  const handleSearchChange = (value: string): void => {
-    dispatch(setSearchSnippets(value));
-  };
-
-  const handleDeleteAuthData = (): void => {
-    dispatch(deleteAuthData());
-  };
-
-  const handleSetAuthToken = (token: string): Promise<GistsListResponseItem[]> => {
-    return dispatch(setAuthToken(token));
-  };
-
-  const handleCreateBackupGist = (description: string, token: string): Promise<{}> => {
-    return dispatch(createBackupGist(description, token));
-  };
-
-  const handleSynchronizeGist = (backupLocalSnippets: boolean, token: string, id: string): Promise<{}> => {
-    return dispatch(synchronizeGist(backupLocalSnippets, token, id));
-  };
+  const handleChangeSnippet = useCallback(
+    (id: number): void => {
+      dispatch(setCurrentSnippet(id));
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     const mouseUp = (): void => {
@@ -113,7 +78,9 @@ const SnippetList: React.FC = () => {
       return (
         <CSSTransition key={element.id} classNames="SnippetList--element" timeout={{ enter: 350, exit: 350 }}>
           <SnippetListElement
-            element={element}
+            snippetId={element.id}
+            snippetTags={element.tags}
+            snippetTitle={element.title}
             currentlySelectedId={current ? current.id : null}
             onChangeSnippet={handleChangeSnippet}
             onContextMenu={handleElementContextMenu}
@@ -125,15 +92,7 @@ const SnippetList: React.FC = () => {
 
   return (
     <div style={{ width: leftPanelWidth, minWidth: 200 }} className="SnippetList--container">
-      <SnippetListHeader
-        query={query}
-        onAddSnippet={handleAddSnippet}
-        onSearchChange={handleSearchChange}
-        onSetAuthToken={handleSetAuthToken}
-        onCreateBackupGist={handleCreateBackupGist}
-        onSynchronizeGist={handleSynchronizeGist}
-        onDeleteAuthData={handleDeleteAuthData}
-      />
+      <SnippetListHeader query={query} onSearchChange={handleSearchChange} />
 
       {list && (
         <ScrollableWrapper topShadow={false} bottomShadow={false} alwaysOn={true}>
