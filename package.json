@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.24.0",
-    "@octokit/rest": "^16.35.2",
+    "@octokit/rest": "^16.43.1",
     "ace-builds": "^1.4.9",
     "classnames": "^2.2.6",
     "electron-is-dev": "^1.1.0",
