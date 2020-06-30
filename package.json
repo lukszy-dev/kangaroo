@@ -1,6 +1,6 @@
 {
   "name": "kangaroo",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "main": "electron/main.js",
   "description": "Snippet manager",
