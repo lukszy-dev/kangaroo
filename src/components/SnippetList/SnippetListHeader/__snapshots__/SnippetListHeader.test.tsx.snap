@@ -98,7 +98,8 @@ exports[`<SnippetListHeader /> matches snapshot 1`] = `
         placeholder="Search..."
         style={
           Object {
-            "paddingRight": 10,
+            "paddingLeft": undefined,
+            "paddingRight": undefined,
           }
         }
         type="text"
