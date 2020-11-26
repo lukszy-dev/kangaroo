@@ -16,6 +16,7 @@ exports[`<StatusBar /> matches snapshot 1`] = `
     >
       <button
         className="bp3-button bp3-minimal bp3-small StatusBar--show-gutter"
+        onBlur={[Function]}
         onClick={[MockFunction]}
         onKeyDown={[Function]}
         onKeyUp={[Function]}

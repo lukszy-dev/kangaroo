@@ -10,7 +10,6 @@ exports[`<EditorHeader /> matches snapshot 1`] = `
     <div
       className="bp3-editable-text EditorHeader--snippet-title"
       onFocus={[Function]}
-      tabIndex={null}
     >
       <input
         className="bp3-editable-text-input"

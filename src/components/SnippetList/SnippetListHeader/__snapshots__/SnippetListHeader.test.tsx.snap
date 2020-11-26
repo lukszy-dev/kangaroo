@@ -13,6 +13,7 @@ exports[`<SnippetListHeader /> matches snapshot 1`] = `
       <button
         className="bp3-button"
         disabled={false}
+        onBlur={[Function]}
         onClick={[Function]}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -40,6 +41,7 @@ exports[`<SnippetListHeader /> matches snapshot 1`] = `
       </button>
       <button
         className="bp3-button"
+        onBlur={[Function]}
         onClick={[Function]}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
@@ -95,6 +97,8 @@ exports[`<SnippetListHeader /> matches snapshot 1`] = `
       <input
         className="bp3-input"
         onChange={[Function]}
+        onCompositionEnd={[Function]}
+        onCompositionStart={[Function]}
         placeholder="Search..."
         style={
           Object {
