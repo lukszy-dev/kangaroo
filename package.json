@@ -23,7 +23,7 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.33.0",
+    "@blueprintjs/core": "^3.36.0",
     "@octokit/rest": "^18.0.6",
     "@octokit/types": "^5.5.0",
     "ace-builds": "^1.4.11",
