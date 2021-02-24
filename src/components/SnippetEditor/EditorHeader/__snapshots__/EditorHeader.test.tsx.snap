@@ -13,6 +13,7 @@ exports[`<EditorHeader /> matches snapshot 1`] = `
     >
       <input
         className="bp3-editable-text-input"
+        disabled={false}
         onBlur={[Function]}
         onChange={[Function]}
         onKeyDown={[Function]}

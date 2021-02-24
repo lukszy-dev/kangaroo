@@ -43,15 +43,15 @@ export const switchTheme = (): AppThunk => {
 
     const newTheme = theme === 'dark' ? 'light' : 'dark';
 
-    ipcRenderer.send('SWITCH_THEME', newTheme);
-    dispatch(switchThemeAction(newTheme));
+    ipcRenderer.invoke('SWITCH_THEME', newTheme).then(() => {
+      dispatch(switchThemeAction(newTheme));
+    });
   };
 };
 
 export const loadTheme = (): AppThunk => {
   return (dispatch, _getState, ipcRenderer): void => {
-    ipcRenderer.send('GET_THEME');
-    ipcRenderer.once('GET_THEME_REPLY', (_event, theme) => {
+    ipcRenderer.invoke('GET_THEME').then((theme) => {
       dispatch(switchThemeAction(theme));
     });
   };

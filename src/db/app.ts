@@ -6,11 +6,13 @@ import { DB_APP } from './constants';
 
 let db: Datastore;
 
-const loadDatabase = (): void => {
-  db = dbFactory(DB_APP);
+const loadDatabase = (path: string): void => {
+  if (!db) {
+    db = dbFactory(DB_APP, path);
+  }
 };
 
-const add = (objArray: {} | {}[]): void => {
+const add = (objArray: unknown | unknown[]): void => {
   dbAdd(db, objArray);
 };
 

@@ -39,7 +39,6 @@ const getResponse = {
 const createResponse = {
   data: {
     id: GIST_ID,
-    // eslint-disable-next-line @typescript-eslint/camelcase
     updated_at: UPDATED_AT,
   },
 };
@@ -48,29 +47,29 @@ const updateResponse = MOCK_LAST_SYNCHRONIZED_GIST_DATE;
 
 const errorResponse = 'ERROR';
 
-export const listGists = jest.fn((token) => {
+export const listGists = (token: string) => {
   return new Promise((resolve, reject) => {
     if (token === MOCK_INVALID_TOKEN) {
       reject(errorResponse);
     }
     resolve(listResponse);
   });
-});
+};
 
-export const getGist = jest.fn(() => {
+export const getGist = () => {
   return new Promise((resolve) => {
     resolve(getResponse);
   });
-});
+};
 
-export const updateGist = jest.fn(() => {
+export const updateGist = () => {
   return new Promise((resolve) => {
     resolve(updateResponse);
   });
-});
+};
 
-export const createGist = jest.fn(() => {
+export const createGist = () => {
   return new Promise((resolve) => {
     resolve(createResponse);
   });
-});
+};

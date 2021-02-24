@@ -1,6 +1,6 @@
-import { SHOW_MODAL, HIDE_MODAL, ModalActionTypes } from './types';
+import { SHOW_MODAL, HIDE_MODAL, ModalActionTypes, ModalProps } from './types';
 
-export const showModal = (modalType: string, modalProps: {}): ModalActionTypes => ({
+export const showModal = (modalType: string, modalProps: ModalProps): ModalActionTypes => ({
   type: SHOW_MODAL,
   modalType,
   modalProps,

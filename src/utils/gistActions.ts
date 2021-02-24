@@ -12,7 +12,6 @@ const listGists = (authToken: string): Promise<OctokitResponse<GistsListResponse
 const getGist = (authToken: string, backupGistId: string): Promise<OctokitResponse<GistsGetResponseData>> => {
   const octokit = new Octokit({ auth: authToken });
   return octokit.gists.get({
-    // eslint-disable-next-line @typescript-eslint/camelcase
     gist_id: backupGistId,
     headers: { 'If-None-Match': '' },
   });
@@ -23,7 +22,6 @@ const updateGist = (authToken: string, backupGistId: string, snippets: Snippet[]
     const octokit = new Octokit({ auth: authToken });
     const filename = new Date().toISOString();
     const request = {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       gist_id: backupGistId,
       files: {
         [filename]: {

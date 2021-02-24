@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ipcRenderer, IpcRenderer, IpcRendererEvent } from 'electron';
+import { ipcRenderer, IpcRendererEvent } from 'electron';
 
+import { appDb } from 'db/app';
+import { snippetsDb } from 'db/snippets';
 import Loader from 'components/Loader/Loader';
 import Theme from 'components/Theme/Theme';
 import SnippetEditor from 'components/SnippetEditor/SnippetEditor';
@@ -24,11 +26,15 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(loadTheme());
     dispatch(loadAuthData());
-    dispatch(initSnippets()).then(() => dispatch(appInit(false)));
 
-    (ipcRenderer as IpcRenderer).on(APP_COMMAND, (_: IpcRendererEvent, message: AppCommandMessage) =>
-      appCommand(dispatch, message),
-    );
+    ipcRenderer.invoke('GET_USER_DATA_PATH').then((path) => {
+      appDb.loadDatabase(path);
+      snippetsDb.loadDatabase(path);
+
+      dispatch(initSnippets()).then(() => dispatch(appInit(false)));
+    });
+
+    ipcRenderer.on(APP_COMMAND, (_: IpcRendererEvent, message: AppCommandMessage) => appCommand(dispatch, message));
 
     return (): void => {
       ipcRenderer.removeAllListeners(APP_COMMAND);
