@@ -33,11 +33,11 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({ query, onSearchCh
     return dispatch(setAuthToken(token));
   };
 
-  const handleCreateBackupGist = (description: string, token: string): Promise<{}> => {
+  const handleCreateBackupGist = (description: string, token: string): Promise<string> => {
     return dispatch(createBackupGist(description, token));
   };
 
-  const handleSynchronizeGist = (backupLocalSnippets: boolean, token: string, id: string): Promise<{}> => {
+  const handleSynchronizeGist = (backupLocalSnippets: boolean, token: string, id: string): Promise<string> => {
     return dispatch(synchronizeGist(backupLocalSnippets, token, id));
   };
 

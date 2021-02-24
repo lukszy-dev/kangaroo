@@ -17,9 +17,14 @@ const STEPS = {
 type AccountModalProps = {
   onHideModal: () => void;
   onSetAuthToken: (token: string) => Promise<GistsListResponseData>;
-  onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<{}>;
-  onCreateBackupGist: (description: string, token: string) => Promise<{}>;
+  onSynchronizeGist: (backupLocalSnippets: boolean, token: string, id: string) => Promise<string>;
+  onCreateBackupGist: (description: string, token: string) => Promise<string>;
   onDeleteAuthData: () => void;
+};
+
+type PanelType = {
+  component: React.ElementType;
+  props: unknown;
 };
 
 const AccountModal: React.FC<AccountModalProps> = ({
@@ -109,7 +114,7 @@ const AccountModal: React.FC<AccountModalProps> = ({
     return Panel ? <Panel {...panelProps} /> : null;
   };
 
-  const panels: { component: React.ElementType; props: {} }[] = [
+  const panels: PanelType[] = [
     {
       component: AuthTokenPanel,
       props: {

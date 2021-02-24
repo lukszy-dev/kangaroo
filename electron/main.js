@@ -20,6 +20,7 @@ const createWindow = () => {
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
     },
     height: 600,
     width: 880,
@@ -48,7 +49,7 @@ const createWindow = () => {
   generateMenu(mainWindow);
 
   mainWindow.once('ready-to-show', () => {
-    initActions(ipcMain, store);
+    initActions(ipcMain, mainWindow, store);
     mainWindow.show();
   });
 
@@ -67,10 +68,6 @@ app.setAboutPanelOptions({
   applicationVersion: process.env.npm_package_version,
 });
 
-app.on('ready', () => {
-  createWindow();
-});
-
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -81,4 +78,8 @@ app.on('activate', () => {
   if (getMainWindow() === null) {
     createWindow();
   }
+});
+
+app.whenReady().then(() => {
+  createWindow();
 });

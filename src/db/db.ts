@@ -1,8 +1,7 @@
 import Datastore from 'nedb';
-import { remote } from 'electron';
 
-const dbFactory = (name: string): Datastore => {
-  const filename = `${process.env.NODE_ENV === 'development' ? '.' : remote.app.getPath('userData')}/data/${name}.db`;
+const dbFactory = (name: string, path: string): Datastore => {
+  const filename = `${process.env.NODE_ENV === 'development' ? '.' : path}/data/${name}.db`;
   const db = new Datastore({
     filename,
     autoload: true,
@@ -13,7 +12,7 @@ const dbFactory = (name: string): Datastore => {
   return db;
 };
 
-const dbAdd = (db: Datastore, objArray: {} | {}[]): void => {
+const dbAdd = (db: Datastore, objArray: unknown | unknown[]): void => {
   db.insert(objArray, (err) => {
     if (err) throw new Error(err.message);
   });
@@ -25,7 +24,7 @@ const dbUpdate = (db: Datastore, obj: { id: number }): void => {
   });
 };
 
-const dbUpdateAll = (db: Datastore, changes: {}): void => {
+const dbUpdateAll = (db: Datastore, changes: unknown): void => {
   db.update({}, { $set: changes }, { multi: true }, (err) => {
     if (err) throw new Error(err.message);
   });
@@ -37,7 +36,7 @@ const dbRemove = (db: Datastore, id: number): void => {
   });
 };
 
-const dbRemoveQuery = (db: Datastore, query: {}): void => {
+const dbRemoveQuery = (db: Datastore, query: unknown): void => {
   db.remove(query, { multi: true }, (err) => {
     if (err) throw new Error(err.message);
   });

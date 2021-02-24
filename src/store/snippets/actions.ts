@@ -45,8 +45,8 @@ export const setCurrentSnippet = (id: number): SnippetsActionTypes => ({
   id,
 });
 
-export const initSnippets = (): AppThunk<Promise<{}>> => {
-  return (dispatch): Promise<{}> => {
+export const initSnippets = (): AppThunk<Promise<string>> => {
+  return (dispatch): Promise<string> => {
     return new Promise((resolve, reject) => {
       try {
         snippetsDb.findAll((data: SnippetInterface[]) => {
@@ -54,7 +54,7 @@ export const initSnippets = (): AppThunk<Promise<{}>> => {
           const lastId = Math.max(...snippets.map((entry: Snippet) => entry.id)) | 0;
 
           dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
-          resolve();
+          resolve(lastId.toString());
         });
       } catch (error) {
         reject(error);
@@ -157,7 +157,7 @@ export const synchronizeGist = (
             dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate: gistDate.toISOString() }));
             dispatch(loadSnippetsAction(synchronized, synchronized[0], id));
 
-            ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
+            ipcRenderer.invoke('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
           } else {
             const gistSourceSnippets = list.filter((snippet: Snippet) => snippet.source === sourceType.GIST);
             const snippets = backupLocalSnippets ? list.slice(0) : gistSourceSnippets;
@@ -167,12 +167,12 @@ export const synchronizeGist = (
             await updateGist(authToken, backupGistId, snippets).then((gistDate) => {
               snippetsDb.updateAll({ source: sourceType.GIST });
               dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
-              ipcRenderer.send('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
+              ipcRenderer.invoke('SET_GH_DATA', { token: authToken, backupGistId, gistDate });
             });
           }
 
           dispatch(setLoading(false));
-          resolve();
+          resolve(backupGistId);
         })
         .catch((error) => {
           dispatch(setLoading(false));
@@ -182,7 +182,7 @@ export const synchronizeGist = (
   };
 };
 
-export const createBackupGist = (description: string, authToken: string): AppThunk<Promise<{}>> => {
+export const createBackupGist = (description: string, authToken: string): AppThunk<Promise<string>> => {
   return (dispatch, getState, ipcRenderer): Promise<string> => {
     const {
       snippets: { list, lastId },
@@ -205,7 +205,7 @@ export const createBackupGist = (description: string, authToken: string): AppThu
           dispatch(setGitHubDataAction({ token: authToken, backupGistId, gistDate }));
           dispatch(loadSnippetsAction(snippets, snippets[0], lastId));
           dispatch(setLoading(false));
-          resolve();
+          resolve(backupGistId);
         })
         .catch((error) => {
           dispatch(setLoading(false));

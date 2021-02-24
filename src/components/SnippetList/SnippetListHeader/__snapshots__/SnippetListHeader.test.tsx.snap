@@ -97,8 +97,6 @@ exports[`<SnippetListHeader /> matches snapshot 1`] = `
       <input
         className="bp3-input"
         onChange={[Function]}
-        onCompositionEnd={[Function]}
-        onCompositionStart={[Function]}
         placeholder="Search..."
         style={
           Object {

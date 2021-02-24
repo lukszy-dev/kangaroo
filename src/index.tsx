@@ -4,14 +4,9 @@ import { Provider } from 'react-redux';
 
 import App from 'App';
 import store from 'store';
-import { appDb } from 'db/app';
-import { snippetsDb } from 'db/snippets';
 import * as serviceWorker from 'serviceWorker';
 
 import './index.scss';
-
-appDb.loadDatabase();
-snippetsDb.loadDatabase();
 
 ReactDOM.render(
   <Provider store={store}>

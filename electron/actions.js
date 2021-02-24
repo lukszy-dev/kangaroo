@@ -1,19 +1,20 @@
+const { Menu, MenuItem, app } = require('electron');
 const { GH_AUTH_TOKEN, BACKUP_GIST_ID, LAST_SYNCHRONIZED_GIST_DATE, THEME } = require('./constants');
 
-const initActions = (ipcMain, store) => {
-  ipcMain.on('LOAD_GH_DATA', (event) => {
+const initActions = (ipcMain, window, store) => {
+  ipcMain.handle('LOAD_GH_DATA', () => {
     const token = store.get(GH_AUTH_TOKEN);
     const backupGistId = store.get(BACKUP_GIST_ID);
     const gistDate = store.get(LAST_SYNCHRONIZED_GIST_DATE);
 
-    event.sender.send('LOAD_GH_DATA_REPLY', {
+    return {
       token,
       backupGistId,
       gistDate,
-    });
+    };
   });
 
-  ipcMain.on('SET_GH_DATA', (_event, data) => {
+  ipcMain.handle('SET_GH_DATA', (_event, data) => {
     const { token, backupGistId, gistDate } = data;
 
     if (token) {
@@ -29,19 +30,36 @@ const initActions = (ipcMain, store) => {
     }
   });
 
-  ipcMain.on('DELETE_GH_DATA', () => {
+  ipcMain.handle('DELETE_GH_DATA', () => {
     store.delete(GH_AUTH_TOKEN);
     store.delete(BACKUP_GIST_ID);
     store.delete(LAST_SYNCHRONIZED_GIST_DATE);
   });
 
-  ipcMain.on('SWITCH_THEME', (_event, theme) => {
+  ipcMain.handle('SWITCH_THEME', (_event, theme) => {
     store.set(THEME, theme);
+    return theme;
   });
 
-  ipcMain.on('GET_THEME', (event) => {
-    const theme = store.get(THEME);
-    event.sender.send('GET_THEME_REPLY', theme);
+  ipcMain.handle('GET_THEME', () => {
+    return store.get(THEME);
+  });
+
+  ipcMain.handle('GET_USER_DATA_PATH', () => {
+    return app.getPath('userData');
+  });
+
+  const contextMenu = new Menu();
+  const deleteMenuItem = new MenuItem({
+    label: 'Delete',
+    click: () => {
+      window.webContents.send('DELETE_SNIPPET');
+    }
+  });
+  contextMenu.append(deleteMenuItem);
+
+  ipcMain.handle('OPEN_CONTEXT_MENU', (_event) => {
+    contextMenu.popup();
   });
 };
 

@@ -1,23 +1,33 @@
-# Kangaroo [![Build Status](https://api.travis-ci.com/WilsonDev/kangaroo.svg?branch=master)](https://travis-ci.com/WilsonDev/kangaroo) [![Known Vulnerabilities](https://snyk.io/test/github/WilsonDev/kangaroo/badge.svg)](https://snyk.io/test/github/WilsonDev/kangaroo/badge.svg/)
-### Snippet manager
+# Kangaroo [![Build Status](https://api.travis-ci.com/WilsonDev/kangaroo.svg?branch=master)](https://travis-ci.com/WilsonDev/kangaroo) [![MIT Licensed](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+
+<div align="center">
+<br>
+<img src="./public/logo.png" alt="logo" width="200">
+<br>
+<br>
+</div>
+
+Simple **snippet** manager
+
+<br>
+
+## Screenshots
 
 ![kangaroo](https://user-images.githubusercontent.com/5923943/79024494-62fe8100-7b83-11ea-9402-27a02005d211.png)
 
-## Available Scripts
+## Developement
 
-In the project directory, you can run:
+### Install dependencies
+```bash
+$ git clone https://github.com/WilsonDev/kangaroo.git
+$ cd kangaroo && npm install
+```
 
-### `npm start`
+### Run
+```bash
+$ npm build && yarn start
+```
 
-Runs the app in the development mode.<br>
+## Licensing
 
-The app will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+This code is licensed under the [MIT license](LICENSE.md). Check out the LICENSE file for more information.
