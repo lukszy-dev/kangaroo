@@ -7,13 +7,16 @@
 <br>
 </div>
 
-Simple **snippet** manager
+Simple **Snippet** Manager
+- Ability to store and sync notes using GitHub gists
+- Light and dark theme
 
 <br>
 
 ## Screenshots
 
-![kangaroo](https://user-images.githubusercontent.com/5923943/79024494-62fe8100-7b83-11ea-9402-27a02005d211.png)
+![kangaroo light](https://user-images.githubusercontent.com/5923943/152207756-a772b4ed-65ca-4df9-b890-613afe812e61.png)
+![kangaroo dark](https://user-images.githubusercontent.com/5923943/152207768-e3419fcc-5bcc-4f66-98e6-88a34c2e6f4a.png)
 
 ## Developement
 
