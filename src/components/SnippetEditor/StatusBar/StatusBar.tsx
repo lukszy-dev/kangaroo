@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
-import { Tooltip, Button, HTMLSelect, Position, Icon, Navbar } from '@blueprintjs/core';
 import classNames from 'classnames';
+import { Tooltip, Button, HTMLSelect, Position, Icon, Navbar } from '@blueprintjs/core';
 
 import TagBar from 'components/SnippetEditor/StatusBar/TagBar/TagBar';
 
