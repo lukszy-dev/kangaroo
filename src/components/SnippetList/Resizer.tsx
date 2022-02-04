@@ -1,4 +1,4 @@
-import React, { memo, CSSProperties } from 'react';
+import { memo, CSSProperties } from 'react';
 
 type ResizerProps = {
   onMouseDown?: (event: React.MouseEvent) => void;

@@ -1,24 +1,24 @@
-.StatusBar--container {
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: var(--status-bar-height);
 }
 
-.StatusBar--show-gutter {
+.showGutter {
   width: var(--status-bar-height);
   height: var(--status-bar-height);
 }
 
-.StatusBar--synchronization-icon-container {
+.synchronizationIconContainer {
   position: relative;
 }
 
-.StatusBar--synchronization-icon {
+.synchronizationIcon {
   color: var(--icon-color);
 }
 
-.StatusBar--synchronization-icon-status {
+.synchronizationIconStatus {
   position: absolute;
   width: 5px;
   height: 5px;
@@ -37,6 +37,6 @@
   }
 }
 
-.StatusBar--language-selector {
+.languageSelector {
   text-transform: capitalize;
 }

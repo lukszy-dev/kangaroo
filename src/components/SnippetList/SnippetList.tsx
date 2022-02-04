@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -12,7 +12,7 @@ import { AppDispatch, RootState } from 'store/types';
 import { resizeLeftPanel } from 'store/ui/actions';
 import { setCurrentSnippet } from 'store/snippets/actions';
 
-import './SnippetList.scss';
+import styles from './SnippetList.module.scss';
 
 const SnippetList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -76,7 +76,16 @@ const SnippetList: React.FC = () => {
 
     return filtered.map((element) => {
       return (
-        <CSSTransition key={element.id} classNames="SnippetList--element" timeout={{ enter: 350, exit: 350 }}>
+        <CSSTransition
+          key={element.id}
+          classNames={{
+            enter: styles.elementEnter,
+            enterActive: styles.elementEnterActive,
+            exit: styles.elementExit,
+            exitActive: styles.elementExitActive,
+          }}
+          timeout={{ enter: 350, exit: 350 }}
+        >
           <SnippetListElement
             snippetId={element.id}
             snippetTags={element.tags}
@@ -91,7 +100,7 @@ const SnippetList: React.FC = () => {
   };
 
   return (
-    <div style={{ width: leftPanelWidth, minWidth: 200 }} className="SnippetList--container">
+    <div style={{ width: leftPanelWidth, minWidth: 200 }} className={styles.container}>
       <SnippetListHeader query={query} onSearchChange={handleSearchChange} />
 
       {list && (

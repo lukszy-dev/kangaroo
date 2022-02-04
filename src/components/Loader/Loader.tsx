@@ -1,11 +1,10 @@
-import React from 'react';
-import { Spinner } from '@blueprintjs/core';
+import { Spinner, SpinnerSize } from '@blueprintjs/core';
 
-import './Loader.scss';
+import styles from './Loader.module.scss';
 
 const Loader: React.FC = () => (
-  <div className="Loader--container">
-    <Spinner className="Loader--spinner" size={Spinner.SIZE_LARGE} />
+  <div className={styles.container}>
+    <Spinner className={styles.spinner} size={SpinnerSize.LARGE} />
   </div>
 );
 

@@ -1,8 +1,9 @@
 import { APP_INIT, RESIZE_LEFT_PANEL, SWITCH_THEME, SET_LOADING, SET_ERROR, UIState, UIActionTypes } from './types';
+import { ThemeType } from 'components/Theme/Theme';
 
 const initialState: UIState = {
   init: true,
-  theme: 'dark',
+  theme: ThemeType.DARK,
   leftPanelWidth: 200,
   loading: false,
   error: null,

@@ -1,10 +1,10 @@
-import React from 'react';
 import { Provider } from 'react-redux';
 import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import renderer from 'react-test-renderer';
 
+import { ThemeType } from 'components/Theme/Theme';
 import Editor from './Editor';
 
 jest.mock('ace-builds/webpack-resolver', () => jest.fn());
@@ -17,7 +17,7 @@ describe('<Editor />', () => {
     gutter: true,
     onChange: jest.fn(),
   };
-  const initialState = { ui: { theme: 'dark', leftPanelWidth: 200 } };
+  const initialState = { ui: { theme: ThemeType.DARK, leftPanelWidth: 200 } };
 
   let store;
 

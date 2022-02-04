@@ -1,11 +1,11 @@
-.SnippetListHeader {
+.root {
   display: flex;
   flex-direction: column;
   -webkit-app-region: drag;
 }
 
-.SnippetListHeader--container,
-.SnippetListHeader--search-container {
+.container,
+.searchContainer {
   display: flex;
   justify-content: flex-end;
   height: var(--header-height);
@@ -13,7 +13,7 @@
   align-items: center;
 }
 
-.SnippetListHeader--search-container {
+.searchContainer {
   margin-bottom: 8px;
   margin-left: 11px;
   margin-right: 10px;

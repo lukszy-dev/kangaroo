@@ -2,13 +2,13 @@
 
 exports[`<TagBar /> matches snapshot 1`] = `
 <div
-  className="TagBar--container"
+  className="container"
 >
   <div
-    className="ColorTag--wrapper"
+    className="wrapper"
   >
     <div
-      className="ColorTag--tag"
+      className="tag"
       onClick={[Function]}
       style={
         Object {
@@ -18,7 +18,7 @@ exports[`<TagBar /> matches snapshot 1`] = `
     >
       <span
         aria-hidden={true}
-        className="bp3-icon bp3-icon-small-cross ColorTag--action-icon"
+        className="bp3-icon bp3-icon-small-cross actionIcon"
         icon="small-cross"
       >
         <svg
@@ -36,10 +36,10 @@ exports[`<TagBar /> matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="ColorTag--wrapper"
+    className="wrapper"
   >
     <div
-      className="ColorTag--tag"
+      className="tag"
       onClick={[Function]}
       style={
         Object {
@@ -49,7 +49,7 @@ exports[`<TagBar /> matches snapshot 1`] = `
     >
       <span
         aria-hidden={true}
-        className="bp3-icon bp3-icon-small-cross ColorTag--action-icon"
+        className="bp3-icon bp3-icon-small-cross actionIcon"
         icon="small-cross"
       >
         <svg
@@ -67,10 +67,10 @@ exports[`<TagBar /> matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="ColorTag--wrapper"
+    className="wrapper"
   >
     <div
-      className="ColorTag--tag"
+      className="tag"
       onClick={[Function]}
       style={
         Object {
@@ -80,7 +80,7 @@ exports[`<TagBar /> matches snapshot 1`] = `
     >
       <span
         aria-hidden={true}
-        className="bp3-icon bp3-icon-small-cross ColorTag--action-icon"
+        className="bp3-icon bp3-icon-small-cross actionIcon"
         icon="small-cross"
       >
         <svg
@@ -98,10 +98,10 @@ exports[`<TagBar /> matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="ColorTag--wrapper"
+    className="wrapper"
   >
     <div
-      className="ColorTag--tag"
+      className="tag"
       onClick={[Function]}
       style={
         Object {
@@ -111,7 +111,7 @@ exports[`<TagBar /> matches snapshot 1`] = `
     >
       <span
         aria-hidden={true}
-        className="bp3-icon bp3-icon-small-plus ColorTag--action-icon"
+        className="bp3-icon bp3-icon-small-plus actionIcon"
         icon="small-plus"
       >
         <svg
@@ -129,10 +129,10 @@ exports[`<TagBar /> matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="ColorTag--wrapper"
+    className="wrapper"
   >
     <div
-      className="ColorTag--tag"
+      className="tag"
       onClick={[Function]}
       style={
         Object {
@@ -142,7 +142,7 @@ exports[`<TagBar /> matches snapshot 1`] = `
     >
       <span
         aria-hidden={true}
-        className="bp3-icon bp3-icon-small-plus ColorTag--action-icon"
+        className="bp3-icon bp3-icon-small-plus actionIcon"
         icon="small-plus"
       >
         <svg

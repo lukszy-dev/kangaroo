@@ -2,12 +2,12 @@
 
 exports[`<SnippetListElement /> matches snapshot 1`] = `
 <div
-  className="SnippetListElement active"
+  className="root active"
   onClick={[Function]}
   onContextMenu={[Function]}
 >
   <div
-    className="SnippetListElement--content"
+    className="content"
   >
     <span
       className="bp3-text-overflow-ellipsis"
@@ -15,7 +15,7 @@ exports[`<SnippetListElement /> matches snapshot 1`] = `
       Test
     </span>
     <div
-      className="SnippetListElement--tag"
+      className="tag"
       style={
         Object {
           "background": "#F55656",
@@ -24,7 +24,7 @@ exports[`<SnippetListElement /> matches snapshot 1`] = `
       }
     />
     <div
-      className="SnippetListElement--tag"
+      className="tag"
       style={
         Object {
           "background": "#F29D49",
@@ -33,7 +33,7 @@ exports[`<SnippetListElement /> matches snapshot 1`] = `
       }
     />
     <div
-      className="SnippetListElement--tag"
+      className="tag"
       style={
         Object {
           "background": "#F2B824",

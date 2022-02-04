@@ -1,6 +1,6 @@
 @import "@blueprintjs/core/lib/scss/variables";
 
-.Loader--container {
+.container {
   position: absolute;
   display: flex;
   height: 100%;
@@ -8,6 +8,6 @@
   z-index: $pt-z-index-overlay;
 }
 
-.Loader--spinner {
+.spinner {
   flex: 1;
 }

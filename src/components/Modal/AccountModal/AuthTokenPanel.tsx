@@ -1,8 +1,9 @@
-import React from 'react';
 import classNames from 'classnames';
 import { Button, InputGroup, FormGroup, Classes } from '@blueprintjs/core';
 
-import '../Panel.scss';
+import styles from '../Panel.module.scss';
+
+const cx = classNames.bind(styles);
 
 type AuthTokenPanelProps = {
   authToken: string;
@@ -13,7 +14,7 @@ type AuthTokenPanelProps = {
 
 const AuthTokenPanel: React.FC<AuthTokenPanelProps> = ({ authToken, onAuthTokenChange, onAccept, loading }) => {
   return (
-    <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
+    <div className={cx([Classes.DIALOG_BODY], { [styles.dialogBody]: true })}>
       <FormGroup label="GitHub personal access token">
         <InputGroup placeholder="Token" value={authToken || ''} onChange={onAuthTokenChange} />
       </FormGroup>

@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { H3, EditableText } from '@blueprintjs/core';
 
-import './EditorHeader.scss';
+import styles from './EditorHeader.module.scss';
 
 type EditorHeaderProps = {
   snippetId?: number;
@@ -10,10 +10,10 @@ type EditorHeaderProps = {
 };
 
 const EditorHeader: React.FC<EditorHeaderProps> = ({ snippetId, snippetTitle = '', onTitleChange }) => (
-  <div className="EditorHeader--container">
+  <div className={styles.container}>
     <H3>
       <EditableText
-        className="EditorHeader--snippet-title"
+        className={styles.snippetTitle}
         placeholder="Edit title..."
         minWidth={200}
         value={snippetTitle}

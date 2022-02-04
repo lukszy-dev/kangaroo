@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import EditorHeader from './EditorHeader/EditorHeader';
@@ -9,7 +9,7 @@ import { RootState } from 'store/types';
 import { updateSnippet } from 'store/snippets/actions';
 import { showGutter } from 'store/editor/actions';
 
-import './SnippetEditor.scss';
+import styles from './SnippetEditor.module.scss';
 
 const SnippetEditor: React.FC = () => {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const SnippetEditor: React.FC = () => {
   );
 
   return (
-    <div className="SnippetEditor--container">
+    <div className={styles.container}>
       <EditorHeader snippetId={snippet?.id} snippetTitle={snippet?.title} onTitleChange={handleTitleChange} />
 
       <Editor

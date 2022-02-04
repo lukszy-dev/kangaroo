@@ -1,27 +1,19 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useSelector } from 'react-redux';
-import ReactAce, { IEditorProps } from 'react-ace';
+import AceEditor, { IEditorProps } from 'react-ace';
 
+import { ThemeType } from 'components/Theme/Theme';
 import useWindowDimensions from 'utils/useWindowDimensions';
 import { RootState } from 'store/types';
 import { languages, TEXT } from 'models/languages';
 
-import './Editor.scss';
+import styles from './Editor.module.scss';
 
-// https://github.com/securingsincity/react-ace/issues/725
-import 'ace-builds/webpack-resolver';
 import './ace-themes';
 
 Object.keys(languages).forEach((lang) => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
 });
-
-const handleOnLoad = (editor: IEditorProps): void => {
-  editor.resize();
-  editor.setShowFoldWidgets(false);
-  editor.renderer.scrollToRow(0);
-  editor.commands.removeCommand('find');
-};
 
 type EditorProps = {
   snippetId?: number;
@@ -31,14 +23,26 @@ type EditorProps = {
   onChange: (value: string) => void;
 };
 
+const aceTheme: { [key: string]: string } = {
+  [ThemeType.DARK]: 'sm-dark',
+  [ThemeType.LIGHT]: 'sm-light',
+};
+
+const handleOnLoad = (editor: IEditorProps): void => {
+  editor.resize();
+  editor.setShowFoldWidgets(false);
+  editor.renderer.scrollToRow(0);
+  editor.commands.removeCommand('find');
+};
+
 const Editor: React.FC<EditorProps> = ({ snippetId, snippetContent, snippetLanguage, gutter, onChange }) => {
   const { theme, leftPanelWidth } = useSelector((state: RootState) => state.ui);
   const { height, width } = useWindowDimensions();
 
   return (
-    <div className="Editor--editor">
-      <ReactAce
-        theme={theme === 'dark' ? 'sm-dark' : 'sm-light'}
+    <div className={styles.editor}>
+      <AceEditor
+        theme={aceTheme[theme]}
         onLoad={handleOnLoad}
         readOnly={!snippetId}
         mode={snippetLanguage ? snippetLanguage : TEXT}

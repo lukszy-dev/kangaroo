@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-import './ScrollableWrapper.scss';
+import styles from './ScrollableWrapper.module.scss';
 
 type ScrollableWrapperProps = {
   children: React.ReactElement;
@@ -59,13 +59,13 @@ const ScrollableWrapper: React.FC<ScrollableWrapperProps> = ({
   };
 
   return (
-    <div className="ScrollableWrapper">
-      <div className="ScrollableWrapper--content" onScroll={handleScroll} ref={contentRef}>
-        {topShadow && <div className={`ScrollableWrapper--shadow top ${top ? 'active' : ''}`} />}
+    <div className={styles.root}>
+      <div className={styles.content} onScroll={handleScroll} ref={contentRef}>
+        {topShadow && <div className={`${styles.shadow} top ${top ? 'active' : ''}`} />}
 
         {children}
 
-        {bottomShadow && <div className={`ScrollableWrapper--shadow bottom ${bottom ? 'active' : ''}`} />}
+        {bottomShadow && <div className={`${styles.shadow} bottom ${bottom ? 'active' : ''}`} />}
       </div>
     </div>
   );

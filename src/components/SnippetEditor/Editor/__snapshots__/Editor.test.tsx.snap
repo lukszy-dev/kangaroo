@@ -2,7 +2,7 @@
 
 exports[`<Editor /> matches snapshot 1`] = `
 <div
-  className="Editor--editor"
+  className="editor"
 >
   <div
     id="ace-editor"

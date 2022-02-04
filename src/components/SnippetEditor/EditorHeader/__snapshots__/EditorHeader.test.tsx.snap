@@ -2,13 +2,13 @@
 
 exports[`<EditorHeader /> matches snapshot 1`] = `
 <div
-  className="EditorHeader--container"
+  className="container"
 >
   <h3
     className="bp3-heading"
   >
     <div
-      className="bp3-editable-text EditorHeader--snippet-title"
+      className="bp3-editable-text snippetTitle"
       onFocus={[Function]}
     >
       <input

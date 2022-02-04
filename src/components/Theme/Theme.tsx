@@ -1,4 +1,4 @@
-import React, { useEffect, createRef } from 'react';
+import { useEffect, createRef } from 'react';
 import classNames from 'classnames';
 
 import { Light, Dark } from './themes';
@@ -9,8 +9,13 @@ type ThemeProps = {
   className: string;
 };
 
+export enum ThemeType {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
+
 const Theme: React.FC<ThemeProps> = ({ mode, children, className }) => {
-  const variables = mode === 'dark' ? Dark : Light;
+  const variables = mode === ThemeType.DARK ? Dark : Light;
   const containerRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
@@ -32,7 +37,7 @@ const Theme: React.FC<ThemeProps> = ({ mode, children, className }) => {
 
   const containerClassNames = classNames(
     {
-      'bp3-dark': mode === 'dark',
+      'bp3-dark': mode === ThemeType.DARK,
       'bp3-focus-disabled': true,
     },
     className,

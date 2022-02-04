@@ -1,16 +1,16 @@
-.ScrollableWrapper {
+.root {
   position: relative;
   flex: 1;
   display: flex;
   min-height: 0;
 }
 
-.ScrollableWrapper--content {
+.content {
   width: 100%;
   overflow-y: scroll;
 }
 
-.ScrollableWrapper--shadow {
+.shadow {
   position: absolute;
   height: 4px;
   width: 100%;

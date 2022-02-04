@@ -1,7 +1,5 @@
-import React from 'react';
 import classNames from 'classnames';
 import { GistsListResponseData } from '@octokit/types';
-
 import {
   InputGroup,
   FormGroup,
@@ -16,7 +14,9 @@ import {
   AnchorButton,
 } from '@blueprintjs/core';
 
-import '../Panel.scss';
+import styles from '../Panel.module.scss';
+
+const cx = classNames.bind(styles);
 
 type GistSelectorPanelProps = {
   remoteGists: GistsListResponseData;
@@ -62,7 +62,7 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
 
     return (
       <>
-        <H5>Create new gist</H5>
+        <H5>Create new Gist</H5>
 
         <FormGroup label="Description">
           <InputGroup placeholder="Description" onChange={onGistDescriptionChange} value={gistDescription} />
@@ -113,8 +113,8 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
             text="Synchronize"
           />
           {lastSychronizedGistDate && (
-            <span className={classNames('GistSelectorPanel--synchronization-date', 'bp3-text-muted', 'bp3-text-small')}>
-              Last synchronized gist: {new Date(lastSychronizedGistDate).toISOString()}
+            <span className={cx({ [styles.synchronizationDate]: true }, 'bp3-text-muted', 'bp3-text-small')}>
+              Last synchronized Gist: {new Date(lastSychronizedGistDate).toISOString()}
             </span>
           )}
         </FormGroup>
@@ -144,7 +144,7 @@ const GistSelectorPanel: React.FC<GistSelectorPanelProps> = ({
   };
 
   return (
-    <div className={classNames([[Classes.DIALOG_BODY], 'Panel--dialog-body'])}>
+    <div className={cx([Classes.DIALOG_BODY], { [styles.dialogBody]: true })}>
       {renderGistCreator()}
       {renderGistSelector()}
       {renderUnlinkAccountButton()}

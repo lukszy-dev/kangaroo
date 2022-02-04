@@ -1,9 +1,11 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import classNames from 'classnames';
 
 import { getColorTags } from 'models/Snippet';
 
-import './SnippetListElement.scss';
+import styles from './SnippetListElement.module.scss';
+
+const cx = classNames.bind(styles);
 
 type SnippetListElementProps = {
   snippetId: number;
@@ -43,25 +45,19 @@ const SnippetListElement: React.FC<SnippetListElementProps> = ({
     const recent = tags.slice(Math.max(tags.length - MAX_TAG_COUNT, 0));
 
     return recent.map((tag, index) => {
-      return (
-        <div
-          key={index}
-          style={{ background: `${tag}`, top: `${6 + 8 * index}px` }}
-          className="SnippetListElement--tag"
-        />
-      );
+      return <div key={index} style={{ background: `${tag}`, top: `${6 + 8 * index}px` }} className={styles.tag} />;
     });
   };
 
-  const listElementClass = classNames({
-    SnippetListElement: true,
+  const listElementClass = cx({
+    [styles.root]: true,
     active: currentlySelectedId === snippetId,
     'bp3-text-muted': currentlySelectedId !== snippetId,
   });
 
   return (
     <div key={snippetId} className={listElementClass} onClick={handleClick} onContextMenu={handleContextMenu}>
-      <div className="SnippetListElement--content">
+      <div className={styles.content}>
         <span className="bp3-text-overflow-ellipsis">{snippetTitle}</span>
         {renderTags()}
       </div>

@@ -1,9 +1,9 @@
-.TagBar--container {
+.container {
   display: flex;
   margin-left: auto;
 }
 
-.ColorTag--wrapper {
+.wrapper {
   width: 24px;
   height: var(--status-bar-height);
   padding: 7px 4px;
@@ -13,13 +13,13 @@
   &:hover {
     background: var(--tag-hover-background);
 
-    .ColorTag--action-icon {
+    .actionIcon {
       display: unset !important;
     }
   }
 }
 
-.ColorTag--tag {
+.tag {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,6 +29,6 @@
   border: var(--tag-border);
 }
 
-.ColorTag--action-icon {
+.actionIcon {
   display: none !important;
 }

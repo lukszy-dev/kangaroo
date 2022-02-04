@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 import { GistsListResponseData } from '@octokit/types';
@@ -9,7 +9,7 @@ import { setAuthToken, deleteAuthData } from 'store/auth/actions';
 import { synchronizeGist, createBackupGist, addSnippet } from 'store/snippets/actions';
 import { ACCOUNT_MODAL } from 'components/Modal/ModalOverlay/constants';
 
-import './SnippetListHeader.scss';
+import styles from './SnippetListHeader.module.scss';
 
 type SnippetListHeaderProps = {
   query: string;
@@ -81,15 +81,15 @@ const SnippetListHeader: React.FC<SnippetListHeaderProps> = ({ query, onSearchCh
   };
 
   return (
-    <div className="SnippetListHeader">
-      <div className="SnippetListHeader--container">
+    <div className={styles.root}>
+      <div className={styles.container}>
         <ButtonGroup minimal={true}>
           <Button icon="person" loading={loading} onClick={handleAccountModalOpen} />
           <Button icon="add-to-artifact" onClick={handleAddSnippet} />
         </ButtonGroup>
       </div>
 
-      <div className="SnippetListHeader--search-container">
+      <div className={styles.searchContainer}>
         <InputGroup
           leftIcon="search"
           placeholder="Search..."

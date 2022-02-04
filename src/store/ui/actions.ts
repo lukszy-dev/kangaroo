@@ -1,3 +1,4 @@
+import { ThemeType } from 'components/Theme/Theme';
 import { AppThunk } from 'store/types';
 
 import { APP_INIT, RESIZE_LEFT_PANEL, SET_LOADING, SET_ERROR, SWITCH_THEME, UIActionTypes } from './types';
@@ -41,7 +42,7 @@ export const switchTheme = (): AppThunk => {
       ui: { theme },
     } = getState();
 
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    const newTheme = theme === ThemeType.DARK ? ThemeType.LIGHT : ThemeType.DARK;
 
     ipcRenderer.invoke('SWITCH_THEME', newTheme).then(() => {
       dispatch(switchThemeAction(newTheme));

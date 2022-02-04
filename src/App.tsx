@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ipcRenderer, IpcRendererEvent } from 'electron';
 
@@ -17,7 +17,7 @@ import { appInit, loadTheme } from 'store/ui/actions';
 
 import appCommand, { APP_COMMAND, AppCommandMessage } from 'utils/appCommand';
 
-import './App.scss';
+import styles from './App.module.scss';
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,7 +42,7 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <Theme mode={theme} className="App--content">
+    <Theme mode={theme} className={styles.content}>
       {init ? (
         <Loader />
       ) : (
