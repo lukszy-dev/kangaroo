@@ -33,4 +33,4 @@ npm start
 
 ## Licensing
 
-This code is licensed under the [MIT license](LICENSE.md). Check out the LICENSE file for more information.
+This code is licensed under the [MIT license](LICENSE). Check out the LICENSE file for more information.
